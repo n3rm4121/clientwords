@@ -5,20 +5,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@radix-ui/react-label';
-import { redirect } from 'next/navigation';
+import axios from 'axios';
 import React, { useState, useCallback, useMemo } from 'react';
-import { FaUser } from 'react-icons/fa';
+
 
 const TestimonialCardCustomizer = () => {
     const [customizations, setCustomizations] = useState({
         companyName: 'Your Company',
         companyURL: 'https://example.com',
-        logo: null,
+        companyLogo: '/user.png',
         avatar: null,
         userName: 'John Doe',
         userIntro: 'CEO at XYZ',
         promptText: 'Please share your experience with us!',
-        placeholderText: 'How did you like our services?'
+        placeholder: 'How did you like our services?'
     });
 
     const handleInputChange = useCallback((field) => (e) => {
@@ -58,19 +58,40 @@ const TestimonialCardCustomizer = () => {
     const fields = useMemo(() => [
         { id: 'companyName', label: 'Company Name', type: 'text' },
         { id: 'companyURL', label: 'Company URL', type: 'text' },
-        { id: 'logo', label: 'Company Logo', type: 'file', accept: 'image/*' },
-        { id: 'placeholderText', label: 'Placeholder', type: 'textarea' },
+        { id: 'companyLogo', label: 'Company Logo', type: 'file', accept: 'image/*' },
+        { id: 'placeholder', label: 'Placeholder', type: 'textarea' },
         { id: 'promptText', label: 'Prompt Text', type: 'textarea' },
 
     ], []);
+
+   
+    const handleFormSubmit = async () => {
+        const formData = new FormData();
+        // filter username and userintro
+
+        for (const key in customizations) {
+            if (key !== 'userName' && key !== 'userIntro') {
+                formData.append(key, customizations[key]);
+            }
+
+        try {
+            const response = await axios.post('/api/testimonial-card', formData);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error saving form data', error);
+        }
+    }
+}
 
     return (
         <div>
             <h1 className="text-3xl font-bold mb-8 text-center">Testimonial Card Customizer</h1>
 
             <div className="flex flex-col sm:flex-row gap-8">
-                <div className="w-full lg:w-1/2">
-                    {/* Customization */}
+
+            {/* Customization */}
+                <div className="w-full lg:w-1/2 rounded-md border p-4">
+                    
                     <div className="space-y-6">
                         <h2 className="text-xl text-center font-semibold mb-4">Customization</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -98,26 +119,25 @@ const TestimonialCardCustomizer = () => {
                             ))}
                         </div>
                     </div>
+                    <Button onClick={handleFormSubmit} className='mt-4'>Save Form</Button>
                 </div>
 
                 {/* Preview */}
-
-
-                <div className="w-full lg:w-1/2">
-                    <h2 className=" underline text-xl text-center font-semibold mb-4">Preview</h2>
+                <div className="w-full lg:w-1/2 border rounded-md p-4">
+                    <h2 className="underline text-xl text-center font-semibold mb-4">Preview</h2>
                     <div className="flex items-center justify-center gap-4 mb-4">
 
                         <Avatar className='h-16 w-16'>
-                            <AvatarImage src={customizations.logo ? customizations.logo : '/user.png'} alt="companyLogo" />
+                            <AvatarImage src={customizations.companyLogo ? customizations.companyLogo : '/user.png'} alt="companyLogo" />
                             <AvatarFallback>Your Logo</AvatarFallback>
                         </Avatar>
 
-                        <h2 
-  onClick={() => window.open(customizations.companyURL, '_blank')} 
-  className="text-xl font-bold cursor-pointer hover:underline"
->
-  {customizations.companyName}
-</h2>
+                        <h2
+                            onClick={() => window.open(customizations.companyURL, '_blank')}
+                            className="text-xl font-bold cursor-pointer hover:underline"
+                        >
+                            {customizations.companyName}
+                        </h2>
 
                     </div>
 
@@ -143,7 +163,7 @@ const TestimonialCardCustomizer = () => {
 
                         <div>
                             <p className="mb-4 mt-4">{customizations.promptText}</p>
-                            <Textarea id='testimonial' name='testimonial' placeholder={customizations.placeholderText} rows="4" className="mb-4" />
+                            <Textarea id='testimonial' name='testimonial' placeholder={customizations.placeholder} rows="4" className="mb-4" />
                             <Button>
                                 Submit
                             </Button>
@@ -151,7 +171,10 @@ const TestimonialCardCustomizer = () => {
 
                     </div>
                 </div>
+
+                
             </div>
+            
         </div>
     );
 };

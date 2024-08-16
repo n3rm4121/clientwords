@@ -51,7 +51,7 @@ export default function LandingPage() {
 
           <div className="flex flex-col items-center justify-center sm:flex-row gap-4 mt-6">
             <Link href="/dashboard" className={buttonVariants()}>
-              Get Started
+              Get Testimonials Now
             </Link>
 
           </div>

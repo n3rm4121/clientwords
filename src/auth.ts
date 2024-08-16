@@ -53,7 +53,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   
   callbacks: {
     jwt: async ({ token, user }) => {
+      
       if (user) {
+        await dbConnect();
+        const dbUser = await User.findById({email: user.email});
         token.id = user.id;
       }
       return token;

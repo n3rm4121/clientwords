@@ -9,12 +9,14 @@ interface User extends Document {
     updatedAt: Date;
     isVerfied: boolean;
     isAdmin: boolean;
+    isProUser: boolean;
     verifyToken: string;
     verifyTokenExpires: Date;
     forgetPasswordToken: string;
     forgetPasswordTokenExpires: Date;
     authProviderId: string;
     authProvider: string;
+    space: Schema.Types.ObjectId[];
 }
 
 const userSchema = new Schema<User>({
@@ -48,6 +50,10 @@ const userSchema = new Schema<User>({
         type: Boolean,
         default: false,
     },
+    isProUser: {
+        type: Boolean,
+        default: false,
+    },
     verifyToken: {
         type: String,
     },
@@ -66,8 +72,15 @@ const userSchema = new Schema<User>({
     authProvider: {
         type: String,
         enum: ['google', 'github', 'credentials'],
-        required: true,
+        default: 'credentials',
       },
+      space: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'Space',
+        },
+      ], 
+      
 
 }, {timestamps: true});
 

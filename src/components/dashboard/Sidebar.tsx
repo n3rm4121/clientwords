@@ -2,6 +2,7 @@
 import React from 'react';
 import { FaCog } from 'react-icons/fa';
 import { FaRegMessage } from "react-icons/fa6";
+import { TbSpaces } from "react-icons/tb";
 import { GoSignOut } from 'react-icons/go';
 import { Button, buttonVariants } from '../ui/button';
 import Link from 'next/link';
@@ -15,6 +16,11 @@ const items = [
     title: 'Dashboard',
     icon: <MdOutlineSpaceDashboard size={30} />,
     link: '/dashboard'
+  },
+  {
+    title: 'Spaces',
+    icon: <TbSpaces size={30} />,  
+    link: '/dashboard/spaces'
   },
   {
     title: 'Testimonials',
