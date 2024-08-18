@@ -39,7 +39,7 @@ function Sidebar({ isOpen }: { isOpen: boolean }) {
 
   return (
     <div className={cn(
-        "fixed bg-gray-800 top-0 left-0 mt-16 flex flex-col items-start space-y-6 py-4 px-2 shadow-lg transition-all duration-300 h-full overflow-y-auto", 
+        "fixed bg-gray-800 z-50 top-0 left-0 mt-16 flex flex-col items-start space-y-6 py-4 px-2 shadow-lg transition-all duration-300 h-full overflow-y-auto", 
         isOpen ? 'lg:w-44 ' : 'w-0 px-0'
       )}
     >

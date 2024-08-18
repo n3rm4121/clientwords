@@ -11,7 +11,7 @@ interface Space {
   name: string;
   testimonialCount: number;
 }
-
+  
 interface User {
   name: string;
   email: string;
@@ -23,8 +23,8 @@ const SpacesPage: NextPage = () => {
   const session = useSession() as unknown as {
     loading: any; user?: User 
 };
-  const loading = session?.loading;
-  if(loading) return <div>Loading...</div>
+const loading = session?.loading;
+if(loading) return <div>Loading...</div>
    console.log(session);
   const currentUser = session?.user;
   // const [user, setUser] = useState<User>({

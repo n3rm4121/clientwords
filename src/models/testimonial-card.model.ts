@@ -16,7 +16,7 @@ const testimonialCardSchema = new Schema<TestimonialCard>({
     space: {
         type: Schema.Types.ObjectId,
         ref: 'Space',
-        required: true,
+        // required: true,  TODO: uncomment this line
     },
     companyName: {
         type: String,

@@ -16,7 +16,7 @@ interface User extends Document {
     forgetPasswordTokenExpires: Date;
     authProviderId: string;
     authProvider: string;
-    space: Schema.Types.ObjectId[];
+    spaces: Schema.Types.ObjectId[];
 }
 
 const userSchema = new Schema<User>({
@@ -74,7 +74,7 @@ const userSchema = new Schema<User>({
         enum: ['google', 'github', 'credentials'],
         default: 'credentials',
       },
-      space: [
+      spaces: [
         {
           type: Schema.Types.ObjectId,
           ref: 'Space',

@@ -56,14 +56,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       
       if (user) {
         await dbConnect();
-        const dbUser = await User.findById({email: user.email});
+        const dbUser = await User.findOne({email: user.email});
+        console.log("dbUser", dbUser);
         token.id = user.id;
+        token.email = user.email;
+        token.name = dbUser.name;
+        token.image = dbUser.image;
+        
+
       }
+
       return token;
     },
 
     session: async ({ session, token }) => {
       session.user.id = token.id as string;
+      session.user.email = token.email as string;
+      session.user.name = token.name as string;
+      session.user.image = token.image as string;
       return session;
     },
 
@@ -86,7 +96,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               isVerified: true,
             });
             await newUser.save();
-            console.log("new user: " , newUser);
 
           }
 
