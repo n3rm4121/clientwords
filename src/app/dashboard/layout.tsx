@@ -1,10 +1,25 @@
 'use client'
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Navbar from '@/components/dashboard/Navbar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const [isOpen, setIsOpen] = React.useState(true);
+    
+    useEffect(() => {
+        const handleResize = () => {
+            setIsOpen(window.innerWidth >= 1024);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const [isOpen, setIsOpen] = useState(true);
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
@@ -21,11 +36,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Navbar handleToggle={handleToggle} />
                 
                 {/* Main Content */}
+               
                 <main className="pt-16">
                     <div className="p-4">
                         {children}
                     </div>
                 </main>
+               
             </div>
         </div>
     );

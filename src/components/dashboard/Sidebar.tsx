@@ -10,6 +10,7 @@ import { signOut } from 'next-auth/react';
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { Separator } from '../ui/separator';
 
 const items = [
   {
@@ -61,7 +62,7 @@ function Sidebar({ isOpen }: { isOpen: boolean }) {
           </Link>
         );
       })}
-      <div className="border-t-2 border-gray-700 w-full"></div>
+      <Separator />
       <Button variant='ghost' className='flex items-center gap-4 hover:text-red-500' onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
         <span className="text-2xl">
           <GoSignOut />

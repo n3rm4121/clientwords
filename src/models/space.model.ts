@@ -12,6 +12,10 @@ const spaceSchema = new Schema<Space>({
     name: {
         type: String,
         required: true,
+        unique: true,
+        trim: true,
+        maxlength: 50,
+        minlength: 3,
     },
     owner: {
         type: Schema.Types.ObjectId,

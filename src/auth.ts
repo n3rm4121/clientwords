@@ -33,7 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("Invalid email or password");
         }
 
-        const isValid = bcrypt.compare(password, user.password);
+        const isValid = await bcrypt.compare(password, user.password);
 
 
         if (!isValid) {
@@ -53,27 +53,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   
   callbacks: {
     jwt: async ({ token, user }) => {
-      
+
       if (user) {
         await dbConnect();
         const dbUser = await User.findOne({email: user.email});
-        console.log("dbUser", dbUser);
-        token.id = user.id;
+
+        token.id = dbUser._id;
         token.email = user.email;
         token.name = dbUser.name;
         token.image = dbUser.image;
         
-
       }
 
       return token;
     },
 
     session: async ({ session, token }) => {
-      session.user.id = token.id as string;
+      session.user.id = token.id as string;    
       session.user.email = token.email as string;
       session.user.name = token.name as string;
       session.user.image = token.image as string;
+
       return session;
     },
 
