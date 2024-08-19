@@ -1,22 +1,23 @@
-import { auth } from '@/auth'; // Import auth from your NextAuth setup
+import { auth } from '@/auth'; // Ensure this is correctly imported from your NextAuth setup
 import { NextResponse } from 'next/server';
 
 export default auth((req) => {
   // Access authenticated user from req.auth
-  if (!req.auth) {
-    // Handle unauthenticated access here
-    return NextResponse.redirect(new URL('/auth/login', req.url));
+  const { user } = req.auth || {};
+
+  if (!user) {
+    // If user is not authenticated and trying to access a protected route
+    if (req.nextUrl.pathname !== '/auth/login' && req.nextUrl.pathname !== '/auth/signup') {
+      return NextResponse.redirect(new URL('/auth/login', req.url));
+    }
+  } else {
+    // If user is authenticated and trying to access login or signup page
+    if (req.nextUrl.pathname === '/auth/login' || req.nextUrl.pathname === '/auth/signup') {
+      return NextResponse.redirect(new URL('/dashboard', req.url));
+    }
   }
 
-  // Handle authenticated access here
-  const { user } = req.auth;
-  
-  // Example: Redirect authenticated users from login page
-  if (user && (req.nextUrl.pathname === '/auth/login' || req.nextUrl.pathname === '/auth/signup')) {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
-
-  // Allow the request to proceed
+  // Allow the request to proceed if no redirect is needed
   return NextResponse.next();
 });
 

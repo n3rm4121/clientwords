@@ -15,6 +15,8 @@ const testimonialSchema = new Schema<Testimonial>({
     userName: {
         type: String,
         required: true,
+        max: 50,
+        min: 3,
     },
     userAvatar: {
         type: String,

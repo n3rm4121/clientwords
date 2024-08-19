@@ -2,21 +2,26 @@
 
 import mongoose, {Schema, Document, model} from "mongoose";
 
-interface TestimonialCard extends Document{
+export interface ITestimonialCard extends Document{
     companyName: string;
     companyLogo: string;
     companyURL: string;
     placeholder: string;
     promptText: string;
-    space: Schema.Types.ObjectId;
+    spaceId: Schema.Types.ObjectId;
+    spaceName: string;
 }
 
-const testimonialCardSchema = new Schema<TestimonialCard>({
+const testimonialCardSchema = new Schema<ITestimonialCard>({
    
-    space: {
+    spaceId: {
         type: Schema.Types.ObjectId,
         ref: 'Space',
-        // required: true,  TODO: uncomment this line
+        required: true,
+    },
+    spaceName: {
+        type: String,
+        required: true,
     },
     companyName: {
         type: String,
@@ -38,8 +43,9 @@ const testimonialCardSchema = new Schema<TestimonialCard>({
         type: String,
         required: true,
     },
+    
 });
 
-const TestimonialCard = mongoose.models?.TestimonialCard || model<TestimonialCard>('TestimonialCard', testimonialCardSchema);
+const TestimonialCard = mongoose.models?.TestimonialCard || model<ITestimonialCard>('TestimonialCard', testimonialCardSchema);
 
 export default TestimonialCard;

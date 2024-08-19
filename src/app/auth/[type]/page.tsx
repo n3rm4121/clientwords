@@ -16,6 +16,7 @@ import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from "react-icons/fc";
 
 
+
 // todo: error displaying
 
 // validation schemas using Zod
@@ -45,16 +46,19 @@ export default function AuthPage() {
   const [errors, setErrors] = useState<any>({});
 
   const { data: session, status } = useSession();
+  const validPath = ['/auth/login', '/auth/signup'];
   useEffect(() => {
+    
     setIsSignup(path === '/auth/signup');
   
   }, [path]);
 
   useEffect(() => {
+    if (status === 'loading') return; // Wait until the session is determined
     if (status === 'authenticated') {
-      router.push('/dashboard'); 
+      router.push('/dashboard'); // Redirect authenticated users to dashboard
     }
-  }, [status]);
+  }, [status, router]);
 
 
 
