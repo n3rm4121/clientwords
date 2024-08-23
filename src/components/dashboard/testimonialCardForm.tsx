@@ -54,7 +54,7 @@ const TestimonialCardCustomizer: React.FC<Props> = ({ isUpdate, spaceId, setIsNe
     if(isUpdate){
       fetchTestimonailCard();
     }
-  }, [spaceId, isUpdate]);
+  }, [spaceId]);
  
   useEffect(() => {
     if (companyLogo) {
@@ -64,11 +64,7 @@ const TestimonialCardCustomizer: React.FC<Props> = ({ isUpdate, spaceId, setIsNe
     }
   }, [companyLogo]);
 
-  // use this TODO:
-  //   const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setForm(prev => ({ ...prev, [name]: value }));
-  // };
+
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setter(e.target.value);
 
@@ -204,7 +200,7 @@ const TestimonialCardCustomizer: React.FC<Props> = ({ isUpdate, spaceId, setIsNe
             </div>
           </div>
           <Button type="submit" className="mt-4" disabled={loading}>
-            {loading ? 'Saving...' : 'Save Form'}
+            {loading ? 'Saving...' : { isUpdate } ? 'Update' : 'Submit'}
           </Button>
         </div>
 

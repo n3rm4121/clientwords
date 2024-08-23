@@ -4,8 +4,7 @@ import TestimonialCard from '@/models/testimonial-card.model';
 import { auth } from '@/auth';
 import { testimonialCardSchema } from '@/schemas/testimonialCardSchema';
 import Space from '@/models/space.model';
-import { uploadOnCloudinary } from '@/lib/cloudinary';
-
+import { deleteFromCloudinary, uploadOnCloudinary } from '@/lib/cloudinary';
 export const bodyParser = false
 
 // TODO: check if the user is a pro user and allow them to create more than 1 testimonial card
@@ -34,7 +33,7 @@ export const  POST = auth(async function POST(request){
 
 
           const cloudinaryURL = cloudinaryResponse.secure_url;
-          console.log("cloudinaryURL", cloudinaryURL);
+          
 
 
         const data = {
@@ -53,13 +52,11 @@ export const  POST = auth(async function POST(request){
         if(!parsedData){
             return NextResponse.json({error: 'Invalid data'}, {status : 400});
         }
-        console.log("parsedData: ", parsedData)
         
         const testimonialCard = new TestimonialCard(parsedData.data);
         await testimonialCard.save(); 
 
 
-        // set isNewSpace to false
         const space = await Space.findOne({ _id: formData.get('spaceId') });
 
         space.isNewSpace = false;
@@ -108,30 +105,32 @@ export const PUT = auth(async function PUT(request){
             spaceName: formData.get('spaceName')
         };
 
-        // Validate data using Zod schema
         const parsedData = testimonialCardSchema.parse(data);
      
         if(!parsedData){
             return NextResponse.json({error: 'Invalid data'}, {status : 400});
         }
         
-        // const testimonialCard = await TestimonialCard.findOne({ spaceId: formData.get('spaceId') });
+        const existingTestimonialCard = await TestimonialCard.findOne({spaceId: formData.get('spaceId')});
+        if(!existingTestimonialCard){
+            return NextResponse.json({message: 'No testimonial card found'}, {status: 404})
+        }
+        // delete the existing image from cloudinary
+        // "https://res.cloudinary.com/dekrwkiyp/image/upload/v1724426355/testimonials/companyLogo/uts41rapxwfk3fkullu3.png"
 
-        // testimonialCard.companyName = formData.get('companyName');
-        // testimonialCard.companyLogo = formData.get('companyLogo');
-        // testimonialCard.companyURL = formData.get('companyURL');
-        // testimonialCard.placeholder = formData.get('placeholder');
-        // testimonialCard.promptText = formData.get('promptText');
-        // testimonialCard.spaceId = formData.get('spaceId');
-        // testimonialCard.spaceName = formData.get('spaceName');
+        let publicId = existingTestimonialCard.companyLogo.split('/').slice(-3).join('/').split('.')[0];
+        console.log("publicId: ", publicId);
+        deleteFromCloudinary(publicId);
 
-        // await testimonialCard.save(); 
+        existingTestimonialCard.companyName = parsedData.companyName;
+        existingTestimonialCard.companyURL = parsedData.companyURL;
+        existingTestimonialCard.companyLogo = parsedData.companyLogo;
+        existingTestimonialCard.promptText = parsedData.promptText;
+        existingTestimonialCard.placeholder = parsedData.placeholder;
 
-        const testimonailCard = await TestimonialCard.findOneAndUpdate({spaceId: formData.get('spaceId')}, parsedData, {new: true});
+        await existingTestimonialCard.save();
 
-        console.log("updated testimonial card: ", testimonailCard);
-
-        return NextResponse.json({message: 'Testimonial card updated'});
+        return NextResponse.json({message: 'Testimonial card updated', existingTestimonialCard});
          
     } catch (error) {
         console.error('Testimonial card update error:', error);
@@ -159,7 +158,6 @@ export const GET = auth(async function GET(request) {
         if(!testimonialCard){
             return NextResponse.json({message: 'No testimonial card found'}, {status: 404})
         }
-        console.log(testimonialCard)
         return NextResponse.json({message: 'Successfully fetched testimonial card', testimonialCard})
 
     }catch(error){
