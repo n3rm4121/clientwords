@@ -3,9 +3,6 @@ import React, { useState, useEffect } from 'react';
 import TestimonialCardForm from '@/components/dashboard/testimonialCardForm';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogFooter, DialogHeader } from '@/components/ui/dialog';
-import { DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@radix-ui/react-dialog';
 import DisplayTestimonials from '@/components/dashboard/Testimonial/DisplayTestimonial';
 
 
@@ -13,12 +10,10 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-  import { Input } from "@/components/ui/input"
-  import { Label } from "@/components/ui/label"
+
   import {
     Tabs,
     TabsContent,
@@ -28,7 +23,6 @@ import {
 import NotFoundPage from '@/app/not-found';
  
   
-
 
 function Page() {
 
@@ -119,7 +113,7 @@ function Page() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            {/* <TestimonialCardForm isUpdate={true} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} /> */}
+            <TestimonialCardForm isUpdate={true} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} />
           </CardContent>      
         </Card>
 

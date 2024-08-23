@@ -1,9 +1,7 @@
 'use client'
-import React, { useEffect, useState, useCallback} from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import Testimonials from "../testimonial/page"
 import { Button } from '@/components/ui/button';
-import { useSession } from 'next-auth/react';
 import {
   Dialog,
   DialogContent,
@@ -33,13 +31,13 @@ export default function Spaces() {
   const router = useRouter();
 
   const addSpace = (newSpace: any) => {
-    
+
     setSpaces((prevSpaces) => [...(prevSpaces || []), newSpace]);
   };
 
   useEffect(() => {
     // fetch spaces
-    
+
     const fetchSpaces = async () => {
       const res = await axios.get('/api/space')
       setSpaces(res.data.spaces)
@@ -52,22 +50,22 @@ export default function Spaces() {
   return (
     <div className="p-6">
 
-  <DialogDemo addSpace={addSpace} />
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    {spaces?.length > 0 && spaces.map((space, index) => (
-      <div
-        onClick={() => router.push(`/dashboard/spaces/${space.name}/${space._id}`)}
-        key={index}
-        className="cursor-pointer bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform duration-300"
-      >
-        <div className="p-6">
-          <h2 className="text-xl font-bold text-gray-800 overflow-hidden">{space.name}</h2>
-        </div>
+      <DialogDemo addSpace={addSpace} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {spaces?.length > 0 && spaces.map((space, index) => (
+          <div
+            onClick={() => router.push(`/dashboard/spaces/${space.name}/${space._id}`)}
+            key={index}
+            className="cursor-pointer bg-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-transform duration-300"
+          >
+            <div className="p-6">
+              <h2 className="text-xl font-bold text-gray-800 overflow-hidden">{space.name}</h2>
+            </div>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
 
-</div>
+    </div>
 
   );
 }
@@ -80,17 +78,17 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
   const handleCreateSpace = useCallback(async (name: string) => {
     try {
       createSpaceSchema.parse({ name });
-      
+
       const res = await axios.post('/api/space', { name });
-  
+
       addSpace(res.data.space);
 
       setErrors({});
 
-        console.log(res.data.space.name);
-     router.push(`/dashboard/spaces/${res.data.space.name}/${res.data.space._id}`);
+      console.log(res.data.space.name);
+      router.push(`/dashboard/spaces/${res.data.space.name}/${res.data.space._id}`);
     } catch (error) {
-  
+
       if (error instanceof z.ZodError) {
         const formattedErrors = error.format();
 
@@ -110,12 +108,19 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create Space</DialogTitle>
+         
           <DialogDescription>
-           <p> Each Space Represents Your Business or Project. </p>
-          
-             <p className='text-blue-500'>{generateUniqueLink(name, 'Space_Id')}</p>
-            
+            Each Space Represents Your Business or Project. <br />
+            {generateUniqueLink(name, 'Space_Id')}
           </DialogDescription>
+
+          {/* <DialogDescription>
+ <span className='text-blue-500'>{generateUniqueLink(name, 'Space_Id')}</span>
+            </DialogDescription> */}
+        
+          
+          
+
         </DialogHeader>
         <div className="">
           <Label htmlFor="name" className="text-right">
@@ -129,7 +134,7 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
             onChange={(e) => setName(e.target.value)}
           />
           {errors?.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name._errors[0]}</p>
+            <span className="text-red-500 text-sm mt-1">{errors.name._errors[0]}</span>
           )}
         </div>
         <DialogFooter>
@@ -137,6 +142,6 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-    
+
   )
 }

@@ -1,229 +1,253 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@radix-ui/react-label';
+import { Label } from '@/components/ui/label';
 import axios from 'axios';
-import React, { useState, useCallback, useMemo } from 'react';
-import { testimonialCardSchema } from '@/schemas/testimonialCardSchema';
 import { z } from 'zod';
 import { useParams } from 'next/navigation';
+import { testimonialCardSchema } from '@/schemas/testimonialCardSchema';
 
+const fileSchema = z
+  .instanceof(File)
+  .refine((file) => file.size <= 2 * 1024 * 1024, { message: 'File size should be less than 2MB' })
+  .refine((file) => ["image/jpeg", "image/png", "image/jpg"].includes(file.type), { message: "Only jpeg, png, or jpg files are allowed" });
 
-// @props isUpdate ? true => update form : false => create form
-const TestimonialCardCustomizer = ({ isUpdate, spaceId, setIsNewSpace }: { isUpdate:boolean, spaceId: string, setIsNewSpace: React.Dispatch<React.SetStateAction<boolean>> }) => {
-    const [customizations, setCustomizations] = useState<{
-        [key: string]: string;
-    }>({
-        companyName: 'Your Company',
-        companyURL: 'https://example.com',
-        companyLogo: '/user.png',
-        avatar: '/user.png',
-        userName: 'John Doe',
-        userIntro: 'CEO at XYZ',
-        promptText: 'Please share your experience with us!',
-        placeholder: 'How did you like our services?',
-        spaceId: spaceId,
-    });
+interface Props {
+  isUpdate: boolean;
+  spaceId: string;
+  setIsNewSpace: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [loading, setLoading] = useState(false); // Added loading state
+const TestimonialCardCustomizer: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace }) => {
+  const [companyName, setCompanyName] = useState('Your Company');
+  const [companyURL, setCompanyURL] = useState('https://example.com');
+  const [companyLogo, setCompanyLogo] = useState<File | null>(null);
+  const [promptText, setPromptText] = useState('Please share your experience with us!');
+  const [placeholder, setPlaceholder] = useState('How did you like our services?');
+  const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
+  const [loading, setLoading] = useState(false);
+  const [logoPreview, setLogoPreview] = useState<string>('/user.png');
+  const { name } = useParams();
 
-    const {name, id} = useParams();
+ 
+  
+  useEffect(() =>{
 
+    const fetchTestimonailCard = async () => {
+      try {
+        const res = await axios.get(`/api/testimonial-card?spaceId=${spaceId}`);
+        const { companyName, companyURL, companyLogo, promptText, placeholder } = res.data.testimonialCard;
+        setCompanyName(companyName);
+        setCompanyURL(companyURL);
+        setPromptText(promptText);
+        setPlaceholder(placeholder);
+        setLogoPreview(companyLogo);
+      } catch (error) {
+        console.error('Error fetching testimonial card data', error);
+      }
+    }
 
-    const handleInputChange = useCallback((field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setCustomizations(prev => ({
-            ...prev,
-            [field]: e.target.value
-        }));
-    }, []);
+    if(isUpdate){
+      fetchTestimonailCard();
+    }
+  }, [spaceId, isUpdate]);
+ 
+  useEffect(() => {
+    if (companyLogo) {
+      const logoURL = URL.createObjectURL(companyLogo);
+      setLogoPreview(logoURL);
+      return () => URL.revokeObjectURL(logoURL);
+    }
+  }, [companyLogo]);
 
-    const handleFileChange = useCallback((field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file && file.size > 2097152) {
-            alert('File size is too large. Please select a file smaller than 2MB.');
-            return;
+  // use this TODO:
+  //   const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setForm(prev => ({ ...prev, [name]: value }));
+  // };
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setter(e.target.value);
+
+  const handleCompanyLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        fileSchema.parse(file);
+        setErrors((prev) => ({ ...prev, companyLogo: null }));
+        setCompanyLogo(file);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          setErrors((prev) => ({ ...prev, companyLogo: error.errors[0].message }));
         }
+      }
+    }
+  };
 
-        if (file && !['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
-            alert('Please select a valid image file.');
-            return;
-        }
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
 
-        if (file && file.type.match('image.*')) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setCustomizations(prev => ({
-                    ...prev,
-                    [field]: reader.result as string,
-                }));
-            };
-            reader.readAsDataURL(file);
-        } else {
-            alert('Please select a valid image file.');
-        }
-    }, []);
+    const formData = new FormData();
+    formData.append('companyName', companyName);
+    formData.append('companyURL', companyURL);
+    if(companyLogo){
+        formData.append('companyLogo', companyLogo)
+    }else {
+        setErrors((prev) =>( {...prev, companyLogo: 'Company Logo is required'}))
+        setLoading(false);
+        return;
+    }
+    formData.append('promptText', promptText);
+    formData.append('placeholder', placeholder);
+    formData.append('spaceId', spaceId);
+    formData.append('spaceName', typeof name === 'string' ? name : '');
 
-    const fields = useMemo(() => [
-        { id: 'companyName', label: 'Company Name', type: 'text' },
-        { id: 'companyURL', label: 'Company URL', type: 'text' },
-        { id: 'companyLogo', label: 'Company Logo', type: 'file', accept: 'image/*' },
-        { id: 'placeholder', label: 'Placeholder', type: 'textarea' },
-        { id: 'promptText', label: 'Prompt Text', type: 'textarea' },
-    ], []);
+    try {
+      testimonialCardSchema.parse({
+        companyName,
+        companyURL,
+        promptText,
+        placeholder,
+        spaceId,
+        spaceName: typeof name === 'string' ? name : '',
+      });
 
-    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setLoading(true); // Set loading state to true
+      if (isUpdate) {
+        await axios.put('/api/testimonial-card', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        setIsNewSpace(false);
+        alert('Form updated successfully!');
+      } else {
+        await axios.post('/api/testimonial-card', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        setIsNewSpace(false);
+        alert('Form submitted successfully!');
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errorMessages = error.errors.reduce((acc, curr) => {
+          acc[curr.path[0]] = curr.message;         
+          return acc;
+        }, {} as { [key: string]: string });
+        setErrors(errorMessages);
+      } else {
+        console.error('Error saving form data', error);
+        alert('An error occurred while submitting the form.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        const formData: { [key: string]: string } = {
-            companyName: customizations.companyName,
-            companyURL: customizations.companyURL,
-            companyLogo: customizations.companyLogo,
-            promptText: customizations.promptText,
-            placeholder: customizations.placeholder,
-            spaceId: customizations.spaceId,
-            spaceName: typeof name === 'string' ? name : '',
-        };
-
-        try {
-            testimonialCardSchema.parse(formData);
-            const formDataToSubmit = new FormData();
-            for (const key in formData) {
-                if (formData[key] !== null) {
-                    formDataToSubmit.append(key, formData[key] as string);
-                }
-            }
-
-            if(isUpdate) {
-                
-                const response = await axios.put(`/api/testimonial-card`, formDataToSubmit, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    
-                });
-                // setLoading(false);
-                setIsNewSpace(false);
-                alert('Form updated successfully !');
-
-            }else{
-                const response = await axios.post('/api/testimonial-card', formDataToSubmit, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    
-                });
-                
-                setIsNewSpace(false);
-                alert('Form submitted successfully!');
-
-            }
-
-            
-
-          
-           
-        } catch (error) {
-            if (error instanceof z.ZodError) {
-                const errorMessages = error.errors.reduce((acc, curr) => {
-                    acc[curr.path[0]] = curr.message;
-                    return acc;
-                }, {} as { [key: string]: string });
-                setErrors(errorMessages);
-            } else {
-                console.error('Error saving form data', error);
-                alert('An error occurred while submitting the form.');
-            }
-        } finally {
-            setLoading(false); // Set loading state to false
-        }
-    };
-
-    return (
-        <div>
-            {/* <h1 className="text-3xl font-bold mb-8 text-center">Testimonial Card Customizer</h1> */}
-
-            <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="rounded-md border p-4">
-                    <div className="space-y-6">
-                        <h2 className="text-xl text-center font-semibold mb-4">Customization</h2>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {fields.map(({ id, label, type, accept }) => (
-                                <div key={id}>
-                                    <Label htmlFor={id}>{label}</Label>
-                                    {type === 'textarea' ? (
-                                        <Textarea
-                                            id={id}
-                                            name={id}
-                                            value={customizations[id] ?? ''}
-                                            onChange={handleInputChange(id)}
-                                            aria-invalid={errors[id] ? 'true' : 'false'}
-                                        />
-                                    ) : (
-                                        <Input
-                                            id={id}
-                                            name={id}
-                                            type={type}
-                                            value={type !== 'file' ? (customizations[id] ?? '') : undefined}
-                                            accept={accept}
-                                            onChange={type === 'file' ? handleFileChange(id) : handleInputChange(id)}
-                                            aria-invalid={errors[id] ? 'true' : 'false'}
-                                        />
-                                    )}
-                                    {errors[id] && <p className="text-red-500 text-sm">{errors[id]}</p>}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <Button type="submit" className="mt-4" disabled={loading}>
-                        {loading ? 'Saving...' : 'Save Form'}
-                    </Button>
-                </div>
-
-                <div className=" border rounded-md p-4">
-                    <h2 className="underline text-xl text-center font-semibold mb-4">Preview</h2>
-                    <div className="flex items-center justify-center gap-4 mb-4">
-                        <Avatar className="h-16 w-16">
-                            <AvatarImage src={customizations.companyLogo ? customizations.companyLogo : '/user.png'} alt="companyLogo" />
-                            <AvatarFallback>Your Logo</AvatarFallback>
-                        </Avatar>
-                        <h2
-                            onClick={() => customizations.companyURL && window.open(customizations.companyURL, '_blank')}
-                            className="text-xl font-bold cursor-pointer hover:underline"
-                        >
-                            {customizations.companyName}
-                        </h2>
-                    </div>
-
-                    <div className="p-6 rounded-lg flex flex-col shadow-lg border-2 border-blue-500 max-w-md mx-auto">
-                        <div className="flex gap-4 text-center">
-                            <Avatar className="h-16 w-16">
-                                <AvatarImage src={customizations.avatar} alt="userAvatar" />
-                                <AvatarFallback>Avatar</AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <h3 className="text-md font-bold">{customizations.userName}</h3>
-                                <p>{customizations.userIntro}</p>
-                            </div>
-                        </div>
-
-                        <p className="text-gray-700 font-semibold my-4 text-center">{customizations.promptText}</p>
-
-                        <Textarea
-                            placeholder={customizations.placeholder}
-                            disabled
-                            className="resize-none h-32 w-full px-4 py-2 rounded-lg border border-blue-400 mb-4"
-                        />
-                        <Button disabled> Submit</Button>
-                    </div>
-                </div>
-            </form>
+  return (
+    <div>
+      <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="rounded-md border p-4">
+          <div className="space-y-6">
+            <h2 className="text-xl text-center font-semibold mb-4">Customization</h2>
+            <div>
+              <Label htmlFor="companyName">Company Name</Label>
+              <Input
+                id="companyName"
+                value={companyName}
+                onChange={handleInputChange(setCompanyName)}
+                aria-invalid={errors.companyName ? 'true' : 'false'}
+              />
+              {errors.companyName && <p className="text-red-500 text-sm">{errors.companyName}</p>}
+            </div>
+            <div>
+              <Label htmlFor="companyURL">Company URL</Label>
+              <Input
+                id="companyURL"
+                value={companyURL}
+                onChange={handleInputChange(setCompanyURL)}
+                aria-invalid={errors.companyURL ? 'true' : 'false'}
+              />
+              {errors.companyURL && <p className="text-red-500 text-sm">{errors.companyURL}</p>}
+            </div>
+            <div>
+              <Label htmlFor="companyLogo">Company Logo</Label>
+              <Input
+                id="companyLogo"
+                type="file"
+                accept="image/*"
+                onChange={handleCompanyLogoChange}
+                aria-invalid={errors.companyLogo ? 'true' : 'false'}
+              />
+              {errors.companyLogo && <p className="text-red-500 text-sm">{errors.companyLogo}</p>}
+            </div>
+            <div>
+              <Label htmlFor="promptText">Prompt Text</Label>
+              <Textarea
+                id="promptText"
+                value={promptText}
+                onChange={handleInputChange(setPromptText)}
+                aria-invalid={errors.promptText ? 'true' : 'false'}
+              />
+              {errors.promptText && <p className="text-red-500 text-sm">{errors.promptText}</p>}
+            </div>
+            <div>
+              <Label htmlFor="placeholder">Placeholder</Label>
+              <Textarea
+                id="placeholder"
+                value={placeholder}
+                onChange={handleInputChange(setPlaceholder)}
+                aria-invalid={errors.placeholder ? 'true' : 'false'}
+              />
+              {errors.placeholder && <p className="text-red-500 text-sm">{errors.placeholder}</p>}
+            </div>
+          </div>
+          <Button type="submit" className="mt-4" disabled={loading}>
+            {loading ? 'Saving...' : 'Save Form'}
+          </Button>
         </div>
-    );
+
+        <div className="border rounded-md p-4">
+          <h2 className="underline text-xl text-center font-semibold mb-4">Preview</h2>
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <Avatar className="h-16 w-16">
+              <AvatarImage src={logoPreview || '/user.png'} alt="companyLogo" />
+              <AvatarFallback>Your Logo</AvatarFallback>
+            </Avatar>
+            <h2
+              onClick={() => companyURL && window.open(companyURL, '_blank')}
+              className="text-xl font-bold cursor-pointer hover:underline"
+            >
+              {companyName}
+            </h2>
+          </div>
+
+          <div className="p-6 rounded-lg flex flex-col shadow-lg border-2 border-blue-500 max-w-md mx-auto">
+            <div className="flex gap-4 text-center">
+              <Avatar className="h-16 w-16">
+                <AvatarImage src="/user.png" alt="userAvatar" />
+                <AvatarFallback>Avatar</AvatarFallback>
+              </Avatar>
+              <div>
+                <h3 className="text-md font-bold">John Doe</h3>
+                <p>CEO at XYZ</p>
+              </div>
+            </div>
+
+            <p className="text-gray-700 font-semibold my-4 text-center">{promptText}</p>
+
+            <Textarea
+              placeholder={placeholder}
+              disabled
+              className="resize-none h-32 w-full px-4 py-2 rounded-lg border border-blue-400 mb-4"
+            />
+            <Button disabled>Submit</Button>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default TestimonialCardCustomizer;
