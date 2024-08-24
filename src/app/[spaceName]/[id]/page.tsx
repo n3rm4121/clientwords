@@ -12,8 +12,8 @@ interface SubmissionPageProps {
 }
 
 const SubmissionPage = async ({ params }: SubmissionPageProps) => {
+
   const { spaceName, id } = params;
-  console.log(spaceName, id);
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     // Return default 404 page if the id is not a valid ObjectId
@@ -35,11 +35,8 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
     
     testimonialCardData = testimonialCardData.toObject();
     testimonialCardData._id = testimonialCardData._id.toString();
-  testimonialCardData.spaceId = testimonialCardData.spaceId.toString();
-
-    
-    
-
+    testimonialCardData.spaceId = testimonialCardData.spaceId.toString();
+  
     return <TestimonialSubmit testimonialCardData={testimonialCardData} />;
 
   } catch (error) {

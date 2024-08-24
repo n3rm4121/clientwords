@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import axios from 'axios';
 import { z } from 'zod';
 import { useParams } from 'next/navigation';
-import { testimonialCardSchema } from '@/schemas/testimonialCardSchema';
+import { testimonialCardSchema } from '@/schemas/testimonial';
 
 const fileSchema = z
   .instanceof(File)

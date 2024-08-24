@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/testimonial", "src/app/dashboard/customize-form/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/dashboard/testimonial", "src/app/dashboard/customize-form/page.tsx", "src/app/api/sse/see.js"],
   "exclude": ["node_modules"]
 }

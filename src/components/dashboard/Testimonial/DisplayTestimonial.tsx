@@ -1,97 +1,71 @@
-'use client'
+'use client';
+
 import { TestimonialCard } from "@/components/TestimonialCard";
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from "@/components/ui/scroll-area";
 import React, { useEffect, useState } from 'react';
-export const testimonials = [
-  {
-      name: "John Doe",
-      testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-      image: '/wall3.jpeg'
-  },
-  {
-      name: "Hero Doe",
-      testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-      image: '/dpe.jpg'
-  },
 
-  {
-      name: "Jane Doe",  
-      testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-      image: '/dpe.jpg'
-
-  },
-  {
-    name: "Jane Doe",  
-    testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-    image: '/dpe.jpg'
-
-},
-{
-  name: "Jane Doe",  
-  testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-  image: '/dpe.jpg'
-
-},
-{
-  name: "Jane Doe",  
-  testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-  image: '/dpe.jpg'
-
-},
-{
-  name: "Jane Doe",  
-  testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-  image: '/dpe.jpg'
-
-},
-{
-  name: "Jane Doe",  
-  testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-  image: '/dpe.jpg'
-
-},
-{
-  name: "Jane Doe",  
-  testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-  image: '/dpe.jpg'
-
-},
-{
-  name: "Jane Doe",  
-  testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-  image: '/dpe.jpg'
-
-},
-{
-  name: "Jane Doe",  
-  testimonial: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est nec odio. Nullam nec nunc non odio luctus accumsan. Nullam nec nunc non odio luctus accumsan.",
-  image: '/dpe.jpg'
-
+interface PageProps {
+  spaceId: string;
 }
-]
 
-// TODO: filters
-
-
-export default function DisplayTestimonials() {
-  const [isClient, setIsClient] = useState(false);
+export default function DisplayTestimonials({ spaceId }: PageProps) {
+  const [testimonials, setTestimonials] = useState<any[]>([]);
 
   useEffect(() => {
-    setIsClient(true); // Ensures this only runs on the client
-  }, []);
+    const fetchTestimonials = async () => {
+      try {
+        const response = await fetch(`/api/testimonial?spaceId=${spaceId}`);
+        const data = await response.json();
+        setTestimonials(data.testimonials);
 
-  if (!isClient) {
-    return null; // Prevent server-side rendering of this component
+        // Establish SSE connection
+        const eventSource = new EventSource(`/api/sse?spaceId=${spaceId}`);
+
+        eventSource.onmessage = (event) => {
+          
+          const newTestimonial = JSON.parse(event.data);
+
+          setTestimonials((prevTestimonials) => {
+            if (prevTestimonials.some((testimonial) => testimonial._id === newTestimonial._id)) {
+              return prevTestimonials;
+            } else {
+              return [newTestimonial, ...prevTestimonials];
+            }
+          });
+
+        };
+
+        eventSource.onerror = (error) => {
+          console.error('EventSource failed:', error);
+          eventSource.close();
+        };
+
+        
+        return () => {
+          eventSource.close();
+        };
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      }
+    };
+
+    fetchTestimonials();
+  }, []); 
+
+  if (testimonials.length === 0) {
+    return null; 
   }
 
   return (
     <ScrollArea className="h-screen rounded-md border p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto max-w-7xl">
+      <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 mx-auto max-w-7xl">
         {testimonials.map((testimonial, index) => (
-          <TestimonialCard key={index} testimonial={testimonial} />
+          <div key={index} className="break-inside-avoid mb-6">
+            <TestimonialCard testimonial={testimonial} />
+          </div>
         ))}
       </div>
+
     </ScrollArea>
   );
 }
-

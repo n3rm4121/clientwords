@@ -2,7 +2,7 @@ import dbConnect from '@/lib/dbConnect';
 import { NextResponse } from 'next/server';
 import TestimonialCard from '@/models/testimonial-card.model';
 import { auth } from '@/auth';
-import { testimonialCardSchema } from '@/schemas/testimonialCardSchema';
+import { testimonialCardSchema } from '@/schemas/testimonial';
 import Space from '@/models/space.model';
 import { deleteFromCloudinary, uploadOnCloudinary } from '@/lib/cloudinary';
 export const bodyParser = false
@@ -144,6 +144,10 @@ export const PUT = auth(async function PUT(request){
 export const GET = auth(async function GET(request) {
 
     const spaceId = request.url.split('=')[1];
+
+    if(!spaceId){
+        return NextResponse.json({message: 'No spaceId provided'}, {status: 400})
+    }
 
    await dbConnect();
     if(!request.auth){

@@ -26,18 +26,15 @@ import NotFoundPage from '@/app/not-found';
 
 function Page() {
 
-    const [testimonails, setTestimonials] = useState([]);
     const [isNewSpace, setIsNewSpace] = useState(false);
     const [error, setError] = useState(false);
     const { id } = useParams();
-
     useEffect(() => {
 
         const fetchSpaceData = async () => {
             try {
 
                 const res = await axios.get(`/api/space/${id}`);
-                setTestimonials(res.data.space.testimonials);
                 setIsNewSpace(res.data.space.isNewSpace);
 
             } catch (error) {
@@ -57,7 +54,7 @@ function Page() {
             <TestimonialCardForm isUpdate={false} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} />
         )
     }
-
+    
     if(error) {
         return <NotFoundPage />
     }
@@ -82,7 +79,7 @@ function Page() {
           </CardHeader>
           <CardContent className="space-y-2">
          
-            <DisplayTestimonials />
+            <DisplayTestimonials spaceId={id.toString()} />
           </CardContent>
         </Card>
       </TabsContent>
