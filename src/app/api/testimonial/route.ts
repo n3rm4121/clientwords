@@ -39,7 +39,7 @@ const redis = new Redis({
 // Create a new rate limiter
 const rateLimiter = new Ratelimit({
     redis: redis,
-    limiter: Ratelimit.slidingWindow(10, '10 m'), // 1 request per 10 minutes per IP
+    limiter: Ratelimit.slidingWindow(1, '10 m'), // 1 request per 10 minutes per IP
     analytics: true, // Optional: enables analytics
     ephemeralCache: undefined, // Optional: enables ephemeral cache
     timeout: undefined,
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     const { success, limit, remaining, reset } = await rateLimiter.limit(ip);
 
     if (!success) {
-        return NextResponse.json({ error: 'Too many requests, please try again later.' }, {
+        return NextResponse.json({ error: 'You can only submit a testimonial once every 10 minutes. Please wait and try again later.' }, {
             status: 429, headers: {
                 'X-RateLimit-Limit': limit.toString(),
                 'X-RateLimit-Remaining': remaining.toString(),
