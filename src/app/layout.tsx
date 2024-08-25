@@ -7,8 +7,6 @@ const fontSans = FontSans({
   variable: "--font-sans",
 })
 
-import { Toaster } from "@/components/ui/toaster"
-
 
 import { SessionProvider } from "next-auth/react";
 export const metadata: Metadata = {
@@ -29,7 +27,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SessionProvider>
         {children}
         </SessionProvider>
-        <Toaster />
           
       </body>
     </html>

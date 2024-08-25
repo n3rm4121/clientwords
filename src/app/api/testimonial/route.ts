@@ -5,6 +5,8 @@ import dbConnect from "@/lib/dbConnect";
 import Testimonial from "@/models/testimonials.model";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from '@/auth';
+import { uploadOnCloudinary } from "@/lib/cloudinary";
+import { testimonailSchema } from "@/schemas/validationSchema";
 
 // public route so no need to authenticate
 
@@ -14,25 +16,37 @@ export async function POST(request: Request) {
 
     try {
         
-        const { userName, userAvatar, userIntro, message, spaceId } = await request.json();
+       const formData = await request.formData();
+       if(!formData){
+              return NextResponse.json({error: 'Invalid data'}, {status : 400});
+         }
+       const userAvatar = formData.get('userAvatar') as File;
 
-        // Save the testimonial to the database
-        const testimonial = new Testimonial({
-            userName,
-            userAvatar,
-            userIntro,
-            message,
-            spaceId,
-        });
+       const fileBuffer = Buffer.from(await userAvatar.arrayBuffer());
 
-        await testimonial.save();
-        
-        if(!testimonial){
+       const cloudinaryResponse = await uploadOnCloudinary(fileBuffer, userAvatar.type);
+
+       if (!cloudinaryResponse) {
+        return NextResponse.json({error: 'failed to upload image'}, {status: 400})
+      }
+
+      const cloudinaryURL = cloudinaryResponse.secure_url;
+
+      const data = {
+        userName: formData.get('userName') as string,
+        userAvatar: cloudinaryURL,
+        userIntro: formData.get('userIntro') as string,
+        message: formData.get('message') as string,
+        spaceId: formData.get('spaceId') as string,
+      };
+
+      const newTestimonial = await Testimonial.create(data);
+
+        if(!newTestimonial){
             return NextResponse.json({error: 'Invalid data'}, {status : 400});
         }
 
-
-        return NextResponse.json({ message: 'Testimonial submitted successfully', testimonial }, { status: 200 });
+        return NextResponse.json({ message: 'Testimonial submitted successfully', newTestimonial }, { status: 200 });
        
 
     } catch (error) {

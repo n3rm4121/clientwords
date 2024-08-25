@@ -9,12 +9,7 @@ import { Label } from '@/components/ui/label';
 import axios from 'axios';
 import { z } from 'zod';
 import { useParams } from 'next/navigation';
-import { testimonialCardSchema } from '@/schemas/testimonial';
-
-const fileSchema = z
-  .instanceof(File)
-  .refine((file) => file.size <= 2 * 1024 * 1024, { message: 'File size should be less than 2MB' })
-  .refine((file) => ["image/jpeg", "image/png", "image/jpg"].includes(file.type), { message: "Only jpeg, png, or jpg files are allowed" });
+import { testimonialCardSchema, avatarSchema } from '@/schemas/validationSchema';
 
 interface Props {
   isUpdate: boolean;
@@ -22,7 +17,7 @@ interface Props {
   setIsNewSpace: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TestimonialCardCustomizer: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace }) => {
+const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace }) => {
   const [companyName, setCompanyName] = useState('Your Company');
   const [companyURL, setCompanyURL] = useState('https://example.com');
   const [companyLogo, setCompanyLogo] = useState<File | null>(null);
@@ -72,7 +67,19 @@ const TestimonialCardCustomizer: React.FC<Props> = ({ isUpdate, spaceId, setIsNe
     const file = e.target.files?.[0];
     if (file) {
       try {
-        fileSchema.parse(file);
+        // avatarSchema.parse(file);
+        // setErrors((prev) => ({ ...prev, companyLogo: null }));
+        if(file.size > 2 * 1024 * 1024){
+          setErrors((prev) => ({ ...prev, companyLogo: 'File size should be less than 2MB' }));
+          return;
+        }else if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+          setErrors((prev) => ({ ...prev, companyLogo: 'Only jpeg, png, or jpg files are allowed' }));
+          return;
+        }else if(!file){
+          setErrors((prev) => ({ ...prev, companyLogo: 'Company Logo is required' }));
+          return;
+        }
+        
         setErrors((prev) => ({ ...prev, companyLogo: null }));
         setCompanyLogo(file);
       } catch (error) {
@@ -246,4 +253,4 @@ const TestimonialCardCustomizer: React.FC<Props> = ({ isUpdate, spaceId, setIsNe
   );
 };
 
-export default TestimonialCardCustomizer;
+export default TestimonialCardForm;

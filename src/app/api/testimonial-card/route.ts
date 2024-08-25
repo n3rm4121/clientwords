@@ -2,7 +2,7 @@ import dbConnect from '@/lib/dbConnect';
 import { NextResponse } from 'next/server';
 import TestimonialCard from '@/models/testimonial-card.model';
 import { auth } from '@/auth';
-import { testimonialCardSchema } from '@/schemas/testimonial';
+import { testimonialCardSchema } from '@/schemas/validationSchema';
 import Space from '@/models/space.model';
 import { deleteFromCloudinary, uploadOnCloudinary } from '@/lib/cloudinary';
 export const bodyParser = false
