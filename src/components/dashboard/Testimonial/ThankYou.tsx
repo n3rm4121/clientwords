@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import Link from 'next/link';
+import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
 
 export function Thankyou({ userName, companyName, companyURL }: { userName: string, companyName: string, companyURL: string }) {
 
@@ -16,14 +17,14 @@ export function Thankyou({ userName, companyName, companyURL }: { userName: stri
 
   return (
 
-     <>
+     <MaxWidthWrapper className='bg-gradient-to-r from-blue-500 to-purple-500'>
     
         {/* Fixed Header */}
         <div className="fixed p-6 top-0 left-0 w-full z-10 ">
             <Link className="text-2xl font-bold" href="/">TestiBoost</Link>
         </div>
     
-    <div className="min-h-screen  bg-gradient-to-r from-blue-500 to-purple-500  flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -69,6 +70,6 @@ export function Thankyou({ userName, companyName, companyURL }: { userName: stri
         </motion.button>
       </motion.div>
     </div>
-    </>
+    </MaxWidthWrapper>
   );
 }

@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { Button, buttonVariants } from './ui/button';
 import { FaArrowRight } from 'react-icons/fa';
 import { MaxWidthWrapper } from './MaxWidthWrapper';
+import ModeToggle from './toggleThemeBtn';
+
 export function Navbar() {
 
   const links = [
@@ -16,7 +18,7 @@ export function Navbar() {
   ]
   return (
 
-    <nav className="bg-white border-b border-gray-200 px-2.5 sticky inset-x-0 top-0 z-50 w-full">
+    <nav className=" border-b backdrop-filter backdrop-blur-lg border-gray-200 px-2.5 sticky inset-x-0 top-0 z-50 w-full">
       <MaxWidthWrapper>
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -30,21 +32,22 @@ export function Navbar() {
           <div className="hidden sm:ml-6 sm:flex  sm:space-x-8">  
 
               {links.map((link, index) => (
-                <Link key={index} href={link.href} className="text-gray-900 hover:text-gray-700  px-3 py-2 rounded-md text-sm font-medium">
+                <Link key={index} href={link.href} className=" hover:text-gray-700  px-3 py-2 rounded-md text-sm font-medium">
                   {link.name}
                 </Link>
               ))}
              
             </div>
           </div>
-          <div>
+          <div className='flex items-center justify-center'>
+            {/* <ModeToggle /> */}
             <Link href="/auth/login"
              className={buttonVariants({variant:'ghost'})}
              >
               Login
               <FaArrowRight className='ml-3' />
             </Link>
-            
+            <ModeToggle />
             
           </div>
         </div>

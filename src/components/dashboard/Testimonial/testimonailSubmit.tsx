@@ -133,13 +133,13 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
         return <Thankyou userName={thankyouName} companyURL={testimonialCardData.companyURL}  companyName={testimonialCardData.companyName} />;
     }
     return (
-      <div className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg">
+      <div className="bg-gradient-to-r bg-red-400 from-blue-500 to-purple-500 shadow-lg">
 
         <ToastContainer />
         
         {/* Fixed Header */}
         <div className="fixed p-6 top-0 left-0 w-full z-10 ">
-            <Link className="text-2xl font-bold" href="/">TestiBoost</Link>
+            <Link className="text-2xl text-black font-bold" href="/">TestiBoost</Link>
         </div>
     
         {/* Main Content */}

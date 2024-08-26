@@ -63,10 +63,10 @@ function Page() {
         <div>
             
 <Tabs defaultValue="Testimonials" className="">
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
         <TabsTrigger value="Card">Testimonial Form</TabsTrigger>
-        <TabsTrigger value="walloflove">Wall of Love</TabsTrigger>
+        {/* <TabsTrigger value="walloflove">Wall of Love</TabsTrigger> */}
       </TabsList>
      
       <TabsContent value="Testimonials">
@@ -101,7 +101,7 @@ function Page() {
       </TabsContent>
 
 
-      <TabsContent value="walloflove">
+      {/* <TabsContent value="walloflove">
         <Card>
           <CardHeader>
             <CardTitle>Wall of Love</CardTitle>
@@ -114,7 +114,7 @@ function Page() {
           </CardContent>      
         </Card>
 
-      </TabsContent>
+      </TabsContent> */}
 
     </Tabs>
         

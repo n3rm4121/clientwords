@@ -30,12 +30,11 @@ export default function LandingPage() {
     <>
  <Navbar />
       <MaxWidthWrapper>
-     
-
+        
         {/* Hero Section */}
         <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
-          <h1 className="text-4xl tracking-tight text-gray-900 font-bold sm:text-6xl">
-            Turn Your <span className="bg-yellow-400">Customer's Love</span> {' '}
+          <h1 className="text-4xl tracking-tight font-bold sm:text-6xl">
+            Turn Your <span className="text-yellow-400">Customer's Love</span> {' '}
             into Powerful  <span className="text-blue-600">Social Proof.</span>
           </h1>
 
@@ -61,10 +60,10 @@ export default function LandingPage() {
       </MaxWidthWrapper>
 
         {/* Features Section */}
-        <section id = "features" className=" border-t border-gray-200 bg-gray-50">
+        <section id = "features" className=" border-t">
         <MaxWidthWrapper>
           <div className="py-20 mx-auto text-center flex flex-col items-center ">
-            <h2 className="text-4xl tracking-tight text-gray-900 font-bold sm:text-6xl">
+            <h2 className="text-4xl tracking-tight font-bold sm:text-6xl">
               Why TestiBoost?
             </h2>
 
@@ -89,22 +88,22 @@ export default function LandingPage() {
 
           {/* Pricing Section */}
 
-          <section id="pricing" className="py-24 bg-gradient-to-b from-gray-100 to-gray-200">
+          <section id="pricing" className="py-24">
   <MaxWidthWrapper className="mb-8 text-center max-w-5xl">
     <div className="mx-auto mb-10 sm:max-w-xl">
-      <h2 className="text-4xl tracking-tight text-gray-900 font-bold sm:text-6xl mb-10">
+      <h2 className="text-4xl tracking-tight font-bold sm:text-6xl mb-10">
        Pricing
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
         
         {/* Starter Plan */}
-        <div className="bg-white shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl">
+        <div className="shadow-xl border border-blue-500 rounded-lg transform transition-transform    hover:shadow-2xl">
           <div className="p-8">
             <h3 className="text-2xl font-bold mb-4 text-blue-700">Starter</h3>
-            <p className="text-5xl font-bold mb-6 text-gray-800">
+            <p className="text-5xl font-bold mb-6">
               $0<span className="text-lg font-normal">/month</span>
             </p>
-            <ul className="text-left space-y-4 mb-8 text-gray-700">
+            <ul className="text-left space-y-4 mb-8">
               <li className="flex items-center">
                 <FaChartLine className="text-green-500 mr-3" /> Collect up to 10 testimonials
               </li>
@@ -122,7 +121,7 @@ export default function LandingPage() {
         </div>
         
         {/* Pro Plan */}
-        <div className="bg-gradient-to-b from-blue-600 to-teal-500 text-white shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl border-2 border-blue-700">
+        <div className="bg-gradient-to-b from-blue-600 to-teal-500 text-white shadow-xl rounded-lg transform transition-transform hover:shadow-2xl border-2 border-blue-700">
           <div className="p-8">
             <h3 className="text-2xl font-bold mb-4">Pro</h3>
             <p className="text-5xl font-bold mb-6">
@@ -157,7 +156,7 @@ export default function LandingPage() {
           {/* Footer Section */}
 
 
-          <footer className="p-8 bg-gray-900 text-white">
+          <footer className="p-8 bg-slate-950 text-white">
             <MaxWidthWrapper>
                     <div className="container mx-auto">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

@@ -10,6 +10,7 @@ import axios from 'axios';
 import { z } from 'zod';
 import { useParams } from 'next/navigation';
 import { testimonialCardSchema, avatarSchema } from '@/schemas/validationSchema';
+import { FcAddImage } from 'react-icons/fc';
 
 interface Props {
   isUpdate: boolean;
@@ -161,6 +162,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={companyName}
                 onChange={handleInputChange(setCompanyName)}
                 aria-invalid={errors.companyName ? 'true' : 'false'}
+                aria-required="true"  
               />
               {errors.companyName && <p className="text-red-500 text-sm">{errors.companyName}</p>}
             </div>
@@ -171,6 +173,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={companyURL}
                 onChange={handleInputChange(setCompanyURL)}
                 aria-invalid={errors.companyURL ? 'true' : 'false'}
+                aria-required="true"  
               />
               {errors.companyURL && <p className="text-red-500 text-sm">{errors.companyURL}</p>}
             </div>
@@ -182,6 +185,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 accept="image/*"
                 onChange={handleCompanyLogoChange}
                 aria-invalid={errors.companyLogo ? 'true' : 'false'}
+                aria-required="true"  
               />
               {errors.companyLogo && <p className="text-red-500 text-sm">{errors.companyLogo}</p>}
             </div>
@@ -192,6 +196,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={promptText}
                 onChange={handleInputChange(setPromptText)}
                 aria-invalid={errors.promptText ? 'true' : 'false'}
+                aria-required="true"  
               />
               {errors.promptText && <p className="text-red-500 text-sm">{errors.promptText}</p>}
             </div>
@@ -202,6 +207,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={placeholder}
                 onChange={handleInputChange(setPlaceholder)}
                 aria-invalid={errors.placeholder ? 'true' : 'false'}
+                aria-required="true"  
               />
               {errors.placeholder && <p className="text-red-500 text-sm">{errors.placeholder}</p>}
             </div>
@@ -211,30 +217,34 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
           </Button>
         </div>
 
-        <div className="border rounded-md p-4">
-          <h2 className="underline text-xl text-center font-semibold mb-4">Preview</h2>
+        <div className="border rounded-md p-4 bg-gradient-to-br from-blue-50 to-blue-100">
+
+          <div>
+
+         
+          <h2 className="underline text-xl text-center text-gray-700 font-semibold mb-4">Preview</h2>
           <div className="flex items-center justify-center gap-4 mb-4">
             <Avatar className="h-16 w-16">
               <AvatarImage src={logoPreview || '/user.png'} alt="companyLogo" />
-              <AvatarFallback>Your Logo</AvatarFallback>
+              <AvatarFallback><AvatarImage src={"/user.png"} /></AvatarFallback>
             </Avatar>
             <h2
               onClick={() => companyURL && window.open(companyURL, '_blank')}
-              className="text-xl font-bold cursor-pointer hover:underline"
+              className="text-xl font-bold text-blue-600 cursor-pointer hover:underline"
             >
               {companyName}
             </h2>
           </div>
 
-          <div className="p-6 rounded-lg flex flex-col shadow-lg border-2 border-blue-500 max-w-md mx-auto">
-            <div className="flex gap-4 text-center">
+          <div className="p-6 rounded-3xl bg-opacity-90 flex flex-col shadow-xl border-2 border-blue-500 max-w-md mx-auto">
+            <div className="flex gap-4">
               <Avatar className="h-16 w-16">
-                <AvatarImage src="/user.png" alt="userAvatar" />
-                <AvatarFallback>Avatar</AvatarFallback>
+                <AvatarImage src={''} alt="userAvatar" />
+                <AvatarFallback><FcAddImage size={50} /></AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="text-md font-bold">John Doe</h3>
-                <p>CEO at XYZ</p>
+                <h3 className="text-2xl font-semibold text-gray-700">John Doe</h3>
+                <p className='text-gray-500'>CEO at XYZ(optional)</p>
               </div>
             </div>
 
@@ -245,9 +255,11 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
               disabled
               className="resize-none h-32 w-full px-4 py-2 rounded-lg border border-blue-400 mb-4"
             />
-            <Button disabled>Submit</Button>
+            <Button variant={'outline'} className='rounded-3xl bg-gradient-to-r from-blue-500 to-purple-600 font-semibold py-2 px-6 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1' disabled>Submit</Button>
           </div>
-        </div>
+       
+          </div>
+           </div>
       </form>
     </div>
   );

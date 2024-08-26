@@ -37,8 +37,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 
                 {/* Main Content */}
                
-                <main className="pt-16">
-                    <div className="p-4">
+                <main className={` pt-16`}>
+                    <div className={`p-4  ${isOpen &&  'lg:blur-none blur-lg' }`}>
                         {children}
                     </div>
                 </main>
