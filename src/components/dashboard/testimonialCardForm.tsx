@@ -217,7 +217,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
           </Button>
         </div>
 
-        <div className="border rounded-md p-4 bg-gradient-to-br from-blue-50 to-blue-100">
+        <div className="border rounded-md p-4 ">
 
           <div>
 

@@ -32,7 +32,7 @@ export default function LandingPage() {
       <MaxWidthWrapper>
         
         {/* Hero Section */}
-        <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
+        <div className="py-20 mx-auto text-center flex flex-col items-center max-w-full">
           <h1 className="text-4xl tracking-tight font-bold sm:text-6xl">
             Turn Your <span className="text-yellow-400">Customer's Love</span> {' '}
             into Powerful  <span className="text-blue-600">Social Proof.</span>
