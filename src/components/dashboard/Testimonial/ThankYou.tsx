@@ -51,7 +51,7 @@ export function Thankyou({ userName, companyName, companyURL }: { userName: stri
         </motion.h1>
         
         <motion.p 
-          className="text-gray-700 mb-10 leading-relaxed"
+          className="text-gray-700 mb-10 leading-relaxed tracking-tight"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}

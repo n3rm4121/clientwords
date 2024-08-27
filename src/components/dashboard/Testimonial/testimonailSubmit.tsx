@@ -202,7 +202,7 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
                     placeholder={testimonialCardData.placeholder}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="resize-none h-32 w-full px-4 py-2 rounded-2xl border border-blue-400 mb-4"
+                    className="resize-none h-32 w-full px-4 py-2 rounded-2xl border border-blue-400 text-black mb-4"
                 />
                 <Button className="rounded-3xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-6 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1" type="submit" disabled={loading}>
                     {loading ? 'Submitting...' : 'Submit'}

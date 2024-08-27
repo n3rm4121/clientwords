@@ -73,10 +73,10 @@ function Page() {
       <TabsContent value="Testimonials">
         <Card>
           <CardHeader>
-            <CardTitle>Testimonials Received</CardTitle>
+            {/* <CardTitle>Testimonials Received</CardTitle>
             <CardDescription>
                 These are the testimonials received for this space.
-             </CardDescription>
+             </CardDescription> */}
           </CardHeader>
           <CardContent className="space-y-2">
          
@@ -105,10 +105,10 @@ function Page() {
       <TabsContent value="loveGallery">
         <Card>
           <CardHeader>
-            <CardTitle>Love Gallery</CardTitle>
+            {/* <CardTitle>Love Gallery</CardTitle>
             <CardDescription>
              This is your Love Gallery
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           <CardContent className="space-y-2">
             {/* <TestimonialCardForm isUpdate={true} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} /> */}

@@ -121,15 +121,15 @@ export default function AuthPage() {
   return (
     <>
       <Navbar />
-        <div className="flex justify-center items-center min-h-screen bg-gray-50">
-          <div className="card w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="card w-full max-w-md   shadow-lg rounded-xl border border-gray-500 p-6">
             <h2 className="text-2xl font-semibold text-center mb-4">
               {isSignup ? 'Sign Up' : 'Login'}
             </h2>
             <form onSubmit={handleAuth} className="space-y-4">
               {isSignup && (
                 <div>
-                  <Label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  <Label htmlFor="name" className="block text-sm font-medium">
                     Name
                   </Label>
                   <Input
@@ -141,7 +141,7 @@ export default function AuthPage() {
                 </div>
               )}
               <div>
-                <Label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <Label htmlFor="email" className="block text-sm font-medium">
                   Email
                 </Label>
                 <Input
@@ -157,7 +157,7 @@ export default function AuthPage() {
               </div>
 
               <div>
-                <Label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <Label htmlFor="password" className="block text-sm font-medium ">
                   Password
                 </Label>
                 <div className="relative">
@@ -173,9 +173,9 @@ export default function AuthPage() {
                     onClick={togglePasswordVisibility}
                   >
                     {showPassword ? (
-                      <PiEyeSlash className="h-5 w-5 text-gray-500" />
+                      <PiEyeSlash className="h-5 w-5 " />
                     ) : (
-                      <PiEye className="h-5 w-5 text-gray-500" />
+                      <PiEye className="h-5 w-5 " />
                     )}
                   </div>
                 </div>
@@ -188,7 +188,7 @@ export default function AuthPage() {
                 <div>
                   <Label
                     htmlFor="confirmPassword"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium"
                   >
                     Confirm Password
                   </Label>
@@ -217,7 +217,7 @@ export default function AuthPage() {
          
               <div className="flex items-center my-9">
   <hr className="w-full border-t border-gray-300" />
-  <span className="px-3 text-gray-500">OR</span>
+  <span className="px-3">OR</span>
   <hr className="w-full border-t border-gray-300" />
 </div>
 

@@ -4,8 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from '@/auth';
 import { uploadOnCloudinary } from "@/lib/cloudinary";
 import { testimonailSchema } from "@/schemas/validationSchema";
-import { Redis } from '@upstash/redis';
-import { Ratelimit } from '@upstash/ratelimit';
+import { testimonialSubmitRateLimit } from "@/utils/rateLimit";
 
 
 async function uploadUserAvatar(file: File): Promise<string> {
@@ -30,36 +29,12 @@ async function uploadUserAvatar(file: File): Promise<string> {
     return cloudinaryResponse.secure_url;
 }
 
-// Initialize Upstash Redis client
-const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL, // Your Upstash Redis REST URL
-    token: process.env.UPSTASH_REDIS_REST_TOKEN, // Your Upstash Redis Authorization Token
-});
-
-// Create a new rate limiter
-const rateLimiter = new Ratelimit({
-    redis: redis,
-    limiter: Ratelimit.slidingWindow(1, '10 m'), // 1 request per 10 minutes per IP
-    analytics: true, // Optional: enables analytics
-    ephemeralCache: undefined, // Optional: enables ephemeral cache
-    timeout: undefined,
-});
-
 export async function POST(request: NextRequest) {
 
     await dbConnect();
-    const ip = request.ip ?? request.headers.get('X-Forwarded-For') ?? 'unknown';
-    const { success, limit, remaining, reset } = await rateLimiter.limit(ip);
 
-    if (!success) {
-        return NextResponse.json({ error: 'You can only submit a testimonial once every 10 minutes. Please wait and try again later.' }, {
-            status: 429, headers: {
-                'X-RateLimit-Limit': limit.toString(),
-                'X-RateLimit-Remaining': remaining.toString(),
-                'X-RateLimit-Reset': reset.toString(),
-            },
-        },);
-    }
+    const rateLimitResponse = await testimonialSubmitRateLimit(request, 2 , '10 m');
+    if (rateLimitResponse) return rateLimitResponse;
 
     try {
 
