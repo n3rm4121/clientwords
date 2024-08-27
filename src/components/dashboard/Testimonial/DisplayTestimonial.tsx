@@ -19,7 +19,8 @@ interface Testimonial {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function DisplayTestimonials({ spaceId }: { spaceId: string }) {
+// @props location defines the location of testimonail Card
+export default function DisplayTestimonials({ location, spaceId }: {location:string, spaceId: string }) {
   const { data, error, isLoading, mutate } = useSWR<{ testimonials: Testimonial[] }>(
     `/api/testimonial?spaceId=${spaceId}`,
     fetcher,
@@ -64,7 +65,7 @@ export default function DisplayTestimonials({ spaceId }: { spaceId: string }) {
        
           {data?.testimonials.map((testimonial) => (
             <div key={testimonial._id} className="break-inside-avoid mb-6">
-              <TestimonialCard testimonial={testimonial} />
+              <TestimonialCard location={location} testimonial={testimonial} />
             </div>
           ))}
       </div>

@@ -120,7 +120,7 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button>Create Space</Button>
+          <Button>Create New Space</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -146,7 +146,7 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
             <Input
               id="name"
               placeholder="eg. My Business"
-              className="col-span-3"
+              className="col-span-3"  
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -155,7 +155,7 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
             )}
           </div>
           <DialogFooter>
-            <Button onClick={() => handleCreateSpace(name.replace(/\s+/g, ''))}>Create Space</Button>
+            <Button onClick={() => handleCreateSpace(name.replace(/\s+/g, ''))}>Create New Space</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

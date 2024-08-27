@@ -21,6 +21,7 @@ import {
     TabsTrigger,
   } from "@/components/ui/tabs"
 import NotFoundPage from '@/app/not-found';
+import LoveGallery from '@/components/dashboard/Testimonial/LoveGallery';
  
   
 
@@ -63,10 +64,10 @@ function Page() {
         <div>
             
 <Tabs defaultValue="Testimonials" className="">
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
         <TabsTrigger value="Card">Testimonial Form</TabsTrigger>
-        {/* <TabsTrigger value="walloflove">Wall of Love</TabsTrigger> */}
+        <TabsTrigger value="loveGallery">Love Gallery</TabsTrigger>
       </TabsList>
      
       <TabsContent value="Testimonials">
@@ -79,7 +80,7 @@ function Page() {
           </CardHeader>
           <CardContent className="space-y-2">
          
-            <DisplayTestimonials spaceId={id.toString()} />
+            <DisplayTestimonials location={'testimonials'} spaceId={id.toString()} />
           </CardContent>
         </Card>
       </TabsContent>
@@ -101,20 +102,21 @@ function Page() {
       </TabsContent>
 
 
-      {/* <TabsContent value="walloflove">
+      <TabsContent value="loveGallery">
         <Card>
           <CardHeader>
-            <CardTitle>Wall of Love</CardTitle>
+            <CardTitle>Love Gallery</CardTitle>
             <CardDescription>
-             This is your wall of love
+             This is your Love Gallery
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <TestimonialCardForm isUpdate={true} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} />
+            {/* <TestimonialCardForm isUpdate={true} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} /> */}
+            <LoveGallery />
           </CardContent>      
         </Card>
 
-      </TabsContent> */}
+      </TabsContent>
 
     </Tabs>
         
