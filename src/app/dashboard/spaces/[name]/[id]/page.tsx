@@ -104,14 +104,13 @@ function Page() {
 
       <TabsContent value="loveGallery">
         <Card>
-          <CardHeader>
+          <CardHeader> 
             {/* <CardTitle>Love Gallery</CardTitle>
             <CardDescription>
              This is your Love Gallery
             </CardDescription> */}
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {/* <TestimonialCardForm isUpdate={true} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} /> */}
+          </CardHeader> 
+          <CardContent>
             <LoveGallery />
           </CardContent>      
         </Card>

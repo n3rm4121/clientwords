@@ -17,7 +17,7 @@ const uploadOnCloudinary = async (fileBuffer: Buffer, fileType: string) => {
     const response = await cloudinary.uploader.upload(fileStr, {
       folder: 'testimonials/companyLogo',
       transformation: [
-        { width: 16, height: 16, crop: "limit" }, 
+        { width: 64, height: 64, crop: "limit" }, 
         { quality: "auto" },                       
         { fetch_format: "auto" }                    
       ],

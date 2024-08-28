@@ -3,8 +3,15 @@ import { FaHeart } from "react-icons/fa";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
-export function TestimonialCard({ location, testimonial }: {location:string, testimonial: any }) {
+interface TestimonialCardProps {
+  location: string;
+  testimonial: any;
+  theme?: string;
+}
+
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ location, testimonial, theme }) => {
   const [isLoved, setIsLoved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,14 +46,20 @@ export function TestimonialCard({ location, testimonial }: {location:string, tes
       setIsLoading(false);
     }
   };
-
   return (
-    <div className="flex flex-col border border-gray-200 rounded-md p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300">
+    <div className={` ${location === 'embed' && (theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black')} flex flex-col border  border-gray-200 rounded-md p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 max-w-96`}>
       <div className="flex items-center gap-4 mb-4">
-        <img
-          className="w-12 h-12 rounded-full"
+        {/* <img
+          className="w-16 h-16 rounded-full"
           src={testimonial?.userAvatar}
           alt={testimonial.userName} 
+        /> */}
+        <Image
+          src={testimonial?.userAvatar}
+          alt={testimonial.userName}
+          width={64}
+          height={64}
+          className="rounded-full"
         />
         <div className="flex flex-1 flex-col">
           <span className="font-medium text-lg">{testimonial.userName}</span>
@@ -72,3 +85,5 @@ export function TestimonialCard({ location, testimonial }: {location:string, tes
     </div>
   );
 }
+
+export default TestimonialCard;

@@ -1,7 +1,7 @@
 'use client'
 
 import useSWR from 'swr'
-import { TestimonialCard } from "@/components/TestimonialCard";
+import  TestimonialCard  from "@/components/TestimonialCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect } from 'react';
 import { MultipleSkeletonTestimonialCard } from '@/components/ui/skeletons';
