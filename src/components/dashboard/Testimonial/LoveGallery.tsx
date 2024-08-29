@@ -1,5 +1,3 @@
-// src/app/spaces/[spacename]/[spaceid]/LoveGallery.tsx
-
 import React, { useState } from 'react';
 import LoveGalleryCustomizer from './LoveGalleryCustomizer';
 import { EmbedCodeGenerator } from './EmbedCodeGenerator';

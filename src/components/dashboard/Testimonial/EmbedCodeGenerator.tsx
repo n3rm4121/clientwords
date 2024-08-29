@@ -1,3 +1,4 @@
+// components/embedcodegenerator.tsx
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -27,8 +28,10 @@ export const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
 
 
   // const iframeSrc = `/embed/${spaceId}?theme=${theme}&showLikeButton=${showLikeButton}
-  const iframeSrc = `/embed/${spaceId}?theme=${theme}&layout=${layout}`;
-  const iframeCode = `<iframe src="${iframeSrc}" width="100%" height="500px" frameborder="0"></iframe>`;
+  const iframeSrc = `${process.env.NEXT_PUBLIC_APP_URL}/embed/${spaceId}?theme=${theme}&layout=${layout}`;
+//   const embedUrl = `${process.env.NEXT_PUBLIC_APP_URL}/embed/${spaceId}`;
+
+  const iframeCode = `<iframe src="${iframeSrc}" width="100%"  height="500px" style="border: none;"sandbox="allow-scripts allow-same-origin allow-popups"loading="lazy"referrerpolicy="no-referrer-when-downgrade"</iframe>`;
 
   return (
     <motion.div

@@ -36,7 +36,7 @@ const EmbedPage: React.FC<EmbedPageProps> = ({ params }) => {
     console.log('layout', layout);
 
   const { data, error, isLoading } = useSWR<{ testimonials: ITestimonial[] }>(
-    `/api/love-gallery?spaceId=${spaceId}`,
+    `/api/embed/testimonials?spaceId=${spaceId}`,
     fetcher,
     {
       revalidateOnFocus: false,

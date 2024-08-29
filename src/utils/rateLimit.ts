@@ -83,3 +83,52 @@ export async function testimonialSubmitRateLimit(
 
     return null; // No rate limit error
 }
+
+// Rate limiter for iframe fetching
+export async function iframeFetchRateLimit(request: NextRequest) {
+    // You might want to use domain or user identification if available
+    const domain = request.headers.get('Origin') || 'unknown';
+
+    // Define rate limits
+    const perMinuteLimit = new Ratelimit({
+        redis: redis,
+        limiter: Ratelimit.slidingWindow(30, '1 m'), // Example: 30 requests per minute
+        prefix: 'iframe_fetch_per_minute',
+    });
+
+    const perHourLimit = new Ratelimit({
+        redis: redis,
+        limiter: Ratelimit.slidingWindow(300, '1 h'), // Example: 300 requests per hour
+        prefix: 'iframe_fetch_per_hour',
+    });
+
+    const perDayLimit = new Ratelimit({
+        redis: redis,
+        limiter: Ratelimit.slidingWindow(3000, '1 d'), // Example: 3000 requests per day
+        prefix: 'iframe_fetch_per_day',
+    });
+
+    const limits = [
+        await perMinuteLimit.limit(domain),
+        await perHourLimit.limit(domain),
+        await perDayLimit.limit(domain),
+    ];
+
+    for (const { success, limit, remaining, reset } of limits) {
+        if (!success) {
+            return NextResponse.json(
+                { error: 'Rate limit exceeded. Please try again later.' },
+                {
+                    status: 429,
+                    headers: {
+                        'X-RateLimit-Limit': limit.toString(),
+                        'X-RateLimit-Remaining': remaining.toString(),
+                        'X-RateLimit-Reset': reset.toString(),
+                    },
+                }
+            );
+        }
+    }
+
+    return null; // No rate limit error
+}
