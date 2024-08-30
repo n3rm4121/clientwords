@@ -20,6 +20,8 @@ const loveGallerySchema = new Schema<LoveGallery>({
     spaceId: {
         type: Schema.Types.ObjectId,
         required: true,
+        ref: "Space",
+        index: true,
     },
     createdAt: {
         type: Date,

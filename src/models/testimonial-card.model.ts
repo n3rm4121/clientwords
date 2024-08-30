@@ -18,6 +18,7 @@ const testimonialCardSchema = new Schema<ITestimonialCard>({
         type: Schema.Types.ObjectId,
         ref: 'Space',
         required: true,
+        index: true,
     },
     spaceName: {
         type: String,

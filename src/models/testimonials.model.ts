@@ -33,6 +33,7 @@ const testimonialSchema = new Schema<Testimonial>({
         type: Schema.Types.ObjectId,
         ref: 'Space',
         required: true,
+        index: true,
     },
     createdAt: {
         type: Date,

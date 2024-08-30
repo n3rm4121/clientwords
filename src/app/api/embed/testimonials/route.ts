@@ -59,7 +59,6 @@ export const GET = async (request: NextRequest) => {
         // Cache the fetched data for 5 minutes
         await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
 
-        console.log(testimonials)
         return NextResponse.json({ testimonials }, {
             status: 200,
             headers: { 'Cache-Control': 'public, max-age=300' },
