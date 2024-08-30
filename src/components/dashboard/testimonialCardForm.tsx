@@ -1,5 +1,4 @@
-'use client';
-
+'use client'
 import React, { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -11,14 +10,20 @@ import { z } from 'zod';
 import { useParams } from 'next/navigation';
 import { testimonialCardSchema, avatarSchema } from '@/schemas/validationSchema';
 import { FcAddImage } from 'react-icons/fc';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import useSWR from 'swr';
 
 interface Props {
   isUpdate: boolean;
   spaceId: string;
   setIsNewSpace: React.Dispatch<React.SetStateAction<boolean>>;
 }
+const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace }) => {
+  const { data, error } = useSWR(isUpdate ? `/api/testimonial-card?spaceId=${spaceId}` : null, fetcher, {revalidateOnFocus: false,});
+
   const [companyName, setCompanyName] = useState('Your Company');
   const [companyURL, setCompanyURL] = useState('https://example.com');
   const [companyLogo, setCompanyLogo] = useState<File | null>(null);
@@ -28,56 +33,52 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
   const [loading, setLoading] = useState(false);
   const [logoPreview, setLogoPreview] = useState<string>('/user.png');
   const { name } = useParams();
+  const [initialData, setInitialData] = useState<any>(null);
+  const [hasChanges, setHasChanges] = useState(false);
 
- 
-  
-  useEffect(() =>{
-
-    const fetchTestimonailCard = async () => {
-      try {
-        const res = await axios.get(`/api/testimonial-card?spaceId=${spaceId}`);
-        const { companyName, companyURL, companyLogo, promptText, placeholder } = res.data.testimonialCard;
-        setCompanyName(companyName);
-        setCompanyURL(companyURL);
-        setPromptText(promptText);
-        setPlaceholder(placeholder);
-        setLogoPreview(companyLogo);
-      } catch (error) {
-        console.error('Error fetching testimonial card data', error);
-      }
+  useEffect(() => {
+    if (data && data.testimonialCard) {
+      const { companyName, companyURL, companyLogo, promptText, placeholder } = data.testimonialCard;
+      setCompanyName(companyName);
+      setCompanyURL(companyURL);
+      setPromptText(promptText);
+      setPlaceholder(placeholder);
+      setLogoPreview(companyLogo);   
+      setCompanyLogo(companyLogo);
+      setInitialData({ companyName, companyURL, companyLogo, promptText, placeholder });
     }
+  }, [data]);
 
-    if(isUpdate){
-      fetchTestimonailCard();
-    }
-  }, [spaceId]);
  
   useEffect(() => {
-    if (companyLogo) {
+    if (companyLogo && companyLogo instanceof File) {
       const logoURL = URL.createObjectURL(companyLogo);
       setLogoPreview(logoURL);
       return () => URL.revokeObjectURL(logoURL);
     }
   }, [companyLogo]);
 
+  useEffect(() => {
+    if (initialData) {
+      const currentData = { companyName, companyURL, companyLogo, promptText, placeholder };
+      setHasChanges(JSON.stringify(currentData) !== JSON.stringify(initialData));
+    }
+  }, [companyName, companyURL, companyLogo, promptText, placeholder, initialData]);
 
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setter(e.target.value);
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setter(e.target.value);
+    };
 
   const handleCompanyLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       try {
-        // avatarSchema.parse(file);
-        // setErrors((prev) => ({ ...prev, companyLogo: null }));
         if(file.size > 2 * 1024 * 1024){
           setErrors((prev) => ({ ...prev, companyLogo: 'File size should be less than 2MB' }));
           return;
-        }else if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        } else if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
           setErrors((prev) => ({ ...prev, companyLogo: 'Only jpeg, png, or jpg files are allowed' }));
-          return;
-        }else if(!file){
-          setErrors((prev) => ({ ...prev, companyLogo: 'Company Logo is required' }));
           return;
         }
         
@@ -91,24 +92,50 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
     }
   };
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const createFormData = () => {
     const formData = new FormData();
-    formData.append('companyName', companyName);
-    formData.append('companyURL', companyURL);
-    if(companyLogo){
-        formData.append('companyLogo', companyLogo)
-    }else {
-        setErrors((prev) =>( {...prev, companyLogo: 'Company Logo is required'}))
+  
+    if (companyName !== initialData.companyName) {
+      formData.append('companyName', companyName);
+    }
+    if (companyURL !== initialData.companyURL) {
+      formData.append('companyURL', companyURL);
+    }
+    if (companyLogo instanceof File) {
+      try {
+        const avatar = avatarSchema.parse(companyLogo);
+        formData.append('companyLogo', companyLogo);
+        setErrors((prev) => ({ ...prev, companyLogo: null }));
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          setErrors((prev) => ({ ...prev, companyLogo: error.errors[0].message }));
+        }
         setLoading(false);
         return;
+      }
+    } else if (!companyLogo) {
+      setErrors((prev) => ({ ...prev, companyLogo: 'Company Logo is required' }));
+      setLoading(false);
+      return;
     }
-    formData.append('promptText', promptText);
-    formData.append('placeholder', placeholder);
+    if (promptText !== initialData.promptText) {
+      formData.append('promptText', promptText);
+    }
+    if (placeholder !== initialData.placeholder) {
+      formData.append('placeholder', placeholder);
+    }
     formData.append('spaceId', spaceId);
     formData.append('spaceName', typeof name === 'string' ? name : '');
+  
+    return formData;
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    setLoading(true);
+
+    const formData = createFormData();
 
     try {
       testimonialCardSchema.parse({
@@ -125,14 +152,16 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         setIsNewSpace(false);
-        alert('Form updated successfully!');
+        toast.success('Form updated successfully!');
       } else {
         await axios.post('/api/testimonial-card', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         setIsNewSpace(false);
-        alert('Form submitted successfully!');
+        toast.success('Form submitted successfully!');
       }
+      setInitialData({ companyName, companyURL, companyLogo, promptText, placeholder });
+      setHasChanges(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const errorMessages = error.errors.reduce((acc, curr) => {
@@ -142,7 +171,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
         setErrors(errorMessages);
       } else {
         console.error('Error saving form data', error);
-        alert('An error occurred while submitting the form.');
+        toast.error((error as any).response.data.error);
       }
     } finally {
       setLoading(false);
@@ -151,6 +180,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
 
   return (
     <div>
+      <ToastContainer />
       <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="rounded-md border p-4">
           <div className="space-y-6">
@@ -179,14 +209,20 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
             </div>
             <div>
               <Label htmlFor="companyLogo">Company Logo</Label>
-              <Input
-                id="companyLogo"
-                type="file"
-                accept="image/*"
-                onChange={handleCompanyLogoChange}
-                aria-invalid={errors.companyLogo ? 'true' : 'false'}
-                aria-required="true"  
-              />
+              <div className="flex items-center gap-4">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src={logoPreview} alt="companyLogo" />
+                  <AvatarFallback><FcAddImage size={50} /></AvatarFallback>
+                </Avatar>
+                <Button
+                  variant="outline"
+                  onClick={() => document.getElementById('companyLogo')?.click()}
+                >
+                  {isUpdate ? 'Change Logo' : 'Upload Logo'}
+                </Button>
+              </div>
+        
+              <input type="file" id="companyLogo"  hidden accept="image/*" onChange={handleCompanyLogoChange} />
               {errors.companyLogo && <p className="text-red-500 text-sm">{errors.companyLogo}</p>}
             </div>
             <div>
@@ -212,9 +248,9 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
               {errors.placeholder && <p className="text-red-500 text-sm">{errors.placeholder}</p>}
             </div>
           </div>
-          <Button type="submit" className="mt-4" disabled={loading}>
-            {loading ? 'Saving...' : { isUpdate } ? 'Update' : 'Submit'}
-          </Button>
+          <Button type="submit" className="mt-4" disabled={loading || (isUpdate && !hasChanges)}>
+          {loading ? 'Saving...' : isUpdate ? 'update' : 'Submit'}
+        </Button>
         </div>
 
         <div className="border rounded-md p-4 ">

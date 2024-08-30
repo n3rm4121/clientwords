@@ -1,4 +1,4 @@
-import { TestimonialCard } from "@/components/TestimonialCard";
+import TestimonialCard from "@/components/TestimonialCard";
 
 export const testimonials = [
   {
@@ -75,7 +75,7 @@ export default function Testimonials() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mx-auto max-w-7xl">
        
         {testimonials.map((testimonial, index) => (
-           <TestimonialCard key={index} testimonial={testimonial} />
+           <TestimonialCard key={index} testimonial={testimonial} location="nothing" />
         ))}
       </div>
     </div>

@@ -18,37 +18,37 @@ import {
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import useSWR from 'swr';
+import { MultipleSkeletonSpaceCard } from '../ui/skeletons';
+const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
+
 
 export const ShowSpaces = () => {
+  const [spaces, setSpaces] = useState<any[]>([]);
+  const router = useRouter();
 
-    const [spaces, setSpaces] = useState<any[]>([]);
+  const addSpace = (newSpace: any) => {
+    setSpaces((prevSpaces) => [...(prevSpaces || []), newSpace]);
+  };
 
-    const router = useRouter();
-  
-    const addSpace = (newSpace: any) => {
-  
-      setSpaces((prevSpaces) => [...(prevSpaces || []), newSpace]);
-    };
+  const { data, isLoading, error } = useSWR('/api/space', fetcher);
 
-    useEffect(() => {
-        // fetch spaces
-    
-        const fetchSpaces = async () => {
-          const res = await axios.get('/api/space')
-          setSpaces(res.data.spaces)
-        }
-        
-        fetchSpaces()
-    
-      }, [])
+  useEffect(() => {
+    if (data && data.spaces) {
+      setSpaces(data.spaces);
+    }
+  }, [data]);
+
+  // if (!data) return <div>Loading...</div>;
+  if (error) return <div>Error loading spaces{error}</div>;
 
     return(
 <div className="p-6">
 {/* Dialog for adding a new space */}
 <DialogDemo addSpace={addSpace} />
 
-{/* Grid layout for spaces */}
-<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+{isLoading ? <MultipleSkeletonSpaceCard /> : (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
   {spaces?.length > 0 && spaces.map((space, index) => (
     <div
       
@@ -78,6 +78,9 @@ export const ShowSpaces = () => {
     </div>
   ))}
 </div>
+)}
+
+
 </div>
     )
 }
@@ -96,7 +99,7 @@ function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
       try {
         
         createSpaceSchema.parse({ name });
-        console.log(name);
+       
         const res = await axios.post('/api/space', { name });
   
         addSpace(res.data.space);

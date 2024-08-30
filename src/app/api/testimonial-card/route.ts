@@ -74,70 +74,66 @@ export const  POST = auth(async function POST(request){
 })
 
 
-export const PUT = auth(async function PUT(request){
+export const PUT = auth(async function PUT(request) {
     await dbConnect();
 
-    if(!request.auth){
-        return NextResponse.json({ message: "Not authenticated" }, { status: 401 })
+    if (!request.auth) {
+        return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
     }
 
     try {
-      
         const formData = await request.formData();
-        
-        const companyLogo = formData.get('companyLogo') as File;
-        const fileBuffer = Buffer.from(await companyLogo.arrayBuffer())
-        const cloudinaryResponse = await uploadOnCloudinary(fileBuffer, companyLogo.type);
-        if (!cloudinaryResponse) {
-            return NextResponse.json({error: 'failed to upload image'}, {status: 400})
-          }
-        const cloudinaryURL = cloudinaryResponse.secure_url;
-       
+        const spaceId = formData.get('spaceId') as string;
 
-        const data = {
-            companyName: formData.get('companyName') as string,
-            companyURL: formData.get('companyURL') as string,
-            companyLogo: cloudinaryURL,
-            avatar: formData.get('avatar') as string,
-            promptText: formData.get('promptText') as string,
-            placeholder: formData.get('placeholder') as string,
-            spaceId: formData.get('spaceId') as string,
-            spaceName: formData.get('spaceName')
-        };
-
-        const parsedData = testimonialCardSchema.parse(data);
-     
-        if(!parsedData){
-            return NextResponse.json({error: 'Invalid data'}, {status : 400});
+        const existingTestimonialCard = await TestimonialCard.findOne({ spaceId });
+        if (!existingTestimonialCard) {
+            return NextResponse.json({ message: 'No testimonial card found' }, { status: 404 });
         }
-        
-        const existingTestimonialCard = await TestimonialCard.findOne({spaceId: formData.get('spaceId')});
-        if(!existingTestimonialCard){
-            return NextResponse.json({message: 'No testimonial card found'}, {status: 404})
+
+        const updateData: Partial<typeof existingTestimonialCard> = {};
+
+        // Conditionally update fields
+        if (formData.has('companyName')) updateData.companyName = formData.get('companyName') as string;
+        if (formData.has('companyURL')) updateData.companyURL = formData.get('companyURL') as string;
+        if (formData.has('promptText')) updateData.promptText = formData.get('promptText') as string;
+        if (formData.has('placeholder')) updateData.placeholder = formData.get('placeholder') as string;
+
+        // Handle company logo update
+        if (formData.has('companyLogo')) {
+            const companyLogo = formData.get('companyLogo') as File;
+            const fileBuffer = Buffer.from(await companyLogo.arrayBuffer());
+            const cloudinaryResponse = await uploadOnCloudinary(fileBuffer, companyLogo.type);
+            
+            if (!cloudinaryResponse) {
+                return NextResponse.json({ error: 'Failed to upload image' }, { status: 400 });
+            }
+
+            updateData.companyLogo = cloudinaryResponse.secure_url;
+
+            // Delete the existing image from Cloudinary
+            if (existingTestimonialCard.companyLogo) {
+                const publicId = existingTestimonialCard.companyLogo.split('/').slice(-3).join('/').split('.')[0];
+                await deleteFromCloudinary(publicId);
+            }
         }
-        // delete the existing image from cloudinary
-        // "https://res.cloudinary.com/dekrwkiyp/image/upload/v1724426355/testimonials/companyLogo/uts41rapxwfk3fkullu3.png"
 
-        let publicId = existingTestimonialCard.companyLogo.split('/').slice(-3).join('/').split('.')[0];
-        console.log("publicId: ", publicId);
-        deleteFromCloudinary(publicId);
+        // Validate the update data
+        const parsedData = testimonialCardSchema.partial().parse(updateData);
 
-        existingTestimonialCard.companyName = parsedData.companyName;
-        existingTestimonialCard.companyURL = parsedData.companyURL;
-        existingTestimonialCard.companyLogo = parsedData.companyLogo;
-        existingTestimonialCard.promptText = parsedData.promptText;
-        existingTestimonialCard.placeholder = parsedData.placeholder;
+        // Update the document
+        const updatedTestimonialCard = await TestimonialCard.findOneAndUpdate(
+            { spaceId },
+            { $set: parsedData },
+            { new: true, runValidators: true }
+        );
 
-        await existingTestimonialCard.save();
+        return NextResponse.json({ message: 'Testimonial card updated' });
 
-        return NextResponse.json({message: 'Testimonial card updated', existingTestimonialCard});
-         
     } catch (error) {
         console.error('Testimonial card update error:', error);
-        return NextResponse.json({error: error}, {status : 500});
-        
+        return NextResponse.json({ error: error }, { status: 500 });
     }
-})
+});
 
 
 
