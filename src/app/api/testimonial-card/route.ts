@@ -121,7 +121,7 @@ export const PUT = auth(async function PUT(request) {
         const parsedData = testimonialCardSchema.partial().parse(updateData);
 
         // Update the document
-        const updatedTestimonialCard = await TestimonialCard.findOneAndUpdate(
+        await TestimonialCard.findOneAndUpdate(
             { spaceId },
             { $set: parsedData },
             { new: true, runValidators: true }

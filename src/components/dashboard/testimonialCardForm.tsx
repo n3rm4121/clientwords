@@ -33,7 +33,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
   const [loading, setLoading] = useState(false);
   const [logoPreview, setLogoPreview] = useState<string>('/user.png');
   const { name } = useParams();
-  const [initialData, setInitialData] = useState<any>(null);
+  const [initialData, setInitialData] = useState<any>({});
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
@@ -94,7 +94,13 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
 
   const createFormData = () => {
     const formData = new FormData();
-  
+  // Uncaught (in promise) TypeError: Cannot read properties of null (reading 'companyName')
+  // why? 
+  // because the initialData is null and we are trying to access companyName from it
+  // we can fix this by setting initialData to an empty object
+    // if (!initialData) {
+    //   setInitialData({});
+    // }
     if (companyName !== initialData.companyName) {
       formData.append('companyName', companyName);
     }
@@ -136,6 +142,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
     setLoading(true);
 
     const formData = createFormData();
+  
 
     try {
       testimonialCardSchema.parse({
@@ -154,11 +161,17 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
         setIsNewSpace(false);
         toast.success('Form updated successfully!');
       } else {
-        await axios.post('/api/testimonial-card', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        setIsNewSpace(false);
-        toast.success('Form submitted successfully!');
+        
+        if(!errors || errors.companyLogo === null){
+          await axios.post('/api/testimonial-card', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
+          setIsNewSpace(false);
+          toast.success('Form submitted successfully!');
+        }else{
+          return;
+        }
+       
       }
       setInitialData({ companyName, companyURL, companyLogo, promptText, placeholder });
       setHasChanges(false);
@@ -181,6 +194,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
   return (
     <div>
       <ToastContainer />
+      {!isUpdate && <h1 className="text-2xl text-muted-foreground font-semibold text-center mb-4">Lets Customize and Create Your Message Box</h1>}
       <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="rounded-md border p-4">
           <div className="space-y-6">

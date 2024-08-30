@@ -29,6 +29,7 @@ function Page() {
 
     const [isNewSpace, setIsNewSpace] = useState(false);
     const [error, setError] = useState(false);
+    const [uniqueLink, setUniqueLink] = useState('');
     const { id } = useParams();
     useEffect(() => {
 
@@ -36,6 +37,7 @@ function Page() {
             try {
 
                 const res = await axios.get(`/api/space/${id}`);
+                setUniqueLink(res.data.space.uniqueLink);
                 setIsNewSpace(res.data.space.isNewSpace);
 
             } catch (error) {
@@ -55,6 +57,7 @@ function Page() {
             <TestimonialCardForm isUpdate={false} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} />
         )
     }
+    
     
     if(error) {
         return <NotFoundPage />
@@ -80,7 +83,7 @@ function Page() {
           </CardHeader>
           <CardContent className="space-y-2">
          
-            <DisplayTestimonials location={'testimonials'} spaceId={id.toString()} />
+            <DisplayTestimonials location={'testimonials'} uniqueLink={uniqueLink} spaceId={id.toString()} />
           </CardContent>
         </Card>
       </TabsContent>

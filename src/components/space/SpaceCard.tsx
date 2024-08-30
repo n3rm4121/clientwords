@@ -20,6 +20,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import useSWR from 'swr';
 import { MultipleSkeletonSpaceCard } from '../ui/skeletons';
+import { PlusCircledIcon } from '@radix-ui/react-icons';
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
 
@@ -39,51 +40,72 @@ export const ShowSpaces = () => {
     }
   }, [data]);
 
-  // if (!data) return <div>Loading...</div>;
   if (error) return <div>Error loading spaces{error}</div>;
 
-    return(
-<div className="p-6">
-{/* Dialog for adding a new space */}
-<DialogDemo addSpace={addSpace} />
+  
 
-{isLoading ? <MultipleSkeletonSpaceCard /> : (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
-  {spaces?.length > 0 && spaces.map((space, index) => (
-    <div
-      
-      key={index}
-      className=" bg-blue-400 backdrop-blur-sm bg-opacity-10 border border-blue-500 rounded-lg shadow-lg hover:shadow-xl "
-    >
-      <div className="p-6">
-        {/* Icon for space representation */}
-        <div className="flex justify-center mb-4">
-          <FaBuilding className=" text-3xl" />
-        </div>
-        
-        {/* Space name */}
-        <h2 className="text-xl font-bold  overflow-hidden text-center mb-2">{space.name}</h2>
-        
-        {/* Testimonials count */}
-        <p className="text-center">Total Testimonials Received: <span className="font-semibold">{space.testimonialsCount}</span></p>
-        
-        {/* Optional Call to Action */}
-        <div className="mt-4 flex justify-center">
-          {/* <button className="bg-white text-indigo-500 font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-200">
-            View Details
-          </button> */}
-          <Button onClick={() => router.push(`/dashboard/spaces/${space.name}/${space._id}`)}  variant='outline'>View Details</Button>
-        </div>
-      </div>
+  return (
+    <div className="p-6">
+      {/* Dialog for adding a new space */}
+     {spaces.length != 0 &&  <DialogDemo addSpace={addSpace} />}
+
+      {isLoading ? (
+        <MultipleSkeletonSpaceCard />
+      ) : (
+        <>
+          {spaces.length === 0 ?(
+            <div className="flex flex-col items-center justify-center text-center mt-16">
+              <PlusCircledIcon className="w-24 h-24 text-muted-foreground mb-4" />
+              <h2 className="text-2xl font-bold mb-2">No spaces yet</h2>
+              <p className="text-muted-foreground mb-8 max-w-md">
+                Create your first space to start collecting testimonials.
+              </p>
+             
+              <DialogDemo addSpace={addSpace} />
+             
+            </div>
+          ) : (
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+              {spaces.map((space, index) => (
+                <div
+                  key={index}
+                  className="bg-blue-400 backdrop-blur-sm bg-opacity-10 border border-blue-500 rounded-lg shadow-lg hover:shadow-xl"
+                >
+                  <div className="p-6">
+                    {/* Icon for space representation */}
+                    <div className="flex justify-center mb-4">
+                      <FaBuilding className="text-3xl" />
+                    </div>
+                    
+                    {/* Space name */}
+                    <h2 className="text-xl font-bold overflow-hidden text-center mb-2">
+                      {space.name}
+                    </h2>
+                    
+                    {/* Testimonials count */}
+                    <p className="text-center">
+                      Total Testimonials Received: <span className="font-semibold">{space.testimonialsCount | 0}</span>
+                    </p>
+                    
+                    {/* Optional Call to Action */}
+                    <div className="mt-4 flex justify-center">
+                      <Button onClick={() => router.push(`/dashboard/spaces/${space.name}/${space._id}`)} variant='outline'>
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div>
-  ))}
-</div>
-)}
-
-
-</div>
-    )
+  );
 }
+
+
 
 const createSpaceSchema = z.object({
     name: z.string().max(50, 'Name must be less than 50 characters').min(3, 'Name must be at least 3 characters'),

@@ -3,15 +3,17 @@
 import useSWR from 'swr'
 import  TestimonialCard  from "@/components/TestimonialCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MultipleSkeletonTestimonialCard } from '@/components/ui/skeletons';
 import { ITestimonial } from '@/lib/interface';
 import { FaComments, FaShareAlt } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
+import { CheckCircledIcon, CopyIcon } from '@radix-ui/react-icons';
+import { Textarea } from '@/components/ui/textarea';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // @props location defines the location of testimonail Card
-export default function DisplayTestimonials({ location, spaceId }: {location:string, spaceId: string }) {
+export default function DisplayTestimonials({ location, spaceId, uniqueLink }: {location:string, spaceId: string, uniqueLink: string}) {
   const { data, error, isLoading, mutate } = useSWR<{ testimonials: ITestimonial[] }>(
     `/api/testimonial?spaceId=${spaceId}`,
     fetcher,
@@ -20,7 +22,7 @@ export default function DisplayTestimonials({ location, spaceId }: {location:str
       dedupingInterval: 5000,
     }
   );
-
+  const [copied, setCopied] = useState(false);
   useEffect(() => {
     const eventSource = new EventSource(`/api/sse?spaceId=${spaceId}`);
 
@@ -46,7 +48,16 @@ export default function DisplayTestimonials({ location, spaceId }: {location:str
       eventSource.close();
     };
   }, [spaceId, mutate]);
-
+  
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(uniqueLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
   
 // TODO: share page link 
   if (data?.testimonials.length === 0) {
@@ -59,10 +70,24 @@ export default function DisplayTestimonials({ location, spaceId }: {location:str
         <p className="text-center tracking-tight mb-6 text-muted-foreground  max-w-md">
           Your testimonial gallery is waiting to be filled with customer love. Share your public testimonial page and start collecting amazing feedback!
         </p>
-        <Button>
-          <FaShareAlt className="mr-2" />
-          Share Your Page
+        <div className='flex gap-4 w-min text-center justify-center border rounded-lg p-2'>
+        <div 
+          id='uniqueLink'
+          className="w-full p-5 border-2 border-gray-300 rounded-lg bg-gray-900 text-gray-200 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600"
+         >{uniqueLink}</div>
+        <Button
+          onClick={copyToClipboard}
+          className={` rounded-md focus:outline-none transition-colors duration-200 ${copied ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
+            }`}
+        >
+          {copied ? (
+            <CheckCircledIcon className="w-4 h-4 text-white" />
+          ) : (
+            <CopyIcon className="w-4 h-4 text-white" />
+          )}
+          <span className="ml-2 text-white">{copied ? 'Copied!' : 'Copy'}</span>
         </Button>
+        </div>
       </div>
     );
   }

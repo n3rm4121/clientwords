@@ -15,6 +15,13 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ location, testimonial
   const [isLoved, setIsLoved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isExpanded, setIsExpanded] = useState(false);
+const maxLength = 100; // adjust as needed
+
+const handleToggleExpand = () => {
+  setIsExpanded(!isExpanded);
+};
+
   useEffect(() => {
     if (location === 'testimonials') {
       const fetchLoveGallery = async () => {
@@ -49,18 +56,17 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ location, testimonial
   return (
     <div className={` ${location === 'embed' && (theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black')} flex flex-col border  border-gray-200 rounded-md p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 max-w-96`}>
       <div className="flex items-center gap-4 mb-4">
-        {/* <img
-          className="w-16 h-16 rounded-full"
-          src={testimonial?.userAvatar}
-          alt={testimonial.userName} 
-        /> */}
-        <Image
-          src={testimonial?.userAvatar}
-          alt={testimonial.userName}
-          width={64}
-          height={64}
-          className="rounded-full"
-        />
+    
+        <div className="w-[64px] h-[64px] rounded-full overflow-hidden">
+          <Image
+            src={testimonial?.userAvatar}
+            alt={testimonial.userName}
+            width={64}
+            height={64}
+            className="rounded-full w-full h-full"
+          />
+        </div>
+       
         <div className="flex flex-1 flex-col">
           <span className="font-medium text-lg">{testimonial.userName}</span>
           <span className="text-sm">{testimonial.userIntro}</span>
@@ -81,7 +87,19 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ location, testimonial
           </Tooltip>
         )}
       </div>
-      <p className="italic">{testimonial.message}</p>
+      <div className="text-muted-foreground text-lg font-medium mt-2">
+    {testimonial.message.length > maxLength && !isExpanded
+      ? `${testimonial.message.substring(0, maxLength)}... `
+      : testimonial.message}
+    {testimonial.message.length > maxLength && (
+      <span 
+        className="text-blue-500 cursor-pointer" 
+        onClick={handleToggleExpand}
+      >
+        {isExpanded ? "Show Less" : "Read More"}
+      </span>
+    )}
+  </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import Space from "@/models/space.model";
 import { generateUniqueLink } from "@/utils/generateUniqueLink";
+import { Types } from "mongoose";
 // get all space of user
 export const GET = auth(async function GET(req, ) {
     if (!req.auth) {
@@ -21,8 +22,23 @@ export const GET = auth(async function GET(req, ) {
 
   
     try {
-      const spaces = await Space.find({ owner: user?.id });
-    
+     
+      const userId = new Types.ObjectId(user?.id);
+      const spaces = await Space.aggregate([
+        {
+          $match: {
+            owner: userId
+          }
+        },
+        {
+          $addFields: {
+            testimonialsCount: { $size: "$testimonials" }
+          }
+        }
+      ]);
+
+      console.log(spaces);
+      
       if (spaces.length === 0) {
         return NextResponse.json({ message: "No spaces found" }, { status: 200 });
       }

@@ -5,6 +5,7 @@ import { auth } from '@/auth';
 import { uploadOnCloudinary } from "@/lib/cloudinary";
 import { testimonailSchema } from "@/schemas/validationSchema";
 import { testimonialSubmitRateLimit } from "@/utils/rateLimit";
+import Space from "@/models/space.model";
 
 
 async function uploadUserAvatar(file: File): Promise<string> {
@@ -93,7 +94,14 @@ export async function POST(request: NextRequest) {
 
 
         const newTestimonial = await Testimonial.create(parsedData);
-         
+        
+        // save this newTestimonial's id in space document
+        const space = await Space.findById(parsedData.spaceId);
+        if (!space) {
+            return NextResponse.json({ error: 'Space not found' }, { status: 404 });
+        }
+        space.testimonials.push(newTestimonial._id);
+        await space.save();
 
         if (!newTestimonial) {
             return NextResponse.json({ error: 'Invalid data' }, { status: 400 });

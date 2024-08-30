@@ -121,7 +121,6 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
                 });
             } else {
                 toast.error((error as any).response.data.error);
-                // console.error('Error submitting form data', (error as any).response.data.error);
             }
         } finally {
             setLoading(false);
@@ -133,7 +132,7 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
         return <Thankyou userName={thankyouName} companyURL={testimonialCardData.companyURL}  companyName={testimonialCardData.companyName} />;
     }
     return (
-      <div className="bg-gradient-to-r bg-red-400 from-blue-500 to-purple-500 shadow-lg">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg">
 
         <ToastContainer />
         
