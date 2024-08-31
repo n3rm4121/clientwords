@@ -1,36 +1,28 @@
 'use client'
 import React from 'react';
-import { FaCog } from 'react-icons/fa';
-import { FaRegMessage } from "react-icons/fa6";
-import { TbSpaces } from "react-icons/tb";
 import { GoSignOut } from 'react-icons/go';
 import { Button, buttonVariants } from '../ui/button';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-import { MdOutlineSpaceDashboard } from 'react-icons/md';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
+import { Box, LayoutDashboard, LogOut, MessageSquareHeart, Settings } from 'lucide-react';
 
 const items = [
   {
     title: 'Dashboard',
-    icon: <MdOutlineSpaceDashboard size={30} />,
+    icon: <LayoutDashboard size={25} />,
     link: '/dashboard'
   },
   {
     title: 'Spaces',
-    icon: <TbSpaces size={30} />,  
+    icon: <Box size={25} />,  
     link: '/dashboard/spaces'
   },
   {
-    title: 'Testimonials',
-    icon: <FaRegMessage />,
-    link: '/dashboard/testimonial'
-  },
-  {
     title: 'Settings',
-    icon: <FaCog />,
+    icon: <Settings size={25} />,
     link: '/dashboard/settings'
   }
 ];
@@ -51,7 +43,7 @@ function Sidebar({ isOpen }: { isOpen: boolean }) {
             href={item.link}
             key={index}
             className={cn(buttonVariants({ variant: 'ghost' }), "flex gap-4 w-full px-4 py-2 justify-start hover:text-blue-500", {
-              'text-blue-500 bg-gray-200': isActive,
+              'text-blue-500 bg-slate-200 dark:bg-slate-900 ': isActive,
             
             })}
           >
@@ -65,7 +57,7 @@ function Sidebar({ isOpen }: { isOpen: boolean }) {
       <Separator />
       <Button variant='ghost' className='flex items-center gap-4 hover:text-red-500' onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
         <span className="text-2xl">
-          <GoSignOut />
+          <LogOut size={25} />
         </span>
         <span className=''>Sign Out</span>
       </Button>

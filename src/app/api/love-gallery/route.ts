@@ -21,12 +21,12 @@ export const POST = auth(async function POST(req) {
     try {
         await dbConnect();
         const body = await req.json();
-        const { testimonialId, spaceId } = body;
+        const { testimonialId, spaceId, userId } = body;
         
         const loveGallery = await LoveGallery.findOne({ spaceId });
 
         if(!loveGallery) {
-            const newLoveGallery = await new LoveGallery({ spaceId, testimonials: [testimonialId] });
+            const newLoveGallery = await new LoveGallery({ spaceId, owner: userId, testimonials: [testimonialId] });
             await newLoveGallery.save();
             return NextResponse.json({ message: "Successfully added testimonial to love gallery", isLoved: true }, { status: 200 });
         }

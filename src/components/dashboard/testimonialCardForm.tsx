@@ -17,7 +17,8 @@ import useSWR from 'swr';
 interface Props {
   isUpdate: boolean;
   spaceId: string;
-  setIsNewSpace: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsNewSpace?: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
@@ -94,13 +95,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
 
   const createFormData = () => {
     const formData = new FormData();
-  // Uncaught (in promise) TypeError: Cannot read properties of null (reading 'companyName')
-  // why? 
-  // because the initialData is null and we are trying to access companyName from it
-  // we can fix this by setting initialData to an empty object
-    // if (!initialData) {
-    //   setInitialData({});
-    // }
+
     if (companyName !== initialData.companyName) {
       formData.append('companyName', companyName);
     }
@@ -158,16 +153,21 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
         await axios.put('/api/testimonial-card', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
-        setIsNewSpace(false);
         toast.success('Form updated successfully!');
+        
+        
       } else {
         
         if(!errors || errors.companyLogo === null){
           await axios.post('/api/testimonial-card', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
-          setIsNewSpace(false);
+         
           toast.success('Form submitted successfully!');
+          if (setIsNewSpace) {
+            setIsNewSpace(false);  // Set isNewSpace to false after successful submission
+          }
+            
         }else{
           return;
         }

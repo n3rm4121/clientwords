@@ -1,129 +1,86 @@
-'use client'
-import React, { useState, useEffect } from 'react';
 import TestimonialCardForm from '@/components/dashboard/testimonialCardForm';
-import axios from 'axios';
-import { useParams } from 'next/navigation';
 import DisplayTestimonials from '@/components/dashboard/Testimonial/DisplayTestimonial';
-
-
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-
-  import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-  } from "@/components/ui/tabs"
-import NotFoundPage from '@/app/not-found';
 import LoveGallery from '@/components/dashboard/Testimonial/LoveGallery';
- 
-  
+import dynamic from 'next/dynamic';
+import Space from '@/models/space.model';
+import { Suspense } from 'react';
+// Dynamically import the client components
+const Card = dynamic(() => import('@/components/ui/card').then(mod => mod.Card), { ssr: false });
+const CardContent = dynamic(() => import('@/components/ui/card').then(mod => mod.CardContent), { ssr: false });
+const CardDescription = dynamic(() => import('@/components/ui/card').then(mod => mod.CardDescription), { ssr: false });
+const CardHeader = dynamic(() => import('@/components/ui/card').then(mod => mod.CardHeader), { ssr: false });
+const CardTitle = dynamic(() => import('@/components/ui/card').then(mod => mod.CardTitle), { ssr: false });
 
-function Page() {
+const Tabs = dynamic(() => import('@/components/ui/tabs').then(mod => mod.Tabs), { ssr: false });
+const TabsContent = dynamic(() => import('@/components/ui/tabs').then(mod => mod.TabsContent), { ssr: false });
+const TabsList = dynamic(() => import('@/components/ui/tabs').then(mod => mod.TabsList), { ssr: false });
+const TabsTrigger = dynamic(() => import('@/components/ui/tabs').then(mod => mod.TabsTrigger), { ssr: false });
+const DynamicSpaceWrapper = dynamic(() => import('../../components/DynamicSpaceWrapper'), { ssr: false});
 
-    const [isNewSpace, setIsNewSpace] = useState(false);
-    const [error, setError] = useState(false);
-    const [uniqueLink, setUniqueLink] = useState('');
-    const { id } = useParams();
-    useEffect(() => {
 
-        const fetchSpaceData = async () => {
-            try {
+async function Page({ params }: { params: { id: string } }) {
+  const { id } = params;
 
-                const res = await axios.get(`/api/space/${id}`);
-                setUniqueLink(res.data.space.uniqueLink);
-                setIsNewSpace(res.data.space.isNewSpace);
+  // Fetch space data server-side
+  const space = await Space.findOne({_id: id});
+  const isInitiallyNewSpace = space.isNewSpace;
+  console.log('isInitiallyNewSpace:', isInitiallyNewSpace);
 
-            } catch (error) {
-              console.log(error);
-              if (axios.isAxiosError(error) && error.response?.status === 404) {
-                  setError(true);
-              }
-              
-            }
-
-        }
-        fetchSpaceData();
-    }, [id]);
-
-    if (isNewSpace) {
-        return (
-            <TestimonialCardForm isUpdate={false} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} />
-        )
-    }
-    
-    
-    if(error) {
-        return <NotFoundPage />
-    }
-    return (
-
-        <div>
-            
-<Tabs defaultValue="Testimonials" className="">
+  // Render content based on whether it's a new space or not
+  const content = isInitiallyNewSpace ? (
+    <TestimonialCardForm isUpdate={false} spaceId={id} />
+  ) : (
+    <Tabs defaultValue="Testimonials" className="">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
         <TabsTrigger value="Card">Testimonial Form</TabsTrigger>
         <TabsTrigger value="loveGallery">Love Gallery</TabsTrigger>
       </TabsList>
-     
+
       <TabsContent value="Testimonials">
         <Card>
           <CardHeader>
-            {/* <CardTitle>Testimonials Received</CardTitle>
+            <CardTitle>Testimonials Received</CardTitle>
             <CardDescription>
-                These are the testimonials received for this space.
-             </CardDescription> */}
+              These are the testimonials received for this space.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-         
-            <DisplayTestimonials location={'testimonials'} uniqueLink={uniqueLink} spaceId={id.toString()} />
+            <Suspense fallback={<div>Loading testimonials...</div>}>
+              <DisplayTestimonials params={params} />
+            </Suspense>
           </CardContent>
         </Card>
       </TabsContent>
-
 
       <TabsContent value="Card">
         <Card>
           <CardHeader>
             <CardTitle>Testimonial Form</CardTitle>
             <CardDescription>
-             This is your testimonial form Card for this space. Update the form as needed.
+              This is your testimonial form Card for this space. Update the form as needed.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <TestimonialCardForm isUpdate={true} spaceId={id.toString()} setIsNewSpace={setIsNewSpace} />
-          </CardContent>      
+            <TestimonialCardForm isUpdate={true} spaceId={id} />
+          </CardContent>
         </Card>
-
       </TabsContent>
-
 
       <TabsContent value="loveGallery">
         <Card>
-          <CardHeader> 
-            {/* <CardTitle>Love Gallery</CardTitle>
-            <CardDescription>
-             This is your Love Gallery
-            </CardDescription> */}
-          </CardHeader> 
           <CardContent>
-            <LoveGallery />
-          </CardContent>      
+            <Suspense fallback={<div>Loading love gallery...</div>}>
+              <LoveGallery />
+            </Suspense>
+          </CardContent>
         </Card>
-
       </TabsContent>
-
     </Tabs>
-        
-        </div>
-    );
+  );
+
+  // Wrap the content in a dynamic client-side component
+  return <DynamicSpaceWrapper spaceId={id} initialIsNewSpace={isInitiallyNewSpace}>{content}</DynamicSpaceWrapper>;
 }
 
 export default Page;

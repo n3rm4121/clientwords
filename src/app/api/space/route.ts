@@ -36,8 +36,6 @@ export const GET = auth(async function GET(req, ) {
           }
         }
       ]);
-
-      console.log(spaces);
       
       if (spaces.length === 0) {
         return NextResponse.json({ message: "No spaces found" }, { status: 200 });

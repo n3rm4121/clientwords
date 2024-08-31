@@ -4,6 +4,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 interface TestimonialCardProps {
   location: string;
@@ -16,6 +17,9 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ location, testimonial
   const [isLoading, setIsLoading] = useState(false);
 
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const session = useSession();
+  const userId = session.data?.user?.id;
 const maxLength = 100; // adjust as needed
 
 const handleToggleExpand = () => {
@@ -39,12 +43,14 @@ const handleToggleExpand = () => {
     }
   }, [testimonial._id, testimonial.spaceId, location]);
 
+ 
   const handleCreateLoveGallery = async () => {
     setIsLoading(true);
     try {
       const res = await axios.post('/api/love-gallery', {
         testimonialId: testimonial._id,
         spaceId: testimonial.spaceId,
+        userId: userId,
       });
       setIsLoved(res.data.isLoved);
     } catch (error) {

@@ -22,6 +22,8 @@ export const testimonailSchema = z.object({
     message: "Avatar is required",
   }),
   spaceId: z.string(),
+  owner: z.string().optional(),
+  spaceName: z.string().optional(),
 });
 
 

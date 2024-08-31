@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react';
 import LoveGalleryCustomizer from './LoveGalleryCustomizer';
 import { EmbedCodeGenerator } from './EmbedCodeGenerator';
@@ -10,8 +12,6 @@ const LoveGallery = () =>{
   const spaceId = pathname.split("/")[4]
   const [theme, setTheme] = useState<string>('light');
   const [layout, setLayout] = useState<'carousel' | 'grid'>('grid');
-
-  // const businessId = spaceId; // Assuming businessId is the same as spaceId for simplicity
 
   return (
     <div className='flex flex-col'>

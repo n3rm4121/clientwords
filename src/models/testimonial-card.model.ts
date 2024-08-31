@@ -23,6 +23,7 @@ const testimonialCardSchema = new Schema<ITestimonialCard>({
     spaceName: {
         type: String,
         required: true,
+        index: true,
     },
     companyName: {
         type: String,

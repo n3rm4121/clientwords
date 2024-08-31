@@ -6,6 +6,7 @@ interface LoveGallery extends Document {
         ref: "Testimonial";
     }[];
     spaceId: Schema.Types.ObjectId;
+    owner: Schema.Types.ObjectId;
     createdAt: Date;
 
 }
@@ -22,6 +23,11 @@ const loveGallerySchema = new Schema<LoveGallery>({
         required: true,
         ref: "Space",
         index: true,
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required:true,
     },
     createdAt: {
         type: Date,

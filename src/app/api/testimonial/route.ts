@@ -90,16 +90,21 @@ export async function POST(request: NextRequest) {
             spaceId: formData.get('spaceId') as string,
         };
 
+        // find owner of that spaceId
+        const space = await Space.findById(data.spaceId);
         const parsedData = testimonailSchema.parse(data);
 
-
+        parsedData.owner = space?.owner;
+        parsedData.spaceName = space?.name;
         const newTestimonial = await Testimonial.create(parsedData);
         
         // save this newTestimonial's id in space document
-        const space = await Space.findById(parsedData.spaceId);
+        
         if (!space) {
             return NextResponse.json({ error: 'Space not found' }, { status: 404 });
         }
+
+        
         space.testimonials.push(newTestimonial._id);
         await space.save();
 

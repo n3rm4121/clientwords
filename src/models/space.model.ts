@@ -21,6 +21,7 @@ const spaceSchema = new Schema<Space>({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
+    index: true,
   },
   isNewSpace: {
     type: Boolean,

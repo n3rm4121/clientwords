@@ -88,6 +88,7 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
                 spaceId: testimonialCardData.spaceId,
                 userAvatar
             });
+            console.log("data: ", data);
 
             const newForm = new FormData();
             newForm.append('userName', data.userName);
