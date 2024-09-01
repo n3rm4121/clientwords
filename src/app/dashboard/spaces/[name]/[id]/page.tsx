@@ -22,7 +22,7 @@ async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
 
   // Fetch space data server-side
-  const space = await Space.findOne({_id: id});
+  const space = await Space.findById(id).exec();
   const isInitiallyNewSpace = space.isNewSpace;
   console.log('isInitiallyNewSpace:', isInitiallyNewSpace);
 

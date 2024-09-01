@@ -20,7 +20,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ location, testimonial
 
   const session = useSession();
   const userId = session.data?.user?.id;
-const maxLength = 100; // adjust as needed
+  const maxLength = 100; // adjust as needed
 
 const handleToggleExpand = () => {
   setIsExpanded(!isExpanded);
@@ -60,7 +60,7 @@ const handleToggleExpand = () => {
     }
   };
   return (
-    <div className={` ${location === 'embed' && (theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black')} flex flex-col border  border-gray-200 rounded-md p-6 shadow-lg hover:shadow-2xl transition-shadow duration-300 max-w-96`}>
+    <div className={` ${location === 'embed' && (theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black')} flex flex-col border  border-blue-600 rounded-md p-6 shadow-lg h-auto max-w-[500]px`}>
       <div className="flex items-center gap-4 mb-4">
     
         <div className="w-[64px] h-[64px] rounded-full overflow-hidden">
@@ -93,7 +93,7 @@ const handleToggleExpand = () => {
           </Tooltip>
         )}
       </div>
-      <div className="text-muted-foreground text-lg font-medium mt-2">
+      <div className=" mt-2">
     {testimonial.message.length > maxLength && !isExpanded
       ? `${testimonial.message.substring(0, maxLength)}... `
       : testimonial.message}

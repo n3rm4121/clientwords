@@ -76,7 +76,6 @@ export const GET = auth(async function GET(req) {
             return NextResponse.json({ testimonials: [] }, { status: 200 });
         }
 
-        
         const testimonials = await Testimonial.find({ _id: { $in: loveGallery.testimonials } });
 
         return NextResponse.json({ testimonials, lovedIds: loveGallery.testimonials }, { status: 200 });

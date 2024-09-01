@@ -38,8 +38,8 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ spaceId, theme, layou
   return (
     <div className="h-full p-4 w-full overflow-hidden">
       {layout === 'carousel'? (
-        <div className="h-full max-w-xs md:max-w-screen-md">
-          <TestimonialCarousel testimonials={testimonials} theme={theme} />
+        <div className="h-full max-w-xs md:max-w-4xl">
+          <TestimonialCarousel testimonials={testimonials} theme={theme}/>
         </div>
     
       ) : (

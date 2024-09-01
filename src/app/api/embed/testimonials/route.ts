@@ -31,21 +31,19 @@ export const GET = async (request: NextRequest) => {
 
         // Attempt to retrieve cached data
         const cachedTestimonials = await redis.get(cacheKey);
-        console.log('cachedTestimonials', cachedTestimonials);
-
+       
+          
         if (cachedTestimonials) {
-            console.log('Cache hit');
-            // Parse the cached string into JSON
-            const parsedTestimonials = JSON.parse(cachedTestimonials.toString());
-
-            return NextResponse.json(parsedTestimonials, {
+            console.log("cachedTestimonials", cachedTestimonials);
+            return NextResponse.json(cachedTestimonials, {
                 status: 200,
                 headers: { 'Cache-Control': 'public, max-age=300' },
             });
         }
+        
 
         // If cache miss, fetch data from MongoDB
-        console.log('Cache miss');
+      
         const loveGallery = await LoveGallery.findOne({ spaceId })
         .sort({ createdAt: -1 })
         .limit(limit);

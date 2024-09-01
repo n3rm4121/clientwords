@@ -1,7 +1,6 @@
-// src/components/TestimonialCarousel.tsx
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ITestimonial } from '@/lib/interface';
 import TestimonialCard from '@/components/TestimonialCard';
 import Slider from 'react-slick';
@@ -14,58 +13,63 @@ interface TestimonialCarouselProps {
 }
 
 const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials, theme }) => {
- 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3, // Show 3 slides by default
-    slidesToScroll: 1, // Scroll 1 slide at a time
-    autoplay: true,
-    autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3, // Show 3 slides on medium-large screens
-          slidesToScroll: 3,
+  // console.log('testimonials:', testimonials);
+  const settings = useMemo(() => {
+    const slidesToShow = Math.min(testimonials?.length, 3);
+    return {
+      dots: true,
+      infinite: testimonials?.length > 1,
+      speed: 500,
+      slidesToShow: slidesToShow,
+      slidesToScroll: 1,
+      autoplay: testimonials?.length > 1,
+      autoplaySpeed: 3000,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: Math.min(testimonials?.length, 3),
+            slidesToScroll: 1,
+          },
         },
-      },
-      {
-        breakpoint: 820,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
+        {
+          breakpoint: 820,
+          settings: {
+            slidesToShow: Math.min(testimonials?.length, 2),
+            slidesToScroll: 1,
+          },
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2, // Show 2 slides on tablets
-          slidesToScroll: 1,
+        {
+          breakpoint: 540,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
         },
-      },
-      {
-        breakpoint: 540,
-        settings: {
-          slidesToShow: 1, // Show 3 slides on medium-large screens
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1, // Show 1 slide on small screens
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+      ],
+    };
+  }, [testimonials]);
+
+  if (testimonials?.length === 0) {
+    return null;
+  }
+
+  if (testimonials?.length === 1) {
+    return (
+      <div className="w-full mx-auto p-2">
+        <TestimonialCard
+          location="embed"
+          testimonial={testimonials[0]}
+          theme={theme}
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className='slider-container p-2'>
-      <Slider {...settings}>
-        {testimonials.map((testimonial) => (
+    <div className='slider-container max-w-xs p-4 md:p-8 lg:p-4 md:max-w-full bg-transparent'>
+      <Slider {...settings} >
+        {testimonials?.map((testimonial) => (
           <div key={testimonial._id} className="px-2">
             <TestimonialCard
               location="embed"
