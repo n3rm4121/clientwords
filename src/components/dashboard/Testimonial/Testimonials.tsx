@@ -55,10 +55,10 @@ export default function Testimonials({
 
   if (error) return <div>Failed to load testimonials</div>
   if (isLoading) return <MultipleSkeletonTestimonialCard />
-  if(data?.testimonials.length === 0) return <EmptyState uniqueLink={uniqueLink}/>
-
+  
     return (
         <div>
+          {data?.testimonials.length === 0 && <EmptyState uniqueLink={uniqueLink} />}
               <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 mx-auto max-w-7xl">
              {data?.testimonials.map((testimonial) => (
                <div key={testimonial._id} className="break-inside-avoid mb-6">

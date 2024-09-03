@@ -13,11 +13,12 @@ import ActiveLoveGallery from './components/activeLoveGalleries';
 export default async function DashboardPage() {
  
   const session = await auth();
+  console.log("session from dashboard: ", session);
   if(!session) return null;
   const userId = session.user?.id;
 
   return (
-    <div className="p-8">
+    <div>
      
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
     

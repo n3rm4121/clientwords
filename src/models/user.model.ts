@@ -7,13 +7,8 @@ interface User extends Document {
     password: string;
     createdAt: Date;
     updatedAt: Date;
-    isVerfied: boolean;
-    isAdmin: boolean;
+    isVerified: boolean;
     isProUser: boolean;
-    verifyToken: string;
-    verifyTokenExpires: Date;
-    forgetPasswordToken: string;
-    forgetPasswordTokenExpires: Date;
     authProviderId: string;
     authProvider: string;
     spaces: Schema.Types.ObjectId[];
@@ -31,22 +26,9 @@ const userSchema = new Schema<User>({
         type: String,
         required: true,
         unique: true,
+        index: true
     },
-    password: {
-        type: String,
-
-        required: function() {
-                return this.authProvider === 'credentials';
-              },
-        select: false,
-    },
-    isVerfied: {
-        type: Boolean,
-        default: function() {
-            return this.authProvider != 'credentials';
-        }
-    },
-    isAdmin: {
+    isVerified: {
         type: Boolean,
         default: false,
     },
@@ -54,25 +36,12 @@ const userSchema = new Schema<User>({
         type: Boolean,
         default: false,
     },
-    verifyToken: {
-        type: String,
-    },
-    verifyTokenExpires: {
-        type: Date,
-    },
-    forgetPasswordToken: {
-        type: String,
-    },
-    forgetPasswordTokenExpires: {
-        type: Date,
-    },
     authProviderId: {
         type: String,
     },
     authProvider: {
         type: String,
-        enum: ['google', 'github', 'credentials'],
-        default: 'credentials',
+        enum: ['google', 'github'],
       },
       spaces: [
         {

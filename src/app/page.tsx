@@ -1,8 +1,9 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { Navbar } from "@/components/Navbar";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { FaChartLine, FaClone, FaCode, FaFacebookF, FaLinkedinIn, FaRocket, FaTwitter } from "react-icons/fa";
 import Link from "next/link";
+import { MoveUpRight } from "lucide-react";
 
 
 const perks = [
@@ -33,8 +34,8 @@ export default function LandingPage() {
 
         {/* Hero Section */}
         <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
-          <h1 className="text-4xl tracking-tight font-bold sm:text-6xl">
-            Turn Your <span className="text-yellow-400">Customer's Love</span> {' '}
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+            Turn Your Customer's<span className="text-red-600"> Love</span> {' '}
             into Powerful  <span className="text-blue-600">Social Proof.</span>
           </h1>
 
@@ -48,12 +49,17 @@ export default function LandingPage() {
           </div>
 
 
-          <div className="flex flex-col items-center justify-center sm:flex-row gap-4 mt-6">
-            <Link href="/dashboard" className={buttonVariants()}>
-              Get Testimonials Now
-            </Link>
+          <Link
+            href="/dashboard"
+            className="border-gray-500 border  font-semibold py-3 px-8 rounded-full  hover:shadow-teal-400/70 hover:shadow-lg transition-all duration-300"
+          >
+            It's free. Sign up now 🚀
+          </Link>
 
-          </div>
+
+
+
+
         </div>
 
 
@@ -88,7 +94,7 @@ export default function LandingPage() {
 
       {/* Pricing Section */}
 
-      <section id="pricing" className="py-24">
+      {/* <section id="pricing" className="py-24">
         <MaxWidthWrapper className="mb-8 text-center max-w-5xl">
           <div className="mx-auto mb-10 sm:max-w-xl">
             <h2 className="text-4xl tracking-tight font-bold sm:text-6xl mb-10">
@@ -96,7 +102,7 @@ export default function LandingPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
 
-              {/* Starter Plan */}
+             
               <div className="shadow-xl border border-blue-500 rounded-lg transform transition-transform    hover:shadow-2xl">
                 <div className="p-8">
                   <h3 className="text-2xl font-bold mb-4 text-blue-700">Starter</h3>
@@ -120,7 +126,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Pro Plan */}
+             
               <div className="bg-gradient-to-b from-blue-600 to-teal-500 text-white shadow-xl rounded-lg transform transition-transform hover:shadow-2xl border-2 border-blue-700">
                 <div className="p-8">
                   <h3 className="text-2xl font-bold mb-4">Pro</h3>
@@ -150,7 +156,26 @@ export default function LandingPage() {
             </div>
           </div>
         </MaxWidthWrapper>
+      </section> */}
+
+
+      {/* Beta Signup Section */}
+      <section id="login" className="py-24">
+        <MaxWidthWrapper className="mb-8 text-center max-w-5xl">
+          <div className="mx-auto mb-10 sm:max-w-xl">
+            <h2 className="text-4xl tracking-tight font-bold sm:text-6xl mb-10">
+              Join Our Beta Program
+            </h2>
+            <p className="mt-6 max-w-prose text-lg text-muted-foreground tracking-tight mb-8">
+              Be among the first to experience TestiBoost and help shape its future. Sign up now for early access and exclusive benefits.
+            </p>
+            <Link href="/login" className={`${buttonVariants({ size: 'lg' })} block w-full text-center`}>
+              Sign Up for Beta Access
+            </Link>
+          </div>
+        </MaxWidthWrapper>
       </section>
+
 
 
       {/* Footer Section */}

@@ -45,7 +45,7 @@ export const ShowSpaces = () => {
   
 
   return (
-    <div className="p-6">
+    <div>
       {/* Dialog for adding a new space */}
      {spaces.length != 0 &&  <DialogDemo addSpace={addSpace} />}
 
@@ -72,7 +72,7 @@ export const ShowSpaces = () => {
                   key={index}
                   className="bg-blue-400 backdrop-blur-sm bg-opacity-10 border border-blue-500 rounded-lg shadow-lg hover:shadow-xl"
                 >
-                  <div className="p-6">
+                  <div className="px-2 py-4 max-w-sm">
                     {/* Icon for space representation */}
                     <div className="flex justify-center mb-4">
                       <FaBuilding className="text-3xl" />

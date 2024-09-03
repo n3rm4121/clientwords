@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '@/components/dashboard/Sidebar';
 import Navbar from '@/components/dashboard/Navbar';
+import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 
@@ -26,12 +27,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     };
 
     return (
+        <MaxWidthWrapper>
         <div className="flex min-h-screen">
             {/* Sidebar */}
             <Sidebar isOpen={isOpen} />
 
             {/* Main Content Area */}
-            <div className={`flex-1 transition-all duration-300 ${isOpen ? 'lg:ml-44' : 'ml-0'}`}>
+            <div className={`flex-1 transition-all duration-300`}>
                 {/* Navbar */}
                 <Navbar handleToggle={handleToggle} />
 
@@ -46,5 +48,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             </div>
         </div>
+        </MaxWidthWrapper>
     );
 }

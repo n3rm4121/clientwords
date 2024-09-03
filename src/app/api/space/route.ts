@@ -12,14 +12,13 @@ export const GET = auth(async function GET(req, ) {
   
     const user = req.auth?.user;
 
+    // console.log("user from space route: ", user);
     await dbConnect();
 
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-
-
   
     try {
      
