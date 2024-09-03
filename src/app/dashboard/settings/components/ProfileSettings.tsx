@@ -6,6 +6,8 @@ import { Loader2, User } from "lucide-react";
 import { useSession } from "next-auth/react";
 import React, { useState, useEffect } from 'react';
 import { updateName } from "../../action";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
 
 export default function ProfileSettings() {
     const { data: session } = useSession();
@@ -40,13 +42,13 @@ export default function ProfileSettings() {
         setLoading(false);
     };
     return (
-        <div className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4 flex items-center">
+        <Card className="mb-12 p-4">
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
                 <User className="mr-3 text-blue-600" /> Profile Settings
             </h2>
             <div className="space-y-4">
                 <div className="flex flex-col space-y-2">
-                    <label className="text-gray-700 font-medium">Name</label>
+                    <Label>Name</Label>
                     <Input
                         disabled={!isEditing || loading}
                         type="text"
@@ -74,7 +76,7 @@ export default function ProfileSettings() {
                     </div>
                 </div>
                 <div className="flex flex-col space-y-2">
-                    <label className="text-gray-700 font-medium">Email</label>
+                    <Label>Email</Label>
                     <Input
                         type="email"
                         className="mt-1"
@@ -83,6 +85,6 @@ export default function ProfileSettings() {
                     />
                 </div>
             </div>
-        </div>
+        </Card>
     )
 }

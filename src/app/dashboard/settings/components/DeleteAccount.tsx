@@ -15,6 +15,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
+import { Card } from '@/components/ui/card';
 
 export default function DeleteAccount() {
     const { data: session } = useSession();
@@ -27,15 +28,15 @@ export default function DeleteAccount() {
     };
 
     return (
-        <section className="mb-12">
-            <h2 className="text-2xl font-semibold mb-4 flex items-center">
-                <Trash className="mr-3 text-red-600" /> Delete Account
+        <Card className="mb-12 p-4">
+            <h2 className="text-lg font-semibold mb-4 flex items-center">
+                <Trash className="mr-3 text-red-600" /> Danger Zone
             </h2>
             <div className="space-y-4">
-                <p className="text-gray-700">
+                {/* <p className="text-gray-700">
                     Deleting your account will remove all of your data from our system.
                     This action is irreversible.
-                </p>
+                </p> */}
 
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -58,6 +59,6 @@ export default function DeleteAccount() {
                 </AlertDialog>
 
             </div>
-        </section>
+        </Card>
     );
 }

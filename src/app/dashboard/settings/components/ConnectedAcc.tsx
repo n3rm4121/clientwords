@@ -4,6 +4,7 @@ import { Loader2, Link, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { disconnectOAuth } from '../../action';
+import { Card } from '@/components/ui/card';
 
 
 
@@ -34,8 +35,8 @@ export default function ConnectedAcc() {
   }, [session]);
 
     return (
-        <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4 flex items-center">
+        <Card className="mb-12 p-4">
+        <h2 className="text-lg font-semibold mb-4 flex items-center">
           <User className="mr-3 text-purple-600" /> Connected Accounts
         </h2>
         {oauthAccounts.length > 0 && (
@@ -62,6 +63,6 @@ export default function ConnectedAcc() {
             ))}
           </div>
         )}
-      </section>
+      </Card>
     );
 }
