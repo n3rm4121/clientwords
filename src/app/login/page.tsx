@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
@@ -9,7 +9,12 @@ import Link from 'next/link'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
-
+  const session = useSession();
+ useEffect(() => {
+  if(session.data){
+    window.location.href = '/dashboard'
+  }
+ },[session])
   const handleProviderSignIn = async (provider: 'google' | 'github') => {
     setIsLoading(true)
     try {

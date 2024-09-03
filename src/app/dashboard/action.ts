@@ -1,8 +1,13 @@
 'use server'
 
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
+import dbConnect from "@/lib/dbConnect";
+import LoveGallery from "@/models/loveGallery.model";
 import Space from "@/models/space.model";
-import { Types } from "mongoose";
+import TestimonialCard from "@/models/testimonial-card.model";
+import User from "@/models/user.model";
+import mongoose, { Types } from "mongoose";
+import { redirect } from "next/navigation";
 
 export async function fetchSpaceData() {
   try {
@@ -39,5 +44,46 @@ export async function fetchSpaceData() {
   } catch (error) {
     console.error("Error fetching space data:", error);
     throw error;
+  }
+}
+// Update the user's name
+export async function updateName(userId: string, newName: string) {
+  await dbConnect();
+
+  const user = await User.findByIdAndUpdate(userId, { name: newName }, { new: true });
+  return user?.name;
+}
+
+// Delete the user's account
+export async function deleteAccount(userId: string) {
+  await dbConnect();
+
+  try {
+    // delete everything related to this user from all models collectoin
+    const spaceId = await Space.findOne({ owner: userId }).select('_id').exec();
+    await TestimonialCard.deleteMany({ spaceId });
+    await Space.deleteMany({ owner: userId });
+    await LoveGallery.deleteMany({ owner: userId });
+    await User.findByIdAndDelete(userId);
+    signOut();
+    
+  } catch (error) {
+    console.error("Error deleting user account:", error);
+    throw error;
+    
+  }
+}
+
+// Disconnect an OAuth provider from the user's account
+export async function disconnectOAuth(userId: string, provider: string) {
+  await dbConnect();
+
+  try {
+    await User.findByIdAndUpdate(userId, { $pull: { oauthAccounts: { provider } } });
+
+  } catch (error) {
+    console.error("Error disconnecting OAuth provider:", error);
+    throw error
+    
   }
 }

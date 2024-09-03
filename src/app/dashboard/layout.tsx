@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {/* Main Content */}
 
                 <main className={`pt-16`}>
-                    <div className={`p-4 ${isOpen && 'blur-lg lg:blur-none'} lg:blur-none`}>
+                    <div className={`p-4`}>
                         {children}
                     </div>
                 </main>

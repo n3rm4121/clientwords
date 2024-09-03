@@ -79,37 +79,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     signIn: async ({ user, account }) => {
       await dbConnect();
+    
+      const { email, name, image } = user;
+      const providerAccountId = account?.providerAccountId as string;
+      const provider = account?.provider as string;
+    
+      try {
+        let existingUser = await User.findOne({ email });
+    
+        if (existingUser) {
+          // Check if this OAuth provider is already linked
+         
+            const oauthAccount = existingUser.oauthAccounts.find( (acc: { provider: string; providerAccountId: string; }) => acc.provider === provider && acc.providerAccountId === providerAccountId);
 
-      if (account?.provider === 'google' || account?.provider === 'github') {
-        console.log("user: " , user);
-        const { email, name, image, id } = user;
-
-        try {
-          const existingUser = await User.findOne({ email });
-
-          if (!existingUser) {
-            const newUser = new User({
-              email,
-              authProviderId: id,
-              authProvider: account.provider as string,
-              name,
-              image,
-              isVerified: true,
-            });
-            await newUser.save();
-
+          if (!oauthAccount) {
+            // Add new OAuth provider to the existing user
+            existingUser.oauthAccounts.push({ provider, providerAccountId });
+            await existingUser.save();
           }
-
-          return true;
-
-        } catch (error) {
-          console.log("Error during OAuth sign-in:", error);
-          return false;
+    
+        } else {
+          // Create a new user with the OAuth account
+          existingUser = new User({
+            email,
+            name,
+            image,
+            isVerified: true,
+            oauthAccounts: [{ provider, providerAccountId }],
+          });
+          await existingUser.save();
         }
-
-      } else {
+    
+        return true;
+    
+      } catch (error) {
+        console.log("Error during OAuth sign-in:", error);
         return false;
       }
     },
+    
   },
 });

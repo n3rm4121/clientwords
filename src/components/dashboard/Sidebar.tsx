@@ -32,7 +32,7 @@ function Sidebar({ isOpen }: { isOpen: boolean }) {
 
   return (
     <div className={cn(
-        "fixed z-50 top-0 left-0 mt-16 lg:hidden flex flex-col items-start space-y-6 py-4 px-2 shadow-lg transition-all duration-300 h-full overflow-y-auto", 
+        "fixed z-50 top-0 left-0 mt-16 lg:hidden flex flex-col items-start space-y-6 py-4 px-2 shadow-lg transition-all duration-300 h-full overflow-y-auto bg-slate-100 dark:bg-slate-950",   
         { 'w-50': isOpen, 'w-0 p-0 m-0': !isOpen } 
       )}
     >
