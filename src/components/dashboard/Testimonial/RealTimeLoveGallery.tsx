@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ITestimonial } from '@/lib/interface';
 import TestimonialCard from '@/components/TestimonialCard';
 import TestimonialCarousel from '@/components/iframeLayout/carousel';
+import { Card } from '@/components/ui/card';
 // TODO: css in mobile view while option crousel is selected
 interface RealTimePreviewProps {
   spaceId: string;
@@ -36,7 +37,8 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ spaceId, theme, layou
   }, [spaceId]);
 
   return (
-    <div className="h-full p-4 w-full overflow-hidden">
+    <Card className="h-full p-4 w-full overflow-hidden">
+      <h2 className="text-xl font-semibold">Preview</h2>
       {layout === 'carousel'? (
         <div className="h-full max-w-xs md:max-w-4xl">
           <TestimonialCarousel testimonials={testimonials} theme={theme}/>
@@ -54,7 +56,7 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ spaceId, theme, layou
           ))}
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 

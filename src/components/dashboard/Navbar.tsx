@@ -20,6 +20,7 @@ import {
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { signOut, useSession } from "next-auth/react";
+import { Badge } from "../ui/badge";
 
 
 export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
@@ -34,8 +35,18 @@ export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
         <nav className="fixed border-b border-gray-200 backdrop-filter backdrop-blur-lg inset-x-0 top-0 z-50 w-full h-16  flex items-center justify-between px-4">
             <div className="flex  justify-center text-center gap-3">
                 <div className="cursor-pointer items-center justify-center flex lg:hidden" onClick={handleToggle}><FaBars /></div>
-                <Link href='/' className="text-xl font-semibold text-center">TestiBoost</Link>
-
+                <div className="flex justify-center gap-4 items-center h-16">
+              <div className="relative inline-flex items-center">
+                <Link href="/" className="flex-shrink-0">
+                  <Image src='/lastremovebg.png' width={200} height={200} alt='ClientWords' />
+                </Link>
+                <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                  Beta
+                </Badge>
+              </div>
+            </div>
+            </div>
+          
                 <div  className="hidden lg:flex items-center justify-center  gap-4">
                 {dashboardNavItems.map((item, index) => {
                     const isActive = pathname === item.link;
@@ -46,7 +57,7 @@ export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
                     );
                 }
                 )}
-            </div>
+           
             </div>
 
            <div>

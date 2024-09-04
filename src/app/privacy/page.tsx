@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col items-center p-4">
       <div className="w-full max-w-4xl space-y-8 py-8">
         <h1 className="text-4xl font-bold text-center mb-8">
-          <span className="text-indigo-400">testiBoost</span> Privacy Policy
+          <span className="text-indigo-400">Client Words</span> Privacy Policy
         </h1>
 
         <section className="space-y-4">
@@ -64,7 +64,7 @@ export default function PrivacyPolicy() {
 
         <div className="mt-12 text-center">
             {/* TODO: */}
-          <p className="mb-4">Last updated: [Insert Date]</p>
+          <p className="mb-4">Last updated: 09-04-2024</p>
           <Button asChild>
             <Link href="/">Return to Home</Link>
           </Button>

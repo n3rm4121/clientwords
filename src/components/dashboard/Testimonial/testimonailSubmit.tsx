@@ -13,6 +13,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FcAddImage } from "react-icons/fc";
 import { Thankyou } from "./ThankYou";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITestimonialCard }) => {
     const [userName, setUsername] = useState<string>('');
@@ -139,7 +141,14 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
         
         {/* Fixed Header */}
         <div className="fixed p-6 top-0 left-0 w-full z-10 ">
-            <Link className="text-2xl text-black font-bold" href="/">TestiBoost</Link>
+        <div className="relative inline-flex items-center">
+                <Link href="/" className="flex-shrink-0">
+                  <Image src='/lastremovebg.png' width={200} height={200} alt='ClientWords' />
+                </Link>
+                <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                  Beta
+                </Badge>
+              </div>
         </div>
     
         {/* Main Content */}

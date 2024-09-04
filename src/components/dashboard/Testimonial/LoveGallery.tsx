@@ -5,6 +5,7 @@ import LoveGalleryCustomizer from './LoveGalleryCustomizer';
 import { EmbedCodeGenerator } from './EmbedCodeGenerator';
 import { usePathname } from 'next/navigation';
 import RealTimePreview from './RealTimeLoveGallery';
+import { Card } from '@/components/ui/card';
 
 const LoveGallery = () =>{
   const pathname = usePathname();
@@ -14,7 +15,7 @@ const LoveGallery = () =>{
   const [layout, setLayout] = useState<'carousel' | 'grid'>('grid');
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col gap-4'>
       {/* Customizer */}
       <LoveGalleryCustomizer
         theme={theme}
@@ -25,11 +26,10 @@ const LoveGallery = () =>{
       />
 
       {/* Preview Section */}
-      <div className=" my-6 border rounded-lg overflow-hidden">
-        <h2 className="text-xl mb-4  font-semibold">Preview</h2>
+  
         <RealTimePreview spaceId={spaceId} theme={theme} layout={layout} />
         
-      </div>
+     
 
       {/* Embed Code Generator */}
       <EmbedCodeGenerator

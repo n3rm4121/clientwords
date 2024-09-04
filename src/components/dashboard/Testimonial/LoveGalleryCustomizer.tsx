@@ -1,6 +1,8 @@
 'use client'
 
+import { Card } from '@/components/ui/card';
 import React from 'react';
+import { Label } from '@/components/ui/label';
 
 interface LoveGalleryCustomizerProps {
   theme: string;
@@ -16,12 +18,12 @@ const LoveGalleryCustomizer: React.FC<LoveGalleryCustomizerProps> = ({
     setLayout
 }) => {
   return (
-    <div className="mb-6 p-4 border rounded-lg  ">
-      <h2 className="text-xl font-semibold mb-4">Customize Your Love Gallery</h2>
+    <Card className="mb-6 mt-4 p-4 ">
+      <h2 className="text-xl mb-2 font-semibold">Customize</h2>
 
       {/* Theme Selection */}
       <div className="mb-4">
-        <label className="mr-2 font-medium">Theme:</label>
+        <Label className="mr-2 font-medium">Theme:</Label>
         <select
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
@@ -34,7 +36,7 @@ const LoveGalleryCustomizer: React.FC<LoveGalleryCustomizerProps> = ({
 
       {/* Layout Selection */}
        <div className="mb-4">
-            <label className="mr-2 font-medium">Layout:</label>
+            <Label className="mr-2 font-medium">Layout:</Label>
             <select
             value={layout}
             onChange={(e) => setLayout(e.target.value as 'carousel' | 'grid')}
@@ -46,7 +48,7 @@ const LoveGalleryCustomizer: React.FC<LoveGalleryCustomizerProps> = ({
             </select>
         </div>
 
-    </div>
+    </Card>
   );
 };
 

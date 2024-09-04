@@ -12,8 +12,8 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 export const metadata: Metadata = {
-  title: "TestiBoost - Amplify Your Success with Customer Stories",
-  description: "Elevate your business credibility with TestiBoost - the smart way to collect, manage, and showcase powerful customer testimonials",
+  title: "ClientWords - Amplify Your Success with Customer Words",
+  description: "Elevate your business credibility with CustomerWords - the smart way to collect, manage, and showcase powerful customer testimonials",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
