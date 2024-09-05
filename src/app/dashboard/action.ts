@@ -5,6 +5,7 @@ import dbConnect from "@/lib/dbConnect";
 import LoveGallery from "@/models/loveGallery.model";
 import Space from "@/models/space.model";
 import TestimonialCard from "@/models/testimonial-card.model";
+import Testimonial from "@/models/testimonials.model";
 import User from "@/models/user.model";
 import mongoose, { Types } from "mongoose";
 import { redirect } from "next/navigation";
@@ -85,5 +86,53 @@ export async function disconnectOAuth(userId: string, provider: string) {
     console.error("Error disconnecting OAuth provider:", error);
     throw error
     
+  }
+}
+
+export async function completeOnboarding(userId: string) {
+  await dbConnect();
+
+  try {
+    await User.findByIdAndUpdate(userId, { isNewUser: false });
+  }
+  catch (error) {
+    console.error("Error completing onboarding:", error);
+    throw error;
+  }
+}
+
+export async function deleteSpace(spaceId: string) {
+  await dbConnect();
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  try {
+    const space = Space.findById(spaceId);
+
+    await LoveGallery.deleteMany({ spaceId });
+    await TestimonialCard.deleteMany({ spaceId });
+    await Testimonial.deleteMany({ spaceId });
+    await Space.findByIdAndDelete(spaceId);
+    await User.findByIdAndUpdate(userId, { $pull: { spaces: spaceId } });
+    await space.deleteOne();
+
+    console.log("Space deleted:", spaceId);
+  } catch (error) {
+    console.error("Error deleting space:", error);
+    throw error;
+  }
+}
+
+
+export async function getUserSpaceCount(userId: string) {
+  await dbConnect();
+
+  try {
+    const count = await Space.countDocuments({ owner: userId });
+    console.log("count: ", count);
+    return count;
+  } catch (error) {
+    console.error("Error getting space count:", error);
+    throw error;
   }
 }

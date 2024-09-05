@@ -62,7 +62,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.email = user.email;
         token.name = dbUser.name;
         token.image = dbUser.image;
-        
+        token.isProUser = dbUser.isProUser
       }
 
       return token;
@@ -73,7 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.email = token.email as string;
       session.user.name = token.name as string;
       session.user.image = token.image as string;
-
+      session.user.isProUser = token.isProUser as boolean;
       return session;
     },
 

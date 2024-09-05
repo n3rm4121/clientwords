@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import Link from 'next/link';
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
+import { Badge } from '@/components/ui/badge';
+import Image from 'next/image';
 
 export function Thankyou({ userName, companyName, companyURL }: { userName: string, companyName: string, companyURL: string }) {
 
@@ -19,10 +21,18 @@ export function Thankyou({ userName, companyName, companyURL }: { userName: stri
 
      <MaxWidthWrapper className='bg-gradient-to-r from-blue-500 to-purple-500'>
     
-        {/* Fixed Header */}
-        <div className="fixed p-6 top-0 left-0 w-full z-10 ">
-            <Link className="text-2xl font-bold" href="/">TestiBoost</Link>
+            {/* Fixed Header */}
+            <div className="fixed p-6 top-0 left-0 w-full z-10 ">
+        <div className="relative inline-flex items-center">
+                <Link href="/" className="flex-shrink-0">
+                  <Image src='/lastremovebg.png' width={200} height={200} alt='ClientWords' />
+                </Link>
+                <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                  Beta
+                </Badge>
+              </div>
         </div>
+    
     
     <div className="min-h-screen flex items-center justify-center px-4">
       <motion.div 

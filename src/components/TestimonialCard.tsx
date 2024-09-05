@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { toast, ToastContainer } from "react-toastify";
 
 interface TestimonialCardProps {
   location: string;
@@ -53,6 +54,7 @@ const handleToggleExpand = () => {
         userId: userId,
       });
       setIsLoved(res.data.isLoved);
+      toast.success(res.data.isLoved ? 'Added to Love Gallery' : 'Removed from Love Gallery');
     } catch (error) {
       console.error('Failed to update love gallery', error);
     } finally {
@@ -61,6 +63,7 @@ const handleToggleExpand = () => {
   };
   return (
     <div className={` ${location === 'embed' && (theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black')} flex flex-col border  border-blue-600 rounded-md p-6 shadow-lg h-auto max-w-[500]px`}>
+      <ToastContainer />
       <div className="flex items-center gap-4 mb-4">
     
         <div className="w-[64px] h-[64px] rounded-full overflow-hidden">
@@ -104,6 +107,7 @@ const handleToggleExpand = () => {
       >
         {isExpanded ? "Show Less" : "Read More"}
       </span>
+      
     )}
   </div>
     </div>

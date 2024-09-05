@@ -65,12 +65,15 @@ export default function ProfileSettings() {
                             {isEditing ? 'Cancel' : 'Edit'}
                         </Button>
                         {isEditing && (
-                            <Button onClick={handleSaveName} disabled={loading}>
-                                {loading ? (
-                                    <Loader2 className="animate-spin mr-2" size={16} />
-                                ) : (
-                                    'Save'
-                                )}
+                            // <Button onClick={handleSaveName} disabled={loading}>
+                            //     {loading ? (
+                            //         <Loader2 className="animate-spin mr-2" size={16} />
+                            //     ) : (
+                            //         'Save'
+                            //     )}
+                            // </Button>
+                            <Button onClick={handleSaveName} loading={loading}>
+                                Save
                             </Button>
                         )}
                     </div>

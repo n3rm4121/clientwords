@@ -1,6 +1,5 @@
 // TODO: change this to your domain
-
-const HOSTNAME = "http://testiBoost.com"
+const HOST = process.env.NEXT_PUBLIC_APP_URL
 
 export const generateUniqueLink = (name: string, id: string) => {
     
@@ -9,5 +8,5 @@ export const generateUniqueLink = (name: string, id: string) => {
     }
 
     name = name.replace(/\s+/g, '-').toLowerCase();
-    return `${HOSTNAME}/${name}/${id}`
+    return `${HOST}/${name}/${id}`
   }

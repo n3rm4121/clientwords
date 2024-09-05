@@ -262,7 +262,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
               {errors.placeholder && <p className="text-red-500 text-sm">{errors.placeholder}</p>}
             </div>
           </div>
-          <Button type="submit" className="mt-4" disabled={loading || (isUpdate && !hasChanges)}>
+          <Button type="submit" loading={loading} className="mt-4" disabled={loading || (isUpdate && !hasChanges)}>
           {loading ? 'Saving...' : isUpdate ? 'update' : 'Submit'}
         </Button>
         </div>

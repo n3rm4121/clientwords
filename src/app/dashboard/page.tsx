@@ -8,15 +8,24 @@ import LatestTestimonials from './components/LatestTestimonials';
 import { auth } from '@/auth';
 import AdditionalMetrics from './components/AdditionalMetrics'
 import ActiveLoveGallery from './components/activeLoveGalleries';
+import User from '@/models/user.model';
+import dbConnect from '@/lib/dbConnect';
+import { redirect } from 'next/navigation';
 
 
 export default async function DashboardPage() {
  
   const session = await auth();
-  console.log("session from dashboard: ", session);
+
   if(!session) return null;
   const userId = session.user?.id;
+  await dbConnect();
+  const userData = await User.findById(userId);
 
+  if (userData.isNewUser) {
+    // If user is new, redirect to welcome page
+    return redirect('/dashboard/spaces');
+  }
   return (
     <div>
      

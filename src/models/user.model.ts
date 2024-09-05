@@ -13,6 +13,7 @@ interface User extends Document {
   isProUser: boolean;
   oauthAccounts: OAuthAccount[];
   spaces: Schema.Types.ObjectId[];
+  isNewUser: boolean;
 }
 
 const oauthAccountSchema = new Schema<OAuthAccount>({
@@ -41,6 +42,10 @@ const userSchema = new Schema<User>({
     unique: true,
     index: true,
   },
+  isNewUser: {
+    type: Boolean,
+    default: true,
+  },
   isVerified: {
     type: Boolean,
     default: false,
@@ -48,6 +53,7 @@ const userSchema = new Schema<User>({
   isProUser: {
     type: Boolean,
     default: false,
+
   },
   oauthAccounts: [oauthAccountSchema],
   spaces: [
@@ -61,3 +67,5 @@ const userSchema = new Schema<User>({
 const User = mongoose.models?.User || model<User>('User', userSchema);
 
 export default User;
+
+

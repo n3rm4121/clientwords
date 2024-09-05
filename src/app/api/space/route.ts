@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import Space from "@/models/space.model";
 import { generateUniqueLink } from "@/utils/generateUniqueLink";
 import { Types } from "mongoose";
+import User from "@/models/user.model";
 // get all space of user
 export const GET = auth(async function GET(req, ) {
     if (!req.auth) {
@@ -66,8 +67,16 @@ export const POST = auth(async function POST(req) {
     const { name } = body; // Extract the `name` property from the parsed body
  
    
+    // limit the space document to 1 for if user is not pro
+    const eligibleUser = await User.findById(user?.id).select('spaces isProUser')
 
+    if(eligibleUser.spaces.length  >= 1 && !eligibleUser.isProUser) {
+      return NextResponse.json({ message: "You have reached the limit of creating space" }, { status: 400 });
+    }
     let space = await new Space({ name, owner: user?.id });
+
+   // add this space id into User's space array
+    await User.findByIdAndUpdate({_id: user?.id}, { $push: { spaces: space._id } });
     
     const uniqueLink = generateUniqueLink(name, space._id);
     
