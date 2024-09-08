@@ -27,9 +27,7 @@ async function Page({ params }: { params: { id: string } }) {
   console.log('isInitiallyNewSpace:', isInitiallyNewSpace);
 
   // Render content based on whether it's a new space or not
-  const content = isInitiallyNewSpace ? (
-    <TestimonialCardForm isUpdate={false} spaceId={id} />
-  ) : (
+  const content = 
     <Tabs defaultValue="Testimonials" className="">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
@@ -77,13 +75,11 @@ async function Page({ params }: { params: { id: string } }) {
         </Card>
       </TabsContent>
     </Tabs>
-  );
 
   // Wrap the content in a dynamic client-side component
   return <DynamicSpaceWrapper spaceId={id} initialIsNewSpace={isInitiallyNewSpace}>{content}</DynamicSpaceWrapper>;
 }
 
 export default Page;
-
 
 

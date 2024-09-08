@@ -9,38 +9,24 @@ interface DynamicSpaceWrapperProps {
   spaceId: string;
 }
 
-const DynamicSpaceWrapper: React.FC<DynamicSpaceWrapperProps> = ({ children,spaceId, initialIsNewSpace }) => {
+export default function DynamicSpaceWrapper({ children, spaceId, initialIsNewSpace }: DynamicSpaceWrapperProps) {
   const [isNewSpace, setIsNewSpace] = useState(initialIsNewSpace);
 
   useEffect(() => {
     console.log('DynamicSpaceWrapper rendered. isNewSpace:', isNewSpace);
   }, [isNewSpace]);
 
-
-  // Clone the children and pass the setIsNewSpace function to TestimonialCardForm
-  const childrenWithProps = React.Children.map(children, (child) => {
-    if (React.isValidElement(child) && child.type === TestimonialCardForm) {
-      return React.cloneElement(child, { setIsNewSpace } as Partial<React.ComponentProps<typeof TestimonialCardForm>>);
-    }
-    return child;
-  });
-
-  // If it's no longer a new space, render the full page content
   if (!isNewSpace) {
     console.log('Rendering full page content');
-    return <>{childrenWithProps}</>;
+    return <>{children}</>;
   }
 
-  // Otherwise, render just the TestimonialCardForm
   console.log('Rendering only TestimonialCardForm');
   return (
-    <>
-      {/* {React.Children.toArray(childrenWithProps).find(
-        (child) => React.isValidElement(child) && child.type === TestimonialCardForm
-      )} */}
-      <TestimonialCardForm isUpdate={false} spaceId={spaceId} />
-    </>
+    <TestimonialCardForm 
+      isUpdate={false} 
+      spaceId={spaceId} 
+      setIsNewSpace={setIsNewSpace}
+    />
   );
-};
-
-export default DynamicSpaceWrapper;
+}
