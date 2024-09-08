@@ -6,9 +6,19 @@ import LoveGallery from '@/models/loveGallery.model';
 import { iframeFetchRateLimit } from '@/utils/rateLimit';
 // Initialize Redis connection
 // data will be udpated every 5 minutes
+const url = process.env.UPSTASH_REDIS_REST_URL;
+const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+if(!url) {
+    throw new Error('Please provide a Redis URL');
+}
+
+if(!token) {
+    throw new Error('Please provide a Redis Token');
+}
 const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL!,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+    url: url,
+    token: token,
 });
 
 export const GET = async (request: NextRequest) => {

@@ -2,9 +2,20 @@ import { Redis } from '@upstash/redis';
 import { Duration, Ratelimit } from '@upstash/ratelimit';
 import { NextRequest, NextResponse } from "next/server";
 
+const url = process.env.UPSTASH_REDIS_REST_URL;
+const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+if(!url) {
+    throw new Error('Please provide a Redis URL');
+}
+
+if(!token) {
+    throw new Error('Please provide a Redis Token');
+}
 const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL!,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+   
+    url: url,
+    token: token,
 });
 
 export async function likeRateLimit(request: NextRequest) {
