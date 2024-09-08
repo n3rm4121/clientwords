@@ -5,8 +5,6 @@ import { auth } from '@/auth';
 import { testimonialCardSchema } from '@/schemas/validationSchema';
 import Space from '@/models/space.model';
 import { deleteFromCloudinary, uploadOnCloudinary } from '@/lib/cloudinary';
-export const bodyParser = false
-
 // TODO: check if the user is a pro user and allow them to create more than 1 testimonial card
 // TODO:: Attach the testimonial card to a space
 export const  POST = auth(async function POST(request){
@@ -49,8 +47,8 @@ export const  POST = auth(async function POST(request){
 
         const parsedData = testimonialCardSchema.safeParse(data);
      
-        if(!parsedData){
-            return NextResponse.json({error: 'Invalid data'}, {status : 400});
+        if (!parsedData.success) {
+            return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
         }
         
         const testimonialCard = new TestimonialCard(parsedData.data);
