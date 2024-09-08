@@ -37,7 +37,7 @@ function Sidebar({ isOpen }: { isOpen: boolean }) {
       )}
     >
       {dashboardNavItems.map((item, index) => {
-        const isActive = pathname === item.link;
+const isActive = pathname === item.link || (pathname.startsWith(item.link) && item.link !== '/dashboard');
         return (
           <Link
             href={item.link}

@@ -41,7 +41,7 @@ export function Navbar() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [scrollY]);
+  }, [scrollY, handleScroll]);
 
   return (
     <div className={`flex z-50 items-center justify-center top-0 md:sticky transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>

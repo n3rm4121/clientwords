@@ -1,10 +1,12 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
-import { FaBriefcase, FaChartLine, FaClone, FaCode, FaFacebookF, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedinIn, FaRocket, FaStore, FaTwitter, FaUserMd } from "react-icons/fa";
+import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaFacebookF, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedinIn, FaMapMarkerAlt, FaPhone, FaRocket, FaStore, FaTwitter, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Demo } from "@/components/demo";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const perks = [
   {
@@ -33,7 +35,7 @@ export default function LandingPage() {
         {/* Hero Section */}
         <div className="py-20 mx-auto text-center flex flex-col items-center max-w-4xl">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-7xl mb-6">
-            Turn Your Client's Words into Powerful <span className="inline-block -rotate-1 z-10 bg-yellow-400 px-2 rounded-md shadow-lg">Social Proof.</span>
+            Turn Your Client&apos; Words into Powerful <span className="inline-block -rotate-1 z-10 bg-yellow-400 px-2 rounded-md shadow-lg">Social Proof.</span>
              {/*<span className="text-red-600 animate-pulse">❤️</span> {' '} */}
            
           </h1>
@@ -236,6 +238,32 @@ export default function LandingPage() {
             </Link>
           </div>
         </MaxWidthWrapper>
+      </section>
+
+{/* Contact Us Section */}
+<section id="contact-us" className="py-20 bg-gray-100 flex flex-col justify-center items-center">
+    
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold sm:text-5xl mb-4">
+              Get in Touch
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Have questions or need assistance? We're here to help!
+            </p>
+          </div>
+
+      
+            <form className="space-y-4">
+              <Input type="text" placeholder="Your Name" required />
+              <Input type="email" placeholder="Your Email" required />
+              <Input type="text" placeholder="Subject" required />
+              <Textarea placeholder="Your Message" required className="h-32" />
+              <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                Send Message
+              </Button>
+            </form>
+      
+
       </section>
 
       {/* Footer Section */}

@@ -68,7 +68,7 @@ export default function LoginPage() {
           )}
 
           <div className="mt-8 text-center md:text-left text-sm text-gray-500">
-            By continuing, you agree to testiBoost's{' '}
+            By continuing, you agree to ClientWords&apos;s{' '} 
             <Link href="/terms" className="text-indigo-400 hover:underline">
               Terms of Service
             </Link>{' '}
