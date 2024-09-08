@@ -143,7 +143,7 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
         <div className="fixed p-6 top-0 left-0 w-full z-10 ">
         <div className="relative inline-flex items-center">
                 <Link href="/" className="flex-shrink-0">
-                  <Image src='/lastremovebg.png' width={200} height={200} alt='ClientWords' />
+                  <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
                 </Link>
                 <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
                   Beta
@@ -213,7 +213,7 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITest
                     onChange={(e) => setMessage(e.target.value)}
                     className="resize-none h-32 w-full px-4 py-2 rounded-2xl border border-blue-400 text-black mb-4"
                 />
-                <Button className="rounded-3xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-6 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1" type="submit" loading={loading}>
+                <Button className="rounded-3xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-6 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1" type="submit" loading={loading} disabled={loading}>
                     {loading ? 'Submitting...' : 'Submit'}
                 </Button>
             </div>

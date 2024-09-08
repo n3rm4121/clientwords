@@ -35,7 +35,7 @@ export default function LandingPage() {
         {/* Hero Section */}
         <div className="py-20 mx-auto text-center flex flex-col items-center max-w-4xl">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-7xl mb-6">
-            Turn Your Client&apos; Words into Powerful <span className="inline-block -rotate-1 z-10 bg-yellow-400 px-2 rounded-md shadow-lg">Social Proof.</span>
+            Turn Your Client&apos;s Words into Powerful <span className="inline-block z-10 bg-yellow-400 px-2 rounded-md shadow-lg">Social Proof.</span>
              {/*<span className="text-red-600 animate-pulse">❤️</span> {' '} */}
            
           </h1>
@@ -224,7 +224,7 @@ export default function LandingPage() {
 </section>
 
       {/* CTA Section */}
-      <section className="py-20">
+      <section className="py-20 bg-yellow-700">
         <MaxWidthWrapper>
           <div className="text-center">
             <h2 className="text-4xl font-bold mb-4">Ready to Boost Your Conversions?</h2>
@@ -232,7 +232,7 @@ export default function LandingPage() {
 
             <Link
               href="/signup"
-              className="px-8 py-4 rounded-full font-semibold bg-gradient-to-r  from-yellow-400 to-orange-500 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              className="px-8 py-4 rounded-full font-semibold bg-gradient-to-r border border-white  from-yellow-400 to-orange-500 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
             >
               Lets Get Started!🚀
             </Link>
@@ -241,30 +241,31 @@ export default function LandingPage() {
       </section>
 
 {/* Contact Us Section */}
-<section id="contact-us" className="py-20 bg-gray-100 flex flex-col justify-center items-center">
-    
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold sm:text-5xl mb-4">
-              Get in Touch
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Have questions or need assistance? We're here to help!
-            </p>
-          </div>
-
-      
-            <form className="space-y-4">
-              <Input type="text" placeholder="Your Name" required />
-              <Input type="email" placeholder="Your Email" required />
-              <Input type="text" placeholder="Subject" required />
-              <Textarea placeholder="Your Message" required className="h-32" />
-              <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                Send Message
-              </Button>
-            </form>
-      
-
-      </section>
+<section id="contact-us" className="py-20">
+  <MaxWidthWrapper>
+  <div className="text-center mb-16">
+    <h2 className="text-4xl font-bold sm:text-5xl mb-4">
+      Get in Touch
+    </h2>
+    <p className="text-xl text-muted-foreground mx-auto">
+      Have questions or need assistance? We're here to help!
+    </p>
+  </div>
+  <div className="flex items-center justify-center">
+    <div className="w-full max-w-screen-sm">
+      <form className="space-y-4">
+        <Input type="text" placeholder="Your Name" required />
+        <Input type="email" placeholder="Your Email" required />
+        <Input type="text" placeholder="Subject" required />
+        <Textarea placeholder="Your Message" required className="h-32" />
+        <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+          Send Message
+        </Button>
+      </form>
+    </div>
+  </div>
+  </MaxWidthWrapper>
+</section>
 
       {/* Footer Section */}
       <footer className="bg-gray-900 text-white py-12">

@@ -13,7 +13,6 @@ interface TestimonialCarouselProps {
 }
 
 const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials, theme }) => {
-  // console.log('testimonials:', testimonials);
   const settings = useMemo(() => {
     const slidesToShow = Math.min(testimonials?.length, 3);
     return {

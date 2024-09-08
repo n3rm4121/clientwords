@@ -38,7 +38,7 @@ export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
           <div className="flex justify-center gap-4 items-center h-16">
             <div className="relative inline-flex items-center">
               <Link href="/" className="flex-shrink-0">
-                <Image src='/lastremovebg.png' width={200} height={200} alt='ClientWords' />
+                <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
               </Link>
               <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
                 Beta
@@ -84,7 +84,7 @@ export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
                 <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut()}>Sign Out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 

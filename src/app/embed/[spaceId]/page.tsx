@@ -41,14 +41,7 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
      
         <div className="w-full  min-h-screen bg-white  px-8">
            <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
-           <Image 
-            src="/user.png" 
-            alt="Your Logo" 
-            width={32}
-            height={32}
-           
-          />
-            TestiBoost
+           <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
          
         </div>
           {layout === 'carousel' ? (

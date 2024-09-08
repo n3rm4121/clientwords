@@ -6,6 +6,8 @@ import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
+import { Badge } from '@/components/ui/badge'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -27,13 +29,25 @@ export default function LoginPage() {
   }
 
   return (
+    <>
+        {/* Fixed Header */}
+        <div className="fixed p-6 top-0 left-0 w-full z-10 ">
+        <div className="relative inline-flex items-center">
+                <Link href="/" className="flex-shrink-0">
+                  <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+                </Link>
+                <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                  Beta
+                </Badge>
+              </div>
+        </div>
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col md:flex-row">
       {/* Left side: Sign-in */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center md:text-left">
             <h1 className="text-4xl font-bold mb-2">
-              Welcome to <span className="text-indigo-400">testiBoost</span>
+              Welcome to <span className="text-yellow-400">ClientWords</span>
             </h1>
             <p className="text-xl text-gray-400">
               Sign in to manage your testimonials
@@ -69,11 +83,11 @@ export default function LoginPage() {
 
           <div className="mt-8 text-center md:text-left text-sm text-gray-500">
             By continuing, you agree to ClientWords&apos;s{' '} 
-            <Link href="/terms" className="text-indigo-400 hover:underline">
+            <Link href="/terms" className="text-yellow-400 hover:underline">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="/privacy" className="text-indigo-400 hover:underline">
+            <Link href="/privacy" className="text-yellow-400 hover:underline">
               Privacy Policy
             </Link>
           </div>
@@ -81,34 +95,16 @@ export default function LoginPage() {
       </div>
 
       {/* Right side: Call to action and theme */}
-      <div className="w-full md:w-1/2 bg-indigo-900 flex flex-col justify-center items-center p-8 text-center">
+      <div className="w-full md:w-1/2 bg-yellow-700 flex flex-col justify-center items-center p-8 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-          Ready to <span className="text-indigo-400">boost</span> your credibility?
+          Ready to <span className="text-yellow-400">boost</span> your credibility?
         </h2>
         <p className="text-xl mb-8 max-w-md">
           Elevate your brand with authentic customer voices. Collect, manage, and showcase testimonials with ease.
         </p>
-        {/* <div className="space-y-4 max-w-md">
-          <div className="flex items-center">
-            <svg className="h-6 w-6 mr-2 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span>Easily collect testimonials from satisfied customers</span>
-          </div>
-          <div className="flex items-center">
-            <svg className="h-6 w-6 mr-2 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span>Showcase testimonials with beautiful, customizable designs</span>
-          </div>
-          <div className="flex items-center">
-            <svg className="h-6 w-6 mr-2 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span>Boost conversions and build trust with social proof</span>
-          </div>
-        </div> */}
+       
       </div>
     </div>
+    </>
   )
 }
