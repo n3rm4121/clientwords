@@ -61,7 +61,7 @@ export default function TermsOfService() {
 
         <div className="mt-12 text-center">
           <p className="mb-4">Last updated: 09-04-2024</p>
-          <Button asChild>
+          <Button>
             <Link href="/">Return to Home</Link>
           </Button>
         </div>

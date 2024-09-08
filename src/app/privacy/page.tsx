@@ -65,9 +65,10 @@ export default function PrivacyPolicy() {
         <div className="mt-12 text-center">
             {/* TODO: */}
           <p className="mb-4">Last updated: 09-04-2024</p>
-          <Button asChild>
+          <Button>
             <Link href="/">Return to Home</Link>
-          </Button>
+            </Button>
+         
         </div>
       </div>
     </div>
