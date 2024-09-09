@@ -44,7 +44,6 @@ export const GET = async (request: NextRequest) => {
        
           
         if (cachedTestimonials) {
-            console.log("cachedTestimonials", cachedTestimonials);
             return NextResponse.json(cachedTestimonials, {
                 status: 200,
                 headers: { 'Cache-Control': 'public, max-age=300' },

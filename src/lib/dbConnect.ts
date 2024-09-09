@@ -9,7 +9,6 @@ export default async function dbConnect() {
             'Please define the MONGODB_URI environment variable inside .env.local'
         );
     }
-
     // Check if we are already connected to the database
     if (mongoose.connection.readyState >= 1) {
         
@@ -17,8 +16,5 @@ export default async function dbConnect() {
     }
 
     // If not connected, connect to the database
-
-    console.log('mongodb uri:', uri);
-
     return await mongoose.connect(`${uri}/${DB_NAME}`)
 }

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaFacebookF, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedinIn, FaMapMarkerAlt, FaPhone, FaRocket, FaStore, FaTwitter, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { Demo } from "@/components/demo";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -57,7 +56,6 @@ export default function LandingPage() {
           </Link>
 
 
-          {/* <Demo /> */}
         </div>
       </MaxWidthWrapper>
 

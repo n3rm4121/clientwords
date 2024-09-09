@@ -35,8 +35,6 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
     const data = await response.json();
 
     const testimonials: ITestimonial[] = data.testimonials;  // Ensure the correct key is accessed
-
-    // TODO: logo
     return (
      
         <div className="w-full  min-h-screen bg-white  px-8">
@@ -60,8 +58,6 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
               ))}
             </div>
           )}
-       
-       
         </div>
    
     );

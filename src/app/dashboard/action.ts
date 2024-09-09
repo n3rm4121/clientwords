@@ -14,7 +14,6 @@ export async function fetchSpaceData() {
   try {
     const session = await auth()
     if (!session) {
-      console.log("No session found");
       return null;
     }
     
@@ -40,7 +39,6 @@ export async function fetchSpaceData() {
       }
     ]);
 
-    console.log("Space data fetched:", spaceData);
     return spaceData;
   } catch (error) {
     console.error("Error fetching space data:", error);
@@ -94,6 +92,7 @@ export async function completeOnboarding(userId: string) {
 
   try {
     await User.findByIdAndUpdate(userId, { isNewUser: false });
+
   }
   catch (error) {
     console.error("Error completing onboarding:", error);
@@ -116,7 +115,6 @@ export async function deleteSpace(spaceId: string) {
     await User.findByIdAndUpdate(userId, { $pull: { spaces: spaceId } });
     await space.deleteOne();
 
-    console.log("Space deleted:", spaceId);
   } catch (error) {
     console.error("Error deleting space:", error);
     throw error;
@@ -129,7 +127,6 @@ export async function getUserSpaceCount(userId: string) {
 
   try {
     const count = await Space.countDocuments({ owner: userId });
-    console.log("count: ", count);
     return count;
   } catch (error) {
     console.error("Error getting space count:", error);

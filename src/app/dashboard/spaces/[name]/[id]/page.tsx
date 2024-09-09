@@ -24,7 +24,6 @@ async function Page({ params }: { params: { id: string } }) {
   // Fetch space data server-side
   const space = await Space.findById(id).exec();
   const isInitiallyNewSpace = space.isNewSpace;
-  console.log('isInitiallyNewSpace:', isInitiallyNewSpace);
 
   // Render content based on whether it's a new space or not
   const content = 

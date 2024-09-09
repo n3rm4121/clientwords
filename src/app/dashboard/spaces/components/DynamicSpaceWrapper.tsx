@@ -13,15 +13,12 @@ export default function DynamicSpaceWrapper({ children, spaceId, initialIsNewSpa
   const [isNewSpace, setIsNewSpace] = useState(initialIsNewSpace);
 
   useEffect(() => {
-    console.log('DynamicSpaceWrapper rendered. isNewSpace:', isNewSpace);
   }, [isNewSpace]);
 
   if (!isNewSpace) {
-    console.log('Rendering full page content');
     return <>{children}</>;
   }
 
-  console.log('Rendering only TestimonialCardForm');
   return (
     <TestimonialCardForm 
       isUpdate={false} 

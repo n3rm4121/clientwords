@@ -27,7 +27,6 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ spaceId, theme, layou
 
     eventSource.onmessage = (event) => {  
       const newTestimonial = JSON.parse(event.data);
-      console.log(newTestimonial);
       setTestimonials((prevTestimonials) => [...prevTestimonials, newTestimonial]);
     };
 
