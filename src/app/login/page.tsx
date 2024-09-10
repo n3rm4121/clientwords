@@ -30,21 +30,15 @@ export default function LoginPage() {
 
   return (
     <>
-        {/* Fixed Header */}
-        <div className="fixed p-6 top-0 left-0 w-full z-10 ">
-        <div className="relative inline-flex items-center">
-                <Link href="/" className="flex-shrink-0">
-                  <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
-                </Link>
-                <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
-                  Beta
-                </Badge>
-              </div>
-        </div>
+       
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col md:flex-row">
       {/* Left side: Sign-in */}
+      
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8">
-        <div className="w-full max-w-md space-y-8">
+      <Link href="/" className="absolute top-5 left-5 flex-shrink-0">
+                  <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+      </Link>
+        <div className="w-full pt-12 max-w-md space-y-8">
           <div className="text-center md:text-left">
             <h1 className="text-4xl font-bold mb-2">
               Welcome to <span className="text-yellow-400">ClientWords</span>
