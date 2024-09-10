@@ -278,14 +278,14 @@ export default function LandingPage() {
                 <li><Link href="#how-it-works" className="hover:text-blue-400 transition-colors duration-200">How it works</Link></li>
               </ul>
             </div>
-            <div>
+            {/* <div>
               <h4 className="font-bold text-lg mb-4">Company</h4>
               <ul className="space-y-2">
                 <li><Link href="#" className="hover:text-blue-400 transition-colors duration-200">About Us</Link></li>
                 <li><Link href="#" className="hover:text-blue-400 transition-colors duration-200">Careers</Link></li>
                 <li><Link href="#" className="hover:text-blue-400 transition-colors duration-200">Contact</Link></li>
               </ul>
-            </div>
+            </div> */}
             <div>
               <h4 className="font-bold text-lg mb-4">Legal</h4>
               <ul className="space-y-2">
@@ -293,14 +293,7 @@ export default function LandingPage() {
                 <li><Link href="/terms" className="hover:text-blue-400 transition-colors duration-200">Terms of Service</Link></li>
               </ul>
             </div>
-            <div>
-              <h4 className="font-bold text-lg mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <Link href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200"><FaFacebookF size={24} /></Link>
-                <Link href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200"><FaTwitter size={24} /></Link>
-                <Link href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200"><FaLinkedinIn size={24} /></Link>
-              </div>
-            </div>
+           
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-sm">
             <p>&copy; {new Date().getFullYear()} ClientWords. All rights reserved.</p>

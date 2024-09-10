@@ -27,9 +27,9 @@ export function Thankyou({ userName, companyName, companyURL }: { userName: stri
                 <Link href="/" className="flex-shrink-0">
                   <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
                 </Link>
-                <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                {/* <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
                   Beta
-                </Badge>
+                </Badge> */}
               </div>
         </div>
     
