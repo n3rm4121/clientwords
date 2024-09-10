@@ -9,6 +9,7 @@ import Testimonial from "@/models/testimonials.model";
 import User from "@/models/user.model";
 import mongoose, { Types } from "mongoose";
 import { redirect } from "next/navigation";
+import { testimonailSchema } from "@/schemas/validationSchema";
 
 export async function fetchSpaceData() {
   try {
@@ -130,6 +131,40 @@ export async function getUserSpaceCount(userId: string) {
     return count;
   } catch (error) {
     console.error("Error getting space count:", error);
+    throw error;
+  }
+}
+
+
+// get if user is pro or not
+
+export async function isPro(userId: string) {
+  await dbConnect();
+
+  try {
+    const user = await User.findById(userId);
+    return user?.isPro || false;
+  } catch (error) {
+    console.error("Error getting user pro status:", error);
+    throw error;
+  }
+}
+
+
+export async function deleteTestimonial(testimonialId: string) {
+  await dbConnect();
+  const session = await auth();
+  const userId = session?.user?.id;
+  if(!userId) {
+    redirect('/login');
+  }
+
+  try {
+    await Testimonial.findByIdAndDelete(testimonialId);
+    console.log("Testimonial deleted successfully");
+  }
+  catch (error) {
+    console.error("Error deleting testimonial:", error);
     throw error;
   }
 }

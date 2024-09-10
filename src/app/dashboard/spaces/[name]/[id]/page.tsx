@@ -24,7 +24,7 @@ async function Page({ params }: { params: { id: string } }) {
   // Fetch space data server-side
   const space = await Space.findById(id).exec();
   const isInitiallyNewSpace = space.isNewSpace;
-
+  const uniqueLink = space.uniqueLink;
   // Render content based on whether it's a new space or not
   const content = 
     <Tabs defaultValue="Testimonials" className="">
@@ -44,7 +44,7 @@ async function Page({ params }: { params: { id: string } }) {
           </CardHeader>
           <CardContent className="space-y-2">
             <Suspense fallback={<div>Loading testimonials...</div>}>
-              <DisplayTestimonials params={params} />
+              <DisplayTestimonials uniqueLink={uniqueLink} params={params} />
             </Suspense>
           </CardContent>
         </Card>

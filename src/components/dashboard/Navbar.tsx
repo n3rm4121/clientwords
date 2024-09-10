@@ -21,9 +21,10 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { Badge } from "../ui/badge";
+import { Gem } from "lucide-react";
 
 
-export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
+export default function Navbar({ isProUser, handleToggle }: { isProUser: boolean, handleToggle: () => void }) {
   const session = useSession();
   const user = session.data?.user;
   const pathname = usePathname();
@@ -40,9 +41,9 @@ export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
               <Link href="/" className="flex-shrink-0">
                 <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
               </Link>
-              <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+              {/* <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
                 Beta
-              </Badge>
+              </Badge> */}
             </div>
           </div>
         </div>
@@ -62,6 +63,12 @@ export default function Navbar({ handleToggle }: { handleToggle: () => void }) {
 
         <div>
           <div className="flex gap-4">
+            {!isProUser && (
+              <Button className="hidden md:flex" onClick={() => router.push('/upgrade')}>
+                Upgrade to Pro
+                <Gem className="ml-2" size={18} />
+              </Button>
+            )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

@@ -37,21 +37,20 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ spaceId, theme, layou
 
   return (
     <Card className="h-full p-4 w-full overflow-hidden">
-      <h2 className="text-xl font-semibold">Preview</h2>
+      <h2 className="text-xl font-semibold mb-3">Preview</h2>
       {layout === 'carousel'? (
         <div className="h-full max-w-xs md:max-w-4xl">
           <TestimonialCarousel testimonials={testimonials} theme={theme}/>
         </div>
     
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {testimonials.map((testimonial) => (
-            <TestimonialCard
-              key={testimonial._id}
-              location="embed"
-              testimonial={testimonial}
-              theme={theme}
-            />
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 mx-auto max-w-7xl">
+          {testimonials.map((testimonial, index) => (
+            index < 5 && 
+            <div key={testimonial._id} className="break-inside-avoid mb-6">
+            <TestimonialCard location={'embed'} testimonial={testimonial} theme={theme} />
+          </div>
+           
           ))}
         </div>
       )}

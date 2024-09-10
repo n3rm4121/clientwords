@@ -1,36 +1,15 @@
-'use client';
+'use client'
 
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";    
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-export default function Search({ placeholder }: { placeholder: string }) {
+import { Input } from "@/components/ui/input"
 
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const  {replace} = useRouter()
-  function handleSearch(term: string) {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set("search", term);
-    } else {
-      params.delete("search");
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }
- 
+export default function Search({ placeholder, onSearch }: { placeholder: string, onSearch: (query: string) => void }) {
   return (
-    <div className="relative flex flex-1 flex-shrink-0">
-      <label htmlFor="search" className="sr-only">
-        Search
-      </label>
-      <input
-        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
+    <div>
+      <Input
+        type="search"
         placeholder={placeholder}
-        onChange={(e) => {
-          handleSearch(e.target.value);
-        }}
-        defaultValue={searchParams.get('query')?.toString()}
+        onChange={(e) => onSearch(e.target.value)}
       />
-      <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
     </div>
-  );
+  )
 }

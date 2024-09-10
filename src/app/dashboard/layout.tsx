@@ -4,9 +4,14 @@ import Sidebar from '@/components/dashboard/Sidebar';
 import Navbar from '@/components/dashboard/Navbar';
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { isPro } from './action';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const session = useSession();
+    const [isProUser, setIsProUser] = useState(false);
+    const userId = session.data?.user?.id;
     useEffect(() => {
         const handleScrollRestoration = () => {
           const scrollPos = sessionStorage.getItem(pathname);
@@ -38,6 +43,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         };
     }, []);
 
+    useEffect(() => {
+        // get if user is pro or not
+        const isProUser = async () => {
+            const isProUsr = await isPro(userId!);
+            console.log('isProUser', isProUsr);
+            setIsProUser(isProUsr);
+        }
+        isProUser();
+    },[])
+
     const [isOpen, setIsOpen] = useState(true);
 
     const handleToggle = () => {
@@ -45,15 +60,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <MaxWidthWrapper>
         <div className="flex min-h-screen">
             {/* Sidebar */}
-            <Sidebar isOpen={isOpen} />
+            <Sidebar isProUser={isProUser} isOpen={isOpen} />
 
             {/* Main Content Area */}
             <div className={`flex-1 transition-all duration-300`}>
                 {/* Navbar */}
-                <Navbar handleToggle={handleToggle} />
+                <Navbar isProUser={isProUser} handleToggle={handleToggle} />
 
                 {/* Main Content */}
 
@@ -66,6 +80,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             </div>
         </div>
-        </MaxWidthWrapper>
     );
 }

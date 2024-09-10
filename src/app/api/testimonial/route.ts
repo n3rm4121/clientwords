@@ -128,15 +128,31 @@ export const GET = auth(async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
         const spaceId = searchParams.get('spaceId');
+        const query = searchParams.get('query') || '';
+        const page = parseInt(searchParams.get('page') || '1', 10);
+        const limit = parseInt(searchParams.get('limit') || '9', 10);
 
-        const testimonials = await Testimonial.find({ spaceId }).sort({ createdAt: -1 });
+        const skip = (page - 1) * limit;
 
-        return NextResponse.json({ testimonials }, { status: 200 });
-    }
-    catch (error) {
+        const searchQuery = {
+            spaceId,
+            $or: [
+                { name: { $regex: query, $options: 'i' } },
+                { message: { $regex: query, $options: 'i' } }
+            ]
+        };
+
+        const [testimonials, total] = await Promise.all([
+            Testimonial.find(searchQuery)
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit),
+            Testimonial.countDocuments(searchQuery)
+        ]);
+
+        return NextResponse.json({ testimonials, total, page, limit }, { status: 200 });
+    } catch (error) {
         return NextResponse.json({ error: 'An error occurred while fetching the testimonials' }, { status: 500 });
     }
-
-})
-
+});
 
