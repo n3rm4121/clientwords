@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-
+import { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: "Terms of Service",
+}
 export default function TermsOfService() {
   return (
     <div className="min-h-screen flex flex-col items-center p-4">

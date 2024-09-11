@@ -1,6 +1,9 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-
+import { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+}
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen flex flex-col items-center p-4">
