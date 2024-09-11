@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+
+Host: https://clientwords.com
+Sitemap: https://clientwords.com/sitemap.xml
