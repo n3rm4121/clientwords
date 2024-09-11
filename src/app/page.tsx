@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { CircleCheckBig } from "lucide-react";
 
 const perks = [
   {
@@ -43,9 +44,9 @@ export default function LandingPage() {
             Easily collect, curate, and showcase authentic client testimonials to skyrocket trust and conversions.
           </p>
 
-          <div className="flex items-center justify-center py-8 space-x-4 text-lg font-medium">
-            <span className="flex items-center"><FaRocket className="text-green-500 mr-2" /> No coding required</span>
-            <span className="flex items-center"><FaCode className="text-blue-500 mr-2" /> Easy Integration</span>
+          <div className="grid md:grid-cols-2  py-8 space-x-4 text-lg font-medium">
+            <span><CircleCheckBig className="text-green-500 mr-2 inline" /> No coding required</span>
+            <span><CircleCheckBig className="text-green-500 mr-2 inline" /> Easy Integration</span>
           </div>
 
           <Link
@@ -73,7 +74,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {perks.map((perk, index) => (
-              <Card key={index} className=" p-8 rounded-xl shadow-lg">
+              <Card key={index} className=" p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
                 <div className="flex flex-col items-center text-center">
                   <div className="bg-blue-100 p-3 rounded-full mb-4">
                     <perk.icon className="text-4xl text-blue-600" />
@@ -100,25 +101,25 @@ export default function LandingPage() {
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <Card className=" p-6 shadow-md">
+      <Card className=" p-6 shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="text-3xl font-bold text-yellow-500 mb-4">1</div>
         <h3 className="text-xl font-semibold mb-2">Create Your Form</h3>
         <p className="text-muted-foreground">Design a custom testimonial form tailored to your business needs.</p>
       </Card>
 
-      <Card className=" p-6  shadow-md">
+      <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="text-3xl font-bold text-yellow-500 mb-4">2</div>
         <h3 className="text-xl font-semibold mb-2">Share the Link</h3>
         <p className="text-muted-foreground">Send the unique form link to your clients via email or any channel.</p>
       </Card>
 
-      <Card className=" p-6  shadow-md">
+      <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="text-3xl font-bold text-yellow-500 mb-4">3</div>
         <h3 className="text-xl font-semibold mb-2">Receive Testimonials</h3>
         <p className="text-muted-foreground">Collect and review client feedback in your dashboard.</p>
       </Card>
 
-      <Card className=" p-6  shadow-md">
+      <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="text-3xl font-bold text-yellow-500 mb-4">4</div>
         <h3 className="text-xl font-semibold mb-2">Showcase Testimonials</h3>
         <p className="text-muted-foreground">Embed the love gallery on your website to boost credibility.</p>
@@ -149,7 +150,7 @@ export default function LandingPage() {
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <Card className="p-6">
+      <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="flex items-center mb-4">
           <FaStore className="text-3xl text-yellow-500 mr-3" />
           <h3 className="text-2xl font-semibold">E-commerce</h3>
@@ -159,7 +160,7 @@ export default function LandingPage() {
         </p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="flex items-center mb-4">
           <FaBriefcase className="text-3xl text-yellow-500 mr-3" />
           <h3 className="text-2xl font-semibold">B2B Services</h3>
@@ -169,7 +170,7 @@ export default function LandingPage() {
         </p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="flex items-center mb-4">
           <FaGraduationCap className="text-3xl text-yellow-500 mr-3" />
           <h3 className="text-2xl font-semibold">Education</h3>
@@ -179,7 +180,7 @@ export default function LandingPage() {
         </p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="flex items-center mb-4">
           <FaHotel className="text-3xl text-yellow-500 mr-3" />
           <h3 className="text-2xl font-semibold">Hospitality</h3>
@@ -189,7 +190,7 @@ export default function LandingPage() {
         </p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="flex items-center mb-4">
           <FaLaptopCode className="text-3xl text-yellow-500 mr-3" />
           <h3 className="text-2xl font-semibold">SaaS</h3>
@@ -199,7 +200,7 @@ export default function LandingPage() {
         </p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
         <div className="flex items-center mb-4">
           <FaUserMd className="text-3xl text-yellow-500 mr-3" />
           <h3 className="text-2xl font-semibold">Healthcare</h3>

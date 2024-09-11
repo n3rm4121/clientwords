@@ -17,7 +17,7 @@ import { ToastContainer } from "react-toastify";
 export const metadata: Metadata = {
   
   title: {
-    default: "ClientWords - Amplify Your Success with Customer Words",
+    default: "ClientWords - Amplify Your Success with your Client's Words",
     template: '%s - ClientWords',
   },
   description: "Elevate your business credibility with CustomerWords - the smart way to collect, manage, and showcase powerful customer testimonials",
