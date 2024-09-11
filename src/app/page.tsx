@@ -294,6 +294,7 @@ export default function LandingPage() {
               <ul className="space-y-2">
                 <li><Link href="/privacy" className="hover:text-blue-400 transition-colors duration-200">Privacy Policy</Link></li>
                 <li><Link href="/terms" className="hover:text-blue-400 transition-colors duration-200">Terms of Service</Link></li>
+                <li><Link href="/refund-policy" className="hover:text-blue-400 transition-colors duration-200">Refund Policy</Link></li>
               </ul>
             </div>
            
