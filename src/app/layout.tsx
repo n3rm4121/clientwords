@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     default: "ClientWords - Amplify Your Success with your Client's Words",
     template: '%s - ClientWords',
   },
-  description: "Elevate your business credibility with CustomerWords - the smart way to collect, manage, and showcase powerful customer testimonials",
+  description: "Elevate your business credibility with your Client's Words - the smart way to collect, manage, and showcase powerful customer testimonials",
   twitter: {
     card: "summary_large_image",
   },
