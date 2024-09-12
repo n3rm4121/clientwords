@@ -257,29 +257,29 @@ export default function LandingPage() {
             <AwesomePricingSection />
 
       {/* CTA Section */}
-      <section className="relative bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white p-16 m-5 rounded-3xl overflow-hidden shadow-lg  hover:shadow-2xl">
-  <MaxWidthWrapper>
-    <div className="relative z-10 text-center space-y-6">
-      <h2 className="text-5xl font-extrabold leading-tight mb-4">
-        Ready to <span className="text-yellow-400">Boost Your Conversions?</span>
-      </h2>
-      <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8">
-        Discover how <span className="text-yellow-300 font-bold">ClientWords</span> can transform your customer testimonials into powerful social proof.
-      </p>
-      <Link
-        href="/signup"
-        className="inline-block px-10 py-4 rounded-full font-semibold text-lg bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
-      >
-        Let's Get Started! 🚀
-      </Link>
-    </div>
+      {/* CTA Section */}
+<section className="relative bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white p-8 md:p-16 m-5 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+  <div className="relative z-10 text-center space-y-6">
+    <h2 className="text-4xl md:text-5xl text-center font-extrabold tracking-tight mb-4">
+      Ready to <span className="text-yellow-400">Boost Your Conversions?</span>
+    </h2>
+    <p className="text-md md:text-xl max-w-md md:max-w-3xl mx-auto mb-8">
+      Discover how <span className="text-yellow-300 font-bold">ClientWords</span> can transform your customer testimonials into powerful social proof.
+    </p>
+    <Link
+      href="/signup"
+      className="inline-block px-6 py-3 md:px-10 md:py-4 rounded-full font-semibold text-lg bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
+    >
+      Let's Get Started! 🚀
+    </Link>
+  </div>
 
-    {/* Decorative elements */}
-    <div className="absolute top-0 right-0 w-40 h-40 bg-yellow-400 opacity-30 rounded-full blur-3xl"></div>
-    <div className="absolute bottom-0 left-0 w-56 h-56 bg-orange-500 opacity-20 rounded-full blur-3xl"></div>
-    <div className="absolute top-1/3 right-10 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
-  </MaxWidthWrapper>
+  {/* Decorative elements */}
+  <div className="absolute top-0 right-0 w-24 h-24 md:w-40 md:h-40 bg-yellow-400 opacity-30 rounded-full blur-3xl"></div>
+  <div className="absolute bottom-0 left-0 w-32 h-32 md:w-56 md:h-56 bg-orange-500 opacity-20 rounded-full blur-3xl"></div>
+  <div className="absolute top-1/3 right-10 w-20 h-20 md:w-32 md:h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
 </section>
+
 
 
 {/* Contact Us Section */}
@@ -317,7 +317,7 @@ export default function LandingPage() {
               <h4 className="font-bold text-lg mb-4">Product</h4>
               <ul className="space-y-2">
                 <li><Link href="#features" className="hover:text-blue-400 transition-colors duration-200">Features</Link></li>
-                {/* <li><Link href="#" className="hover:text-blue-400 transition-colors duration-200">Pricing</Link></li> */}
+                <li><Link href="#" className="hover:text-blue-400 transition-colors duration-200">Pricing</Link></li>
                 <li><Link href="#use-cases" className="hover:text-blue-400 transition-colors duration-200">Use Cases</Link></li>
                 <li><Link href="#how-it-works" className="hover:text-blue-400 transition-colors duration-200">How it works</Link></li>
               </ul>
