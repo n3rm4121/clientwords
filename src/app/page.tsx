@@ -1,12 +1,15 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { Navbar } from "@/components/Navbar";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaFacebookF, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedinIn, FaMapMarkerAlt, FaPhone, FaRocket, FaStore, FaTwitter, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CircleCheckBig } from "lucide-react";
+import { Check, X } from 'lucide-react';
+import PricingCard from "./login/components/PricingCard";
+import AwesomePricingSection from "./login/components/PricingCard";
 
 const perks = [
   {
@@ -25,6 +28,34 @@ const perks = [
     icon: FaClone
   }
 ];
+
+const plans = [
+  {
+    title: "Starter",
+    price: 0,
+    features: [
+      { text: "Collect up to 10 testimonials", included: true },
+      { text: "1 Space", included: true },
+      { text: "Basic customization", included: true },
+      { text: "Email support", included: true },
+      { text: "No analytics", included: false },
+    ],
+    buttonText: "Get Started",
+  },
+  {
+    title: "Pro",
+    price: 10,
+    features: [
+      { text: "Collect up to 100 testimonials in total", included: true },
+      { text: "1 Space in total", included: true },
+      { text: "Advanced customization", included: true },
+      { text: "Priority support", included: true },
+    ],
+    buttonText: "Upgrade Now",
+    isPro: true,
+  }
+];
+
 
 export default function LandingPage() {
 
@@ -221,6 +252,9 @@ export default function LandingPage() {
     </div>
   </MaxWidthWrapper>
 </section>
+
+     {/* Pricing Section */}
+            <AwesomePricingSection />
 
       {/* CTA Section */}
       <section className="relative bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white p-16 m-5 rounded-3xl overflow-hidden shadow-lg  hover:shadow-2xl">
