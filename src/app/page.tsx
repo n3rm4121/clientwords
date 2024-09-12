@@ -283,7 +283,7 @@ export default function LandingPage() {
 
 
 {/* Contact Us Section */}
-<section id="contact-us" className="py-20">
+{/* <section id="contact-us" className="py-20">
   <MaxWidthWrapper>
   <div className="text-center mb-16">
     <h2 className="text-4xl font-bold sm:text-5xl mb-4">
@@ -307,7 +307,7 @@ export default function LandingPage() {
     </div>
   </div>
   </MaxWidthWrapper>
-</section>
+</section> */}
 
       {/* Footer Section */}
       <footer className="bg-gray-900 text-white py-12">
