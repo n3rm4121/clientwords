@@ -176,7 +176,7 @@ const AwesomePricingSection: React.FC = () => {
                     <Button variant="outline">
 
                         <HelpCircle className="mr-2 inline h-4 w-4" />
-                        <a href="mailto:support@example.com" className="text-indigo-400 hover:underline">
+                        <a href="mailto:support@clientwords.com" className="text-indigo-400 hover:underline">
                             Email Support
                         </a>
                     </Button>
