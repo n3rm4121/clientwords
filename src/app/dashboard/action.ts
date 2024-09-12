@@ -155,10 +155,9 @@ export async function deleteTestimonial(testimonialId: string) {
   await dbConnect();
   const session = await auth();
   const userId = session?.user?.id;
-  if(!userId) {
-    redirect('/login');
-  }
-
+    if(!userId) {
+      return null;
+    }
   try {
     await Testimonial.findByIdAndDelete(testimonialId);
     console.log("Testimonial deleted successfully");
