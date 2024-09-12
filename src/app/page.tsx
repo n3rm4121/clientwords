@@ -244,7 +244,7 @@ export default function LandingPage() {
 
     <div className="mt-16 text-center">
       <Link
-        href="/signup"
+        href="/login"
       className="inline-block px-10 py-4  rounded-full font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
       >
         Get Started Today
