@@ -71,7 +71,7 @@ const PricingCard = ({ title, price, features, buttonText, isPro = false, popula
         </CardContent>
         <CardFooter>
             <Link
-                href="/auth/signup"
+                href="/auth/login"
                 className={buttonVariants({
                     variant: isPro ? 'default' : 'outline',
                     size: 'lg',

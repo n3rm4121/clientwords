@@ -23,6 +23,10 @@ export function Navbar() {
     {
       name: 'Use Cases',
       href: '#use-cases'
+    },
+    {
+      name: 'Pricing',
+      href: '#pricing'
     }
   ];
 
@@ -58,9 +62,9 @@ export function Navbar() {
                 </Badge>
               </div>
               <div>
-                <div className="sm:ml-6 sm:flex hidden sm:space-x-8">
+                <div className="lg:ml-6 lg:flex  hidden mr-6">
                   {links.map((link, index) => (
-                    <Link key={index} href={link.href} className="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">
+                    <Link key={index} href={link.href} className="hover:text-muted-foreground  px-3 py-2 rounded-md text-sm font-medium">
                       {link.name}
                     </Link>
                   ))}
