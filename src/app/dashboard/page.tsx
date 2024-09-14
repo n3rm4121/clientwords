@@ -16,8 +16,9 @@ import { redirect } from 'next/navigation';
 export default async function DashboardPage() {
  
   const session = await auth();
-
-  if(!session) return null;
+  if(!session) {
+    return redirect('/login');
+  }
   const userId = session.user?.id;
   await dbConnect();
   const userData = await User.findById(userId);
