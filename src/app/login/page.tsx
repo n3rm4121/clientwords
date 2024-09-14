@@ -15,9 +15,9 @@ export default function LoginPage() {
       <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col md:flex-row">
         {/* Left side: Sign-in */}
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8">
-          <Link href="/" className="absolute top-5 left-5 flex-shrink-0">
+          {/* <Link href="/" className="absolute top-5 left-5 flex-shrink-0">
             <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
-          </Link>
+          </Link> */}
           <div className="w-full pt-12 max-w-md space-y-8">
             <div className="text-center md:text-left">
               <h1 className="text-4xl font-bold mb-2">
