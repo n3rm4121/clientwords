@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export default function middleware(req: NextRequest) {
   const token = req.cookies.get('authjs.session-token');
+  console.log(token);
   const url = req.nextUrl.clone();
 
   // If user is not authenticated and trying to access a protected route (e.g., dashboard)

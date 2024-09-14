@@ -4,16 +4,13 @@ import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 
-export const GET = async (req: NextRequest) => {
+export const GET = auth(async (req) => {
   try {
     // Get session using the auth middleware
-    const session = await auth();
-
-    if (!session || !session.user) {
-      return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
+    if(!req.auth){
+      return NextResponse.json({ message: "Not authenticated" }, { status: 403 });
     }
-
-    const userId = session.user.id; // Assuming `id` exists on session.user
+    const userId = req.auth.user.id // Assuming `id` exists on session.user
 
     await dbConnect();
 
@@ -28,4 +25,4 @@ export const GET = async (req: NextRequest) => {
     console.error("Error fetching user data:", error);
     return NextResponse.json({ message: "Error getting user data", error }, { status: 500 });
   }
-};
+});
