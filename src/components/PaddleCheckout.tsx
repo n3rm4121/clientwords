@@ -35,11 +35,9 @@ export function Checkout({ user }: CheckoutProps) {
       }
 
       const result = await response.json();
-      console.log('Database updated:', result);
     } catch (error) {
       console.error('Error updating database:', error);
     }
-    console.log("Database updated:", eventData);
   };
 
 
@@ -55,18 +53,15 @@ export function Checkout({ user }: CheckoutProps) {
       eventCallback(event) {
         switch (event.name) {
           case 'checkout.completed':
-            console.log('Checkout completed:', event.data);
             updateDatabase(event.data);
             break;
           case 'checkout.closed':
-            console.log('Checkout closed');
             router.push('/');
             break;
           // case 'checkout.created':
           //   console.log('Checkout created:', event.data);
           //   break;
           case 'checkout.loaded':
-            console.log('Checkout loaded');
             break;
           case 'checkout.error':
             console.error('Checkout error:', event.data);
@@ -85,7 +80,6 @@ export function Checkout({ user }: CheckoutProps) {
     let priceId = searchParams.get('priceId');
 
     if (paddle?.Checkout) {
-      console.log('Opening checkout:', transactionId, priceId);
       if (transactionId) {
         paddle.Checkout.open({
           settings: {

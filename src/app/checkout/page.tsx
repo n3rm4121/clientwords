@@ -19,6 +19,5 @@ export default async function Page() {
   if(!user){
     redirect('/login');
   }
-  console.log(user);
   return <Checkout user={user as User} />;
 }

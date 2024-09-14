@@ -30,33 +30,6 @@ const perks = [
   }
 ];
 
-const plans = [
-  {
-    title: "Starter",
-    price: 0,
-    features: [
-      { text: "Collect up to 10 testimonials", included: true },
-      { text: "1 Space", included: true },
-      { text: "Basic customization", included: true },
-      { text: "Email support", included: true },
-      { text: "No analytics", included: false },
-    ],
-    buttonText: "Get Started",
-  },
-  {
-    title: "Pro",
-    price: 10,
-    features: [
-      { text: "Collect up to 100 testimonials in total", included: true },
-      { text: "1 Space in total", included: true },
-      { text: "Advanced customization", included: true },
-      { text: "Priority support", included: true },
-    ],
-    buttonText: "Upgrade Now",
-    isPro: true,
-  }
-];
-
 
 export default function LandingPage() {
 
@@ -280,35 +253,7 @@ export default function LandingPage() {
   <div className="absolute bottom-0 left-0 w-32 h-32 md:w-56 md:h-56 bg-orange-500 opacity-20 rounded-full blur-3xl"></div>
   <div className="absolute top-1/3 right-10 w-20 h-20 md:w-32 md:h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
 </section>
-
-
-
-{/* Contact Us Section */}
-{/* <section id="contact-us" className="py-20">
-  <MaxWidthWrapper>
-  <div className="text-center mb-16">
-    <h2 className="text-4xl font-bold sm:text-5xl mb-4">
-      Get in Touch
-    </h2>
-    <p className="text-xl text-muted-foreground mx-auto">
-      Have questions or need assistance? We're here to help!
-    </p>
-  </div>
-  <div className="flex items-center justify-center">
-    <div className="w-full max-w-screen-sm">
-      <form className="space-y-4">
-        <Input type="text" placeholder="Your Name" required />
-        <Input type="email" placeholder="Your Email" required />
-        <Input type="text" placeholder="Subject" required />
-        <Textarea placeholder="Your Message" required className="h-32" />
-        <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:shadow-xl transform hover:scale-105  transition-all duration-300">
-          Send Message
-        </Button>
-      </form>
-    </div>
-  </div>
-  </MaxWidthWrapper>
-</section> */}
+ 
 
       {/* Footer Section */}
       <footer className="bg-gray-900 text-white py-12">
@@ -319,7 +264,7 @@ export default function LandingPage() {
                   <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
                 </Link>
               {/* <p className="text-muted-foreground">Transforming customer testimonials into powerful social proof.</p> */}
-              <p className="text-muted-foreground"><Mail className="inline mr-2"/>support@clientwords.com</p>
+              <div className="text-muted-foreground"><Mail className="inline mr-2"/>support@clientwords.com</div>
               </div>
             <div>
               <h4 className="font-bold text-lg mb-4">Product</h4>

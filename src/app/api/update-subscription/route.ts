@@ -38,7 +38,7 @@ export const POST = auth(async function POST(req: NextRequest) {
     }
     // dbUser.subscriptionEndDate = new Date(new Date().setDate(new Date().getDate() + 30));
     await dbUser.save();
-    console.log("Subscription updated:", dbUser);
+ 
     return NextResponse.json({ message: "Subscription updated successfully" }, { status: 200 });
 
 

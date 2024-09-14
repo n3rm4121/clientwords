@@ -63,12 +63,12 @@ export default function Navbar({ isProUser, handleToggle }: { isProUser: boolean
 
         <div>
           <div className="flex gap-4">
-            {!isProUser && (
+            {/* {!isProUser && (
               <Button className="hidden md:flex" onClick={() => router.push('/upgrade')}>
                 Upgrade to Pro
                 <Gem className="ml-2" size={18} />
               </Button>
-            )}
+            )} */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -89,7 +89,7 @@ export default function Navbar({ isProUser, handleToggle }: { isProUser: boolean
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
+                {/* <DropdownMenuItem>Support</DropdownMenuItem> */}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>Sign Out</DropdownMenuItem>
               </DropdownMenuContent>

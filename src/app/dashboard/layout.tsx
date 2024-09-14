@@ -47,7 +47,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         // get if user is pro or not
         const isProUser = async () => {
             const isProUsr = await isPro(userId!);
-            console.log('isProUser', isProUsr);
             setIsProUser(isProUsr);
         }
         isProUser();

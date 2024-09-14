@@ -33,24 +33,24 @@ interface PlanProps {
 const PricingCard = ({ title, price, priceId, features, buttonText, isPro = false, isBusiness=false, popularPlan = false }: PlanProps) => (
     <Card className={`relative overflow-hidden transition-all duration-300 ${popularPlan ? 'border-primary shadow-lg scale-105' : 'hover:border-primary hover:shadow-md'
         }`}>
-        {popularPlan && (
+        {/* {popularPlan && (
             <Badge className="absolute top-0 right-0 m-4" variant="secondary">
                 Most Popular
             </Badge>
-        )}
+        )} */}
 
         <CardHeader>
             <CardTitle className={`text-2xl font-bold`}>{title}</CardTitle>
         </CardHeader>
         <CardDescription>
             {isPro && (
-                <p className="text-muted-foreground">For Small Business</p>
+                <span className="text-muted-foreground">For Small Business</span>
             ) }
             {isBusiness && (
-                <p className="text-muted-foreground">For Growing Business</p>
+                <span className="text-muted-foreground">For Growing Business</span>
             ) }
             {!isPro && !isBusiness && (
-                <p className="text-muted-foreground">For Hobby Project</p>
+                <span className="text-muted-foreground">For Hobby Project</span>
             ) }
             
         </CardDescription>

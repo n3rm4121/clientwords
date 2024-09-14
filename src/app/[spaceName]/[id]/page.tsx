@@ -34,10 +34,8 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
     const user = await User.findById(space.owner).select('subscriptionTier').exec();
 
     const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length|| 0);
-    console.log(can);
     if (!testimonialCardData) {
       // Return default 404 page if no testimonial card is found
-      console.log("No testimonial card found");
       return <NotFound />;
     }
     

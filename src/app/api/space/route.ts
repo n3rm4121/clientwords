@@ -67,9 +67,9 @@ export const POST = auth(async function POST(req) {
     const { name } = body; // Extract the `name` property from the parsed body
  
       const eligibleUser = await User.findById(user?.id).select('spaces subscriptionTier')
-    console.log(eligibleUser);
+  
      const can = canCreateSpace(eligibleUser.subscriptionTier, eligibleUser.spaces.length);
-     console.log(can);
+  
     if(!can) {
       return NextResponse.json({ message: "You have reached the limit of creating space" }, { status: 400 });
     }

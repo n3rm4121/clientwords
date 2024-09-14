@@ -20,7 +20,6 @@ const uploadOnCloudinary = async (fileBuffer: Buffer, type: string) => {
 
     // Convert the processed image buffer to a base64 data URI
     const fileStr = `data:image/webp;base64,${processedImage.toString('base64')}`;
-    console.log(fileStr)
 
     // Upload the processed image to Cloudinary (without transformations)
     const response = await cloudinary.uploader.upload(fileStr, {
