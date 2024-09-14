@@ -1,18 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+
 export default function middleware(req: NextRequest) {
   const token = req.cookies.get('authjs.session-token');
   const url = req.nextUrl.clone();
-// Ignore requests for static files (e.g., images in the public folder)
-if (url.pathname.startsWith('/_next') || url.pathname.startsWith('/public') || url.pathname.match(/\.(png|jpg|jpeg|gif|svg|ico)$/)) {
-  return NextResponse.next();
-}
-  // If user is not authenticated and trying to access dashboard
+
+  // If user is not authenticated and trying to access a protected route (e.g., dashboard)
   if (!token && url.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  // If user is authenticated and trying to access login page
+  // If user is authenticated and trying to access the login page, redirect them to the dashboard
   if (token && url.pathname.startsWith('/login')) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
@@ -20,10 +18,10 @@ if (url.pathname.startsWith('/_next') || url.pathname.startsWith('/public') || u
   return NextResponse.next();
 }
 
+// Apply middleware to all routes except for api, _next/static, _next/image, and favicon.ico
 export const config = {
-  matcher: ['/dashboard/:path*', '/login'], // Adjust based on your routes
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
-
 
 
  // res.headers.set(
