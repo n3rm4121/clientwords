@@ -3,7 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 export default function middleware(req: NextRequest) {
   const token = req.cookies.get('authjs.session-token');
   const url = req.nextUrl.clone();
-
+// Ignore requests for static files (e.g., images in the public folder)
+if (url.pathname.startsWith('/_next') || url.pathname.startsWith('/public') || url.pathname.match(/\.(png|jpg|jpeg|gif|svg|ico)$/)) {
+  return NextResponse.next();
+}
   // If user is not authenticated and trying to access dashboard
   if (!token && url.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/login', req.url));
