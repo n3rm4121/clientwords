@@ -1,29 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-
-export default function middleware(req: NextRequest) {
-  const token = req.cookies.get('token')?.value || ''
-  const url = new URL(req.url);
-  // If user is not authenticated and trying to access a protected route (e.g., dashboard)
-  if (!token && url.pathname.startsWith('/dashboard')) {
-    return NextResponse.redirect(new URL('/login', req.url));
+import { auth } from "@/auth"
+ 
+const publicPath = ['/','/login', '/privacy', '/terms', '/refund-policy']
+export default auth((req) => {
+ 
+  if(!req.auth && !publicPath.includes(req.nextUrl.pathname)) {
+    const newUrl = new URL("/login", req.nextUrl.origin)
+    return Response.redirect(newUrl)
+  } 
+  if(req.auth && req.nextUrl.pathname === "/login") {
+    const newUrl = new URL("/dashboard", req.nextUrl.origin)
+    return Response.redirect(newUrl)
   }
+})
 
-  // If user is authenticated and trying to access the login page, redirect them to the dashboard
-  if (token && url.pathname.startsWith('/login')) {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
-  }
-
-  return NextResponse.next();
-}
-
-// Apply middleware to all routes except for api, _next/static, _next/image, and favicon.ico
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)", "/dashboard", "/login"],
-};
-
-
- // res.headers.set(
-  //   'Content-Security-Policy',
-  //   "frame-ancestors 'self' https://sandbox-buy.paddle.com/ https://checkout.paddle.com/;"
-  // );
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)", '/dashboard/:path*', '/login',],
+}
