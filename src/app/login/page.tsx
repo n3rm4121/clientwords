@@ -4,18 +4,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import LoginButton from './components/LoginButton' // Client component for sign-in logic
 import { Metadata } from 'next'
-import { auth } from '@/auth'
-import { redirect } from 'next/navigation'
 export const metadata:Metadata = {
   title: "Login"
 }
 
-export default async function LoginPage() {
-  const session = await auth();
-  const user = session?.user;
-  if(user){
-    redirect('/dashboard');
-  }
+export default function LoginPage() {
+
   return (
     <>
       <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col md:flex-row">

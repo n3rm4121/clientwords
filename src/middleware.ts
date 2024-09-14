@@ -3,13 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 export default function middleware(req: NextRequest) {
   const token = req.cookies.get('authjs.session-token'); 
   const url = req.nextUrl.clone();
-  const res = NextResponse.next();
   if (!token) {
     if (url.pathname.startsWith('/dashboard')) {
       return NextResponse.redirect(new URL('/login', req.url));
     }
   } else {  
-    if (url.pathname.startsWith('/auth/login')) {
+    if (url.pathname.startsWith('/login')) {
       return NextResponse.redirect(new URL('/dashboard', req.url));
     }
   }
@@ -18,9 +17,8 @@ export default function middleware(req: NextRequest) {
   //   "frame-ancestors 'self' https://sandbox-buy.paddle.com/ https://checkout.paddle.com/;"
   // );
 
+  return NextResponse.next();
 
-
-  return res;
 }
 
 export const config = {
