@@ -10,39 +10,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GithubProvider,
     GoogleProvider,
-    // Credentials({
-    //   name: "Credentials",
-    //   credentials: {
-    //     email: { label: "Email", type: "text" },
-    //     password: { label: "Password", type: "password" },
-    //   },
 
-    //   authorize: async (credentials) => {
-    //     const email = credentials.email as string | undefined;
-    //     const password = credentials.password as string | undefined;
-
-    //     if (!email || !password) {
-    //       throw new Error("Both email and password are required");
-    //     }
-
-    //     await dbConnect();
-
-    //     const user = await User.findOne({ email }).select('+password');
-
-    //     if (!user || !user.password) {
-    //       throw new Error("Invalid email or password");
-    //     }
-
-    //     const isValid = await bcrypt.compare(password, user.password);
-
-
-    //     if (!isValid) {
-    //       throw new Error("Invalid email or password");
-    //     }
-
-    //     return user;
-    //   },
-    // }),
   ],
 
   secret: process.env.AUTH_SECRET,

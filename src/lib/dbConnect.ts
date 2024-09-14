@@ -1,42 +1,50 @@
-import mongoose from "mongoose";
-declare global {
-  var mongoose: any; // This must be a `var` and not a `let / const`
+import { MongoClient, Db } from 'mongodb';
+
+if (!process.env.MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-const MONGODB_URI = process.env.MONGODB_URI!;
-
-if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local",
-  );
+if (!process.env.DB_NAME) {
+  throw new Error('Please define the DB_NAME environment variable inside .env.local');
 }
 
-let cached = global.mongoose;
+const uri = process.env.MONGODB_URI;
+const dbName = process.env.DB_NAME;
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+interface MongoConnection {
+  client: MongoClient;
+  db: Db;
 }
 
-async function dbConnect() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
-  }
-  try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
+let cachedConnection: MongoConnection | null = null;
+
+export default async function dbConnect(): Promise<Db> {
+  if (cachedConnection) {
+    return cachedConnection.db;
   }
 
-  return cached.conn;
+  const client = await MongoClient.connect(uri);
+  const db = client.db(dbName);
+
+  cachedConnection = { client, db };
+
+  client.on('error', (error) => {
+    console.error('MongoDB connection error:', error);
+    cachedConnection = null;
+  });
+
+  client.on('close', () => {
+    console.log('MongoDB connection closed');
+    cachedConnection = null;
+  });
+
+  return db;
 }
 
-export default dbConnect;
+// Optional: Add a function to explicitly close the connection if needed
+export async function closeDbConnection() {
+  if (cachedConnection) {
+    await cachedConnection.client.close();
+    cachedConnection = null;
+  }
+}
