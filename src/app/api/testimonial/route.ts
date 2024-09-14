@@ -6,6 +6,8 @@ import { uploadOnCloudinary } from "@/lib/cloudinary";
 import { testimonailSchema } from "@/schemas/validationSchema";
 import { testimonialSubmitRateLimit } from "@/utils/rateLimit";
 import Space from "@/models/space.model";
+import User from "@/models/user.model";
+import { canCollectTestimonial } from "@/lib/featureAccess";
 
 
 async function uploadUserAvatar(file: File): Promise<string> {
@@ -96,6 +98,11 @@ export async function POST(request: NextRequest) {
 
         parsedData.owner = space?.owner;
         parsedData.spaceName = space?.name;
+        const user = await User.findById(parsedData.owner).select('subscriptionTier').exec();
+        const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length || 0);
+        if(!can){
+            return NextResponse.json({error: `${parsedData.spaceName} has reached the limit of collecting testimonials`}, {status: 400});
+        }
         const newTestimonial = await Testimonial.create(parsedData);
         
         // save this newTestimonial's id in space document

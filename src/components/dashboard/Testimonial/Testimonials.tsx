@@ -15,6 +15,11 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 import { toast, ToastContainer } from 'react-toastify';
+import { getUserSubscriptionTier } from '@/app/dashboard/action';
+import { useSession } from 'next-auth/react';
+import { canCollectTestimonial } from '@/lib/featureAccess';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Terminal } from 'lucide-react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -29,7 +34,10 @@ export default function Testimonials({
 }) {
   const [page, setPage] = useState(1)
   const limit = 9
-
+  const {data: session} = useSession();
+  const [subTier, setSubTier] = useState<any>();
+  const userId = session?.user?.id;
+  const [can, setCan] = useState(true);
   const { data, error, isLoading, mutate } = useSWR<{ testimonials: ITestimonial[], total: number, page: number, limit: number }>(
     `/api/testimonial?spaceId=${spaceId}&query=${query}&page=${page}&limit=${limit}`,
     fetcher,
@@ -39,6 +47,22 @@ export default function Testimonials({
     }
   )
 
+  useEffect(() => {
+    if(subTier && data){
+      setCan(canCollectTestimonial(subTier, data?.testimonials.length as number));
+    }
+  }, [subTier, data])
+   
+  useEffect(() => {
+    if(session){
+      getUserSubscriptionTier(userId as string).then((data) => {
+        setSubTier(data);
+      });
+      
+    }
+  }, [session])
+
+  
   useEffect(() => {
     const eventSource = new EventSource(`/api/sse?spaceId=${spaceId}`)
 
@@ -91,6 +115,17 @@ export default function Testimonials({
 
   return (
     <div>
+      {!can && 
+         <Alert className="bg-yellow-50 border-l-4 mb-4 border-yellow-400 text-yellow-700 p-4">
+         <Terminal className="h-4 w-4 mr-2" />
+         <div>
+           <AlertTitle className="font-bold">Heads up!</AlertTitle>
+           <AlertDescription>
+              You have reached the limit of testimonials for your current subscription tier. Please upgrade your subscription to collect more testimonials.
+           </AlertDescription>
+         </div>
+       </Alert>
+      }
       {data?.testimonials?.length === 0 && <EmptyState uniqueLink={uniqueLink} />}
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 mx-auto max-w-7xl">
         {data?.testimonials?.map((testimonial) => (
@@ -99,7 +134,7 @@ export default function Testimonials({
           </div>
         ))}
       </div>
-      <div className="mt-8">
+      {data?.testimonials?.length !== 0 && <div className="mt-8">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -127,6 +162,7 @@ export default function Testimonials({
           </PaginationContent>
         </Pagination>
       </div>
+}
     </div>
   )
 }

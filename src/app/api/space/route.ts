@@ -5,6 +5,7 @@ import Space from "@/models/space.model";
 import { generateUniqueLink } from "@/utils/generateUniqueLink";
 import { Types } from "mongoose";
 import User from "@/models/user.model";
+import { canCreateSpace } from "@/lib/featureAccess";
 // get all space of user
 export const GET = auth(async function GET(req, ) {
     if (!req.auth) {
@@ -65,11 +66,11 @@ export const POST = auth(async function POST(req) {
     const body = await req.json(); // Parse the body as JSON
     const { name } = body; // Extract the `name` property from the parsed body
  
-   
-    // limit the space document to 1 for if user is not pro
-    const eligibleUser = await User.findById(user?.id).select('spaces isProUser')
-
-    if(eligibleUser.spaces.length  >= 1 && !eligibleUser.isProUser) {
+      const eligibleUser = await User.findById(user?.id).select('spaces subscriptionTier')
+    console.log(eligibleUser);
+     const can = canCreateSpace(eligibleUser.subscriptionTier, eligibleUser.spaces.length);
+     console.log(can);
+    if(!can) {
       return NextResponse.json({ message: "You have reached the limit of creating space" }, { status: 400 });
     }
     let space = await new Space({ name, owner: user?.id });

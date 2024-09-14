@@ -18,7 +18,7 @@ export default function DisplayTestimonials({ params, uniqueLink }: Props) {
   const searchParams = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('query') || '')
   const [debouncedQuery] = useDebounce(query, 300)
-
+  const [TotalTestimonials, setTotalTestimonials] = useState(0)
   const handleSearch = useCallback((newQuery: string) => {
     setQuery(newQuery)
   }, [])
@@ -30,10 +30,19 @@ export default function DisplayTestimonials({ params, uniqueLink }: Props) {
     router.push(`?${params.toString()}`, { scroll: false })
   }, [debouncedQuery, router, searchParams])
 
+  useEffect(() => {
+    async function fetchTestimonials() {
+     const testimonials =  await fetch(`/api/testimonial?spaceId=${params.id}&query=${debouncedQuery}&page=1&limit=9`)
+      const data = await testimonials.json()
+      setTotalTestimonials(data.testimonials.length)
+     
+    }
+    fetchTestimonials()
+  },[debouncedQuery, params.id])
   return (
     <div className="flex flex-col h-screen">
       <div className="p-4">
-        <Search placeholder="Search testimonials by name or message..." onSearch={handleSearch} />
+        <Search placeholder="Search testimonials by name or message..." onSearch={handleSearch} disabled={TotalTestimonials === 0}/>
       </div>
       
       <ScrollArea className="flex-grow rounded-md border p-4">

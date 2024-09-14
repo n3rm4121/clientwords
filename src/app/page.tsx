@@ -6,10 +6,11 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CircleCheckBig } from "lucide-react";
+import { CircleCheckBig, Mail } from "lucide-react";
 import { Check, X } from 'lucide-react';
 import PricingCard from "./login/components/PricingCard";
 import AwesomePricingSection from "./login/components/PricingCard";
+import Image from "next/image";
 
 const perks = [
   {
@@ -107,8 +108,8 @@ export default function LandingPage() {
             {perks.map((perk, index) => (
               <Card key={index} className=" p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
                 <div className="flex flex-col items-center text-center">
-                  <div className="bg-blue-100 p-3 rounded-full mb-4">
-                    <perk.icon className="text-4xl text-blue-600" />
+                  <div className=" p-3 rounded-full mb-4">
+                    <perk.icon className="text-4xl text-primary" />
                   </div>
                   <h3 className="text-2xl font-bold mb-2">{perk.name}</h3>
                   <p className="text-muted-foreground">{perk.description}</p>
@@ -313,6 +314,13 @@ export default function LandingPage() {
       <footer className="bg-gray-900 text-white py-12">
         <MaxWidthWrapper>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <Link href="/" className="flex-shrink-0">
+                  <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+                </Link>
+              {/* <p className="text-muted-foreground">Transforming customer testimonials into powerful social proof.</p> */}
+              <p className="text-muted-foreground"><Mail className="inline mr-2"/>support@clientwords.com</p>
+              </div>
             <div>
               <h4 className="font-bold text-lg mb-4">Product</h4>
               <ul className="space-y-2">

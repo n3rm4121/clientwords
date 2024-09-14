@@ -28,10 +28,11 @@ import { deleteSpace, getUserSpaceCount } from '@/app/dashboard/action';
 import { MaxWidthWrapper } from '../MaxWidthWrapper';
 import { toast, ToastContainer } from 'react-toastify';
 import { useSession } from 'next-auth/react';
+import { canCreateSpace } from '@/lib/featureAccess';
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
 
-export const ShowSpaces = () => {
+export const ShowSpaces = ({subscriptionTier}: {subscriptionTier: any}) => {
   const [spaces, setSpaces] = useState<any[]>([]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -41,7 +42,6 @@ export const ShowSpaces = () => {
   };
 
   const { data, isLoading, error } = useSWR('/api/space', fetcher);
-
   useEffect(() => {
     if (data && data.spaces) {
       setSpaces(data.spaces);
@@ -66,11 +66,13 @@ export const ShowSpaces = () => {
     }
   }
 
+  // const subscriptionTier = userData.subscriptionTier;
+
   return (
     <div>
       <ToastContainer />
       {/* Dialog for adding a new space */}
-      {spaces.length != 0 && <DialogDemo addSpace={addSpace} />}
+      {spaces.length != 0 && <DialogDemo addSpace={addSpace} subscriptionTier={subscriptionTier} />}
 
       {isLoading ? (
         <MultipleSkeletonSpaceCard />
@@ -84,7 +86,7 @@ export const ShowSpaces = () => {
                 Create your first space to start collecting testimonials.
               </p>
 
-              <DialogDemo addSpace={addSpace} />
+              <DialogDemo addSpace={addSpace} subscriptionTier={subscriptionTier}/>
 
             </div>
           ) : (
@@ -161,7 +163,7 @@ const createSpaceSchema = z.object({
 })
 
 
-export function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) {
+export function DialogDemo({ addSpace, subscriptionTier }: {subscriptionTier:any, addSpace: (newSpace: any) => void }) {
   const [name, setName] = useState('');
   const [errors, setErrors] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -169,6 +171,7 @@ export function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) 
   const session = useSession();
   const user = session.data?.user;
   const router = useRouter();
+  const can = canCreateSpace(subscriptionTier, spaceCount);
 
   // Fetch user space count
   useEffect(() => {
@@ -217,7 +220,7 @@ export function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) 
         <DialogTrigger asChild>
         
     
-          <Button disabled={spaceCount >= 1 && !user?.isProUser}>
+          <Button disabled={!can}>
             Create New Space 
             {(!user?.isProUser || spaceCount >= 1) && <Gem className="ml-2 h-4 w-4" />}
           </Button>
@@ -251,7 +254,7 @@ export function DialogDemo({ addSpace }: { addSpace: (newSpace: any) => void }) 
             <Button
               loading={loading}
               onClick={() => handleCreateSpace(name.replace(/\s+/g, ''))}
-              disabled={spaceCount >= 1 && !user?.isProUser}  // Disable button if user already has a space
+              disabled={!can}  // Disable button if user already has a space
             >
               Create New Space
             </Button>

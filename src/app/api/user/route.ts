@@ -1,37 +1,31 @@
-// get user data like name, and oauth accounts
-
 import { auth } from "@/auth";
 import dbConnect from "@/lib/dbConnect";
 import User from "@/models/user.model";
-import { Types } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+import { Types } from "mongoose";
 
+export const GET = async (req: NextRequest) => {
+  try {
+    // Get session using the auth middleware
+    const session = await auth();
 
-export const GET = auth(async (req) => {
-    try{
-        
-        if(!req.auth){
-            return NextResponse.json({message: "Not authenticated"}, {status: 401});
-        }
-
-        const user = req.auth?.user;
-        
-        await dbConnect();
-
-        if (!user) {
-            return NextResponse.json({ message: "User not found" }, { status: 404 });
-          }
-
-        const userId = new Types.ObjectId(user?.id);
-        const userData = await User.findById(userId).select('name oauthAccounts email').exec();
-        
-        if(!userData){
-            return NextResponse.json({message: "No user found"}, {status: 404});
-        }
-     
-        return NextResponse.json({message: 'Successfully fetched user data', userData});
+    if (!session || !session.user) {
+      return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
     }
-    catch(error){
-        return NextResponse.json({message: "Error getting user data", error}, {status: 500});
+
+    const userId = session.user.id; // Assuming `id` exists on session.user
+
+    await dbConnect();
+
+    const userData = await User.findById(new Types.ObjectId(userId)).exec();
+    
+    if (!userData) {
+      return NextResponse.json({ message: "No user found" }, { status: 404 });
     }
-})
+
+    return NextResponse.json({ message: 'Successfully fetched user data', userData });
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return NextResponse.json({ message: "Error getting user data", error }, { status: 500 });
+  }
+};

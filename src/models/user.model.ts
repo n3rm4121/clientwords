@@ -1,5 +1,11 @@
 import mongoose, { Schema, model, Document } from 'mongoose';
 
+export enum SubscriptionTier {
+  FREE = 'Free',
+  PRO = 'Pro',
+  BUSINESS = 'Business'
+}
+
 interface OAuthAccount {
   provider: string;
   providerAccountId: string;
@@ -10,10 +16,11 @@ interface User extends Document {
   image: string;
   email: string;
   isVerified: boolean;
-  isProUser: boolean;
   oauthAccounts: OAuthAccount[];
   spaces: Schema.Types.ObjectId[];
   isNewUser: boolean;
+  subscriptionTier: SubscriptionTier;
+  subscriptionEndDate: Date | null;
 }
 
 const oauthAccountSchema = new Schema<OAuthAccount>({
@@ -50,10 +57,14 @@ const userSchema = new Schema<User>({
     type: Boolean,
     default: false,
   },
-  isProUser: {
-    type: Boolean,
-    default: false,
-
+  subscriptionTier: {
+    type: String,
+    enum: Object.values(SubscriptionTier),
+    default: SubscriptionTier.FREE,
+  },
+  subscriptionEndDate: {
+    type: Date,
+    default: null,
   },
   oauthAccounts: [oauthAccountSchema],
   spaces: [
@@ -67,5 +78,3 @@ const userSchema = new Schema<User>({
 const User = mongoose.models?.User || model<User>('User', userSchema);
 
 export default User;
-
-
