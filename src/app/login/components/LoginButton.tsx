@@ -8,13 +8,6 @@ import { Button } from '@/components/ui/button'
 
 export default function LoginButton() {
   const [isLoading, setIsLoading] = useState(false)
-  const session = useSession()
-
-  useEffect(() => {
-    if (session.data) {
-      window.location.href = '/dashboard'
-    }
-  }, [session])
 
   const handleProviderSignIn = async (provider: 'google' | 'github') => {
     setIsLoading(true)

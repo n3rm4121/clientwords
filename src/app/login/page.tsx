@@ -1,5 +1,3 @@
-// 'use client' is not used here as it's a server component.
-
 import Link from 'next/link'
 import Image from 'next/image'
 import LoginButton from './components/LoginButton' // Client component for sign-in logic
