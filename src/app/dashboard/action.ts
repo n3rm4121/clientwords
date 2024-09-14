@@ -1,6 +1,7 @@
 'use server'
 
-import { auth, signOut } from "@/auth";
+import { auth} from "@/auth";
+import { signOut } from "next-auth/react";
 import dbConnect from "@/lib/dbConnect";
 import LoveGallery from "@/models/loveGallery.model";
 import Space from "@/models/space.model";

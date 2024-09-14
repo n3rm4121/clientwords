@@ -34,6 +34,7 @@
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.2.1",
     "framer-motion": "^11.3.30",
+    "jsonwebtoken": "^9.0.2",
     "latest-version": "^9.0.0",
     "lucide-react": "^0.436.0",
     "mongoose": "^8.6.2",
@@ -58,6 +59,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/canvas-confetti": "^1.6.4",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -70,6 +72,6 @@
     "typescript": "^5"
   },
   "engines": {
-   "node": "20.x"
+    "node": "20.x"
   }
 }

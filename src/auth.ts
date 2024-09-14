@@ -10,7 +10,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GithubProvider,
     GoogleProvider,
-
   ],
 
   secret: process.env.AUTH_SECRET,
