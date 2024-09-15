@@ -8,11 +8,21 @@ import GoogleProvider from 'next-auth/providers/google';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    GithubProvider,
-    GoogleProvider,
+    GithubProvider({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET
+    }),
+    GoogleProvider({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET
+    }),
+    
   ],
 
   secret: process.env.AUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
 
   pages: {
     signIn: "/login",
@@ -25,7 +35,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         await dbConnect();
         const dbUser = await User.findOne({email: user.email});
 
-        token.id = dbUser._id;
+        token.id = dbUser._id.toString();
         token.email = user.email;
         token.name = dbUser.name;
         token.image = dbUser.image;

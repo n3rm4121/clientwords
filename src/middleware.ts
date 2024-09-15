@@ -27,6 +27,7 @@ export async function middleware(request: NextRequest) {
   if (!token && isPrivatePath) {
     const url = new URL('/login', request.nextUrl.origin);
     url.searchParams.set('callbackUrl', request.nextUrl.pathname);
+    console.log(url);
     return NextResponse.redirect(url);
   }
 
