@@ -15,7 +15,16 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ToastContainer } from "react-toastify";
 export const metadata: Metadata = {
-  
+  metadataBase: new URL('https://clientwords.com'),
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/en-US',
+    },
+  },
+  openGraph: {
+    images: '/opengraph-image.png',
+  },
   title: {
     default: "ClientWords - Amplify Your Success with your Client's Words",
     template: '%s - ClientWords',
