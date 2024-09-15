@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const publicPaths = ['/', '/login', '/privacy', '/terms', '/refund-policy','/space:id'];
-
+const privatePaths = ['/dashboard', '/dashboard/:path*'];
 export async function middleware(request: NextRequest) {
   const secret = process.env.AUTH_SECRET;
   
@@ -22,7 +21,7 @@ export async function middleware(request: NextRequest) {
 
   
   // Check if the path is public or if the token is valid
-  if (!token && !publicPaths.includes(request.nextUrl.pathname)) {
+  if (!token && privatePaths.includes(request.nextUrl.pathname)) {
     const url = new URL('/login', request.nextUrl.origin);
     return NextResponse.redirect(url);
   }
