@@ -21,7 +21,8 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     // Return default 404 page if the id is not a valid ObjectId
-    return <NotFound />;
+    console.log("Invalid ObjectId");
+    // return <NotFound />;
   }
 
   try {
@@ -29,14 +30,16 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
     await dbConnect();
     // Fetch the testimonial card data based on the id (which is the spaceId)
     let testimonialCardData = await TestimonialCard.findOne({ spaceName, spaceId: id });
+    console.log("Testimonial Card Data:", testimonialCardData);
 
     const space = await Space.findById(id).select('testimonials, owner').exec();
     const user = await User.findById(space.owner).select('subscriptionTier').exec();
 
     const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length|| 0);
     if (!testimonialCardData) {
+      console.log("No testimonial card found");
       // Return default 404 page if no testimonial card is found
-      return <NotFound />;
+      // return <NotFound />;
     }
     
     testimonialCardData = testimonialCardData.toObject();
@@ -44,14 +47,15 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
     testimonialCardData.spaceId = testimonialCardData.spaceId.toString();
     
     if(!can) {
-      return <NotFound />;
+      console.log("User cannot collect testimonial");
+      // return <NotFound />;
     }
     return <TestimonialSubmit testimonialCardData={testimonialCardData} />;
 
   } catch (error) {
     console.error("Error fetching testimonial card data:", error);
     // Handle the error accordingly (return a custom error page, log it, etc.)
-    return <NotFound />;
+    // return <NotFound />;
   }
 };
 

@@ -32,7 +32,9 @@ export const GET = auth(async function GET(req, ) {
         },
         {
           $addFields: {
-            testimonialsCount: { $size: "$testimonials" }
+            testimonialsCount: { $size: { 
+              $ifNull: ["$testimonials", []]  // Ensure testimonials is an array, or default to an empty array
+            }}
           }
         }
       ]);

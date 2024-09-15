@@ -4,13 +4,16 @@ import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 
-export const GET = auth(async (req) => {
+export const POST = auth(async function POST(req: NextRequest) {  
   try {
     // Get session using the auth middleware
-    if(!req.auth){
-      return NextResponse.json({ message: "Not authenticated" }, { status: 403 });
+    const session = await auth();
+
+    if (!session || !session.user) {
+      return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
     }
-    const userId = req.auth.user.id // Assuming `id` exists on session.user
+
+    const userId = session.user.id; // Assuming `id` exists on session.user
 
     await dbConnect();
 

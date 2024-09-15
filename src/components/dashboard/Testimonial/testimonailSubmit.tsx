@@ -16,7 +16,7 @@ import { Thankyou } from "./ThankYou";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 
-const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: ITestimonialCard }) => {
+const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: any }) => {
     const [userName, setUsername] = useState<string>('');
     const [userIntro, setUserIntro] = useState<string>('');
     const [message, setMessage] = useState<string>('');

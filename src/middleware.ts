@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-const publicPaths = ['/', '/login', '/privacy', '/terms', '/refund-policy'];
+const publicPaths = ['/', '/login', '/privacy', '/terms', '/refund-policy','/space:id'];
 
 export async function middleware(request: NextRequest) {
   const secret = process.env.AUTH_SECRET;

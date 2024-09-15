@@ -1,7 +1,6 @@
 'use server'
 
-import { auth} from "@/auth";
-import { signOut } from "next-auth/react";
+import { auth, signOut } from "@/auth";
 import dbConnect from "@/lib/dbConnect";
 import LoveGallery from "@/models/loveGallery.model";
 import Space from "@/models/space.model";
@@ -14,13 +13,13 @@ import { testimonailSchema } from "@/schemas/validationSchema";
 
 export async function fetchSpaceData() {
   try {
-    const session = await auth()
+    const session = await auth();
     if (!session) {
       return null;
     }
-    
-    const userId = new Types.ObjectId(session?.user?.id)
-    
+
+    const userId = new Types.ObjectId(session?.user?.id);
+
     const spaceData = await Space.aggregate([
       {
         $match: {
@@ -29,7 +28,11 @@ export async function fetchSpaceData() {
       },
       {
         $addFields: {
-          testimonialsCount: { $size: "$testimonials" }
+          testimonialsCount: {
+            $size: { 
+              $ifNull: ["$testimonials", []]  // Ensure testimonials is an array, or default to an empty array
+            }
+          }
         }
       },
       {
@@ -47,6 +50,7 @@ export async function fetchSpaceData() {
     throw error;
   }
 }
+
 // Update the user's name
 export async function updateName(userId: string, newName: string) {
   await dbConnect();

@@ -23,7 +23,7 @@ interface Props {
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace }) => {
-  const { data, error } = useSWR(isUpdate ? `/api/testimonial-card?spaceId=${spaceId}` : null, fetcher, {revalidateOnFocus: false,});
+  const { data, error } = useSWR(isUpdate ? `/api/testimonial-card?spaceId=${spaceId}` : null, fetcher, { revalidateOnFocus: false, });
 
   const [companyName, setCompanyName] = useState('Your Company');
   const [companyURL, setCompanyURL] = useState('https://example.com');
@@ -44,13 +44,13 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
       setCompanyURL(companyURL);
       setPromptText(promptText);
       setPlaceholder(placeholder);
-      setLogoPreview(companyLogo);   
+      setLogoPreview(companyLogo);
       setCompanyLogo(companyLogo);
       setInitialData({ companyName, companyURL, companyLogo, promptText, placeholder });
     }
   }, [data]);
 
- 
+
   useEffect(() => {
     if (companyLogo && companyLogo instanceof File) {
       const logoURL = URL.createObjectURL(companyLogo);
@@ -66,7 +66,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
     }
   }, [companyName, companyURL, companyLogo, promptText, placeholder, initialData]);
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => 
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setter(e.target.value);
     };
@@ -75,14 +75,14 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
     const file = e.target.files?.[0];
     if (file) {
       try {
-        if(file.size > 2 * 1024 * 1024){
+        if (file.size > 2 * 1024 * 1024) {
           setErrors((prev) => ({ ...prev, companyLogo: 'File size should be less than 2MB' }));
           return;
         } else if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
           setErrors((prev) => ({ ...prev, companyLogo: 'Only jpeg, png, or jpg files are allowed' }));
           return;
         }
-        
+
         setErrors((prev) => ({ ...prev, companyLogo: null }));
         setCompanyLogo(file);
       } catch (error) {
@@ -127,17 +127,17 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
     }
     formData.append('spaceId', spaceId);
     formData.append('spaceName', typeof name === 'string' ? name : '');
-  
+
     return formData;
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     setLoading(true);
 
     const formData = createFormData();
-  
+
 
     try {
       testimonialCardSchema.parse({
@@ -154,31 +154,31 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         toast.success('Form updated successfully!');
-        
-        
+
+
       } else {
-        
-        if(!errors || errors.companyLogo === null){
+
+        if (!errors || errors.companyLogo === null) {
           await axios.post('/api/testimonial-card', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
-         
+
           toast.success('Form submitted successfully!');
           if (setIsNewSpace) {
             setIsNewSpace(false);  // Set isNewSpace to false after successful submission
           }
-            
-        }else{
+
+        } else {
           return;
         }
-       
+
       }
       setInitialData({ companyName, companyURL, companyLogo, promptText, placeholder });
       setHasChanges(false);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const errorMessages = error.errors.reduce((acc, curr) => {
-          acc[curr.path[0]] = curr.message;         
+          acc[curr.path[0]] = curr.message;
           return acc;
         }, {} as { [key: string]: string });
         setErrors(errorMessages);
@@ -206,7 +206,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={companyName}
                 onChange={handleInputChange(setCompanyName)}
                 aria-invalid={errors.companyName ? 'true' : 'false'}
-                aria-required="true"  
+                aria-required="true"
               />
               {errors.companyName && <p className="text-red-500 text-sm">{errors.companyName}</p>}
             </div>
@@ -217,7 +217,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={companyURL}
                 onChange={handleInputChange(setCompanyURL)}
                 aria-invalid={errors.companyURL ? 'true' : 'false'}
-                aria-required="true"  
+                aria-required="true"
               />
               {errors.companyURL && <p className="text-red-500 text-sm">{errors.companyURL}</p>}
             </div>
@@ -230,13 +230,16 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 </Avatar>
                 <Button
                   variant="outline"
-                  onClick={() => document.getElementById('companyLogo')?.click()}
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent default button behavior
+                    document.getElementById('companyLogo')?.click();
+                  }}
                 >
                   {isUpdate ? 'Change Logo' : 'Upload Logo'}
                 </Button>
               </div>
-        
-              <input type="file" id="companyLogo"  hidden accept="image/*" onChange={handleCompanyLogoChange} />
+
+              <input type="file" id="companyLogo" hidden accept="image/*" onChange={handleCompanyLogoChange} />
               {errors.companyLogo && <p className="text-red-500 text-sm">{errors.companyLogo}</p>}
             </div>
             <div>
@@ -246,7 +249,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={promptText}
                 onChange={handleInputChange(setPromptText)}
                 aria-invalid={errors.promptText ? 'true' : 'false'}
-                aria-required="true"  
+                aria-required="true"
               />
               {errors.promptText && <p className="text-red-500 text-sm">{errors.promptText}</p>}
             </div>
@@ -257,59 +260,59 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 value={placeholder}
                 onChange={handleInputChange(setPlaceholder)}
                 aria-invalid={errors.placeholder ? 'true' : 'false'}
-                aria-required="true"  
+                aria-required="true"
               />
               {errors.placeholder && <p className="text-red-500 text-sm">{errors.placeholder}</p>}
             </div>
           </div>
           <Button type="submit" loading={loading} className="mt-4" disabled={loading || (isUpdate && !hasChanges)}>
-          {loading ? 'Saving...' : isUpdate ? 'update' : 'Submit'}
-        </Button>
+            {loading ? 'Saving...' : isUpdate ? 'update' : 'Submit'}
+          </Button>
         </div>
 
         <div className="border rounded-md p-4 ">
 
           <div>
 
-         
-          <h2 className="underline text-xl text-center text-gray-700 font-semibold mb-4">Preview</h2>
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src={logoPreview || '/user.png'} alt="companyLogo" />
-              <AvatarFallback><AvatarImage src={"/user.png"} /></AvatarFallback>
-            </Avatar>
-            <h2
-              onClick={() => companyURL && window.open(companyURL, '_blank')}
-              className="text-xl font-bold text-blue-600 cursor-pointer hover:underline"
-            >
-              {companyName}
-            </h2>
-          </div>
 
-          <div className="p-6 rounded-3xl bg-opacity-90 flex flex-col shadow-xl border-2 border-blue-500 max-w-md mx-auto">
-            <div className="flex gap-4">
+            <h2 className="underline text-xl text-center text-gray-700 font-semibold mb-4">Preview</h2>
+            <div className="flex items-center justify-center gap-4 mb-4">
               <Avatar className="h-16 w-16">
-                <AvatarImage src={''} alt="userAvatar" />
-                <AvatarFallback><FcAddImage size={50} /></AvatarFallback>
+                <AvatarImage src={logoPreview || '/user.png'} alt="companyLogo" />
+                <AvatarFallback><AvatarImage src={"/user.png"} /></AvatarFallback>
               </Avatar>
-              <div>
-                <h3 className="text-2xl font-semibold text-gray-700">John Doe</h3>
-                <p className='text-gray-500'>CEO at XYZ(optional)</p>
-              </div>
+              <h2
+                onClick={() => companyURL && window.open(companyURL, '_blank')}
+                className="text-xl font-bold text-blue-600 cursor-pointer hover:underline"
+              >
+                {companyName}
+              </h2>
             </div>
 
-            <p className="text-gray-700 font-semibold my-4 text-center">{promptText}</p>
+            <div className="p-6 rounded-3xl bg-opacity-90 flex flex-col shadow-xl border-2 border-blue-500 max-w-md mx-auto">
+              <div className="flex gap-4">
+                <Avatar className="h-16 w-16">
+                  <AvatarImage src={''} alt="userAvatar" />
+                  <AvatarFallback><FcAddImage size={50} /></AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="text-2xl font-semibold text-gray-700">John Doe</h3>
+                  <p className='text-gray-500'>CEO at XYZ(optional)</p>
+                </div>
+              </div>
 
-            <Textarea
-              placeholder={placeholder}
-              disabled
-              className="resize-none h-32 w-full px-4 py-2 rounded-lg border border-blue-400 mb-4"
-            />
-            <Button variant={'outline'} className='rounded-3xl bg-gradient-to-r from-blue-500 to-purple-600 font-semibold py-2 px-6 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1' disabled>Submit</Button>
+              <p className="text-gray-700 font-semibold my-4 text-center">{promptText}</p>
+
+              <Textarea
+                placeholder={placeholder}
+                disabled
+                className="resize-none h-32 w-full px-4 py-2 rounded-lg border border-blue-400 mb-4"
+              />
+              <Button variant={'outline'} className='rounded-3xl bg-gradient-to-r from-blue-500 to-purple-600 font-semibold py-2 px-6 hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1' disabled>Submit</Button>
+            </div>
+
           </div>
-       
-          </div>
-           </div>
+        </div>
       </form>
     </div>
   );
