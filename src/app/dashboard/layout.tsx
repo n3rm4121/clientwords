@@ -7,11 +7,13 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { isPro } from './action';
 
+
 export default function Layout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const session = useSession();
     const [isProUser, setIsProUser] = useState(false);
     const userId = session.data?.user?.id;
+   
     useEffect(() => {
         const handleScrollRestoration = () => {
           const scrollPos = sessionStorage.getItem(pathname);

@@ -1,12 +1,11 @@
-import { auth } from "@/auth"
- 
-export default auth((req) => {
-  if (!req.auth && req.nextUrl.pathname !== "/login") {
-    const newUrl = new URL("/login", req.nextUrl.origin)
-    return Response.redirect(newUrl)
-  }
-})
+import { NextRequest } from "next/server"
 
-export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+export default async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl
+ 
+  // GET /_next/data/build-id/hello.json
+ 
+  console.log(pathname)
+  // with the flag this now /_next/data/build-id/hello.json
+  // without the flag this would be normalized to /hello
 }

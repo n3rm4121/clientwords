@@ -9,7 +9,10 @@ export const metadata:Metadata = {
 }
 
 export default async function LoginPage() {
-
+  const session = await auth();
+  if (session) {
+    redirect('/dashboard');
+  }
   return (
     <>
       <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col md:flex-row">

@@ -15,9 +15,10 @@ interface User {
 }
 export default async function Page() {
   const session = await auth();
-  const user = session?.user;
-  if(!user){
+ 
+  if(!session){
     redirect('/login');
-  }
+  } 
+  const user = session?.user;
   return <Checkout user={user as User} />;
 }

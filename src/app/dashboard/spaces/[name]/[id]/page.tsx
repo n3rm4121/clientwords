@@ -4,6 +4,8 @@ import LoveGallery from '@/components/dashboard/Testimonial/LoveGallery';
 import dynamic from 'next/dynamic';
 import Space from '@/models/space.model';
 import { Suspense } from 'react';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 // Dynamically import the client components
 const Card = dynamic(() => import('@/components/ui/card').then(mod => mod.Card), { ssr: false });
 const CardContent = dynamic(() => import('@/components/ui/card').then(mod => mod.CardContent), { ssr: false });
@@ -20,6 +22,10 @@ const DynamicSpaceWrapper = dynamic(() => import('../../components/DynamicSpaceW
 
 async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
+  const session = await auth();
+  if (!session) {
+    redirect('/login');
+  }
 
   // Fetch space data server-side
   const space = await Space.findById(id).exec();
