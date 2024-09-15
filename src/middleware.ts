@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 const privatePaths = ['/dashboard', '/dashboard/:path*'];
+
 export async function middleware(request: NextRequest) {
   const secret = process.env.AUTH_SECRET;
   
@@ -18,11 +19,14 @@ export async function middleware(request: NextRequest) {
     salt: ''
   });
 
+  const isPrivatePath = privatePaths.some(path => 
+    request.nextUrl.pathname.startsWith(path.replace(':path*', ''))
+  );
 
-  
-  // Check if the path is public or if the token is valid
-  if (!token && privatePaths.includes(request.nextUrl.pathname)) {
+  // Redirect unauthenticated users from private paths to login
+  if (!token && isPrivatePath) {
     const url = new URL('/login', request.nextUrl.origin);
+    url.searchParams.set('callbackUrl', request.nextUrl.pathname);
     return NextResponse.redirect(url);
   }
 
@@ -37,5 +41,5 @@ export async function middleware(request: NextRequest) {
 
 // Configure middleware to run on specific paths
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)", '/dashboard/:path*', '/login'],
+  matcher: ["/dashboard/:path*", '/login'],
 };
