@@ -22,7 +22,7 @@ import { Button } from "../ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { Badge } from "../ui/badge";
 import { Gem } from "lucide-react";
-import logo from '@/public/brand.png';
+
 
 export default function Navbar({ isProUser, handleToggle }: { isProUser: boolean, handleToggle: () => void }) {
   const session = useSession();
@@ -39,7 +39,7 @@ export default function Navbar({ isProUser, handleToggle }: { isProUser: boolean
           <div className="flex justify-center gap-4 items-center h-16">
             <div className="relative inline-flex items-center">
               <Link href="/" className="flex-shrink-0">
-                <Image src={logo} width={200} height={200} alt='ClientWords' />
+                <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
               </Link>
               <img src="/brand.png" alt="ClientWords" className="h-8 w-8" />
               {/* <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
