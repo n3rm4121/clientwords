@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react'
 import { updateName } from "../../action"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
+import { toast } from "react-toastify"
 // import { SubscriptionTier } from "@/types/user"
 export enum SubscriptionTier {
     FREE = 'free',
@@ -34,7 +35,6 @@ export default function ProfileSettings() {
 
       try {
         const data = await fetch('/api/user').then((res) => res.json())
-        console.log("data from user: ", data)
         if (session?.user?.email !== data.userData.email) return
 
         setName(data.userData.name)
@@ -56,6 +56,7 @@ export default function ProfileSettings() {
   const handleSaveName = async () => {
     setLoading(true)
     await updateName(session?.user?.id as string, name as string)
+    toast.success('Name updated successfully')
     setIsEditing(false)
     setLoading(false)
   }

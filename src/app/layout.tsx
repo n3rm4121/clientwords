@@ -46,21 +46,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
       >
         <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-        <SessionProvider>
-          <TooltipProvider>
-            <ToastContainer />
-        {children}
-        </TooltipProvider>
-        </SessionProvider>
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionProvider>
+            <TooltipProvider>
+              {children}
+            </TooltipProvider>
+          </SessionProvider>
         </ThemeProvider>
-        <Analytics/>
-        <SpeedInsights/>
-          
+        <Analytics />
+        <SpeedInsights />
+
       </body>
     </html>
   )

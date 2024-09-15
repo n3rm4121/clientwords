@@ -38,9 +38,7 @@ export default async function Spaces() {
       )}
 
       {/* Show the spaces component if spaces are available */}
-      <div>
         <ShowSpaces subscriptionTier={userData.subscriptionTier} />
-      </div>
     </div>
   );
 }

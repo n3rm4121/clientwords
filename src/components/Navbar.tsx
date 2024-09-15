@@ -6,6 +6,7 @@ import { MaxWidthWrapper } from './MaxWidthWrapper';
 import ModeToggle from './toggleThemeBtn';
 import Image from 'next/image';
 import { Badge } from './ui/badge';
+import { useTheme } from 'next-themes';
 
 export function Navbar() {
   const [scrollY, setScrollY] = useState(0);
@@ -55,11 +56,9 @@ export function Navbar() {
             <div className="flex justify-center gap-4 items-center h-16">
               <div className="relative inline-flex items-center">
                 <Link href="/" className="flex-shrink-0">
-                  <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+                  <Image 
+                  src='/brand.png' width={200} height={200} alt='ClientWords' />
                 </Link>
-                <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
-                  Coming soon
-                </Badge>
               </div>
               <div>
                 <div className="lg:ml-6 lg:flex  hidden mr-6">

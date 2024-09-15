@@ -4,7 +4,7 @@ import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 
-export const POST = auth(async function POST(req: NextRequest) {  
+export const GET = auth(async function GET(req: NextRequest) {  
   try {
     // Get session using the auth middleware
     const session = await auth();
@@ -17,7 +17,7 @@ export const POST = auth(async function POST(req: NextRequest) {
 
     await dbConnect();
 
-    const userData = await User.findById(new Types.ObjectId(userId)).exec();
+    const userData = await User.findById(userId).exec();
     
     if (!userData) {
       return NextResponse.json({ message: "No user found" }, { status: 404 });

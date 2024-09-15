@@ -24,7 +24,7 @@ import { Badge } from "../ui/badge";
 import { Gem } from "lucide-react";
 
 
-export default function Navbar({ isProUser, handleToggle }: { isProUser: boolean, handleToggle: () => void }) {
+export default function Navbar({ isProUser, handleToggle }: { isProUser?: boolean, handleToggle: () => void }) {
   const session = useSession();
   const user = session.data?.user;
   const pathname = usePathname();

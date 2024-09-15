@@ -28,7 +28,7 @@ export const dashboardNavItems = [
   }
 ];
 
-function Sidebar({ isProUser, isOpen }: { isProUser: boolean, isOpen: boolean }) {
+function Sidebar({ isProUser, isOpen }: { isProUser?: boolean, isOpen: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   return (

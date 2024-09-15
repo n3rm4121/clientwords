@@ -22,17 +22,14 @@ import useSWR from 'swr';
 import { MultipleSkeletonSpaceCard } from '../ui/skeletons';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Gem, Loader2, Trash } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { deleteSpace, getUserSpaceCount } from '@/app/dashboard/action';
-import { MaxWidthWrapper } from '../MaxWidthWrapper';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useSession } from 'next-auth/react';
 import { canCreateSpace } from '@/lib/featureAccess';
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
-
-export const ShowSpaces = ({subscriptionTier}: {subscriptionTier: any}) => {
+export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
   const [spaces, setSpaces] = useState<any[]>([]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -50,27 +47,26 @@ export const ShowSpaces = ({subscriptionTier}: {subscriptionTier: any}) => {
 
   if (error) return <div>Error loading spaces{error}</div>;
 
-   function handleSpaceDelete(spaceId:string){
-    
+  function handleSpaceDelete(spaceId: string) {
+
     try {
       setLoading(true);
       deleteSpace(spaceId);
+
       setSpaces(spaces.filter(space => space._id !== spaceId));
-      toast.success('Space Deleted Successfully');
+      toast.success('Space deleted successfully');
+
       setLoading(false);
     } catch (error) {
       toast.error('Error deleting space');
       setLoading(false);
       console.error('Error deleting space:', error);
-      
+
     }
   }
 
-  // const subscriptionTier = userData.subscriptionTier;
-
   return (
     <div>
-      <ToastContainer />
       {/* Dialog for adding a new space */}
       {spaces.length != 0 && <DialogDemo addSpace={addSpace} subscriptionTier={subscriptionTier} />}
 
@@ -86,7 +82,7 @@ export const ShowSpaces = ({subscriptionTier}: {subscriptionTier: any}) => {
                 Create your first space to start collecting testimonials.
               </p>
 
-              <DialogDemo addSpace={addSpace} subscriptionTier={subscriptionTier}/>
+              <DialogDemo addSpace={addSpace} subscriptionTier={subscriptionTier} />
 
             </div>
           ) : (
@@ -105,7 +101,7 @@ export const ShowSpaces = ({subscriptionTier}: {subscriptionTier: any}) => {
                         <AlertDialogTrigger asChild>
 
                           <Trash className='text-red-500 hover:fill-red-500 transform hover:scale-105 transition-all duration-300 cursor-pointer' />
-                   
+
                         </AlertDialogTrigger>
                         <AlertDialogContent>
                           <AlertDialogHeader>
@@ -120,9 +116,9 @@ export const ShowSpaces = ({subscriptionTier}: {subscriptionTier: any}) => {
                             <AlertDialogAction disabled={loading} onClick={() => handleSpaceDelete(space._id)} className='bg-red-500 hover:bg-red-600'>{loading && <Loader2 className='animate-spin w-4 h-4 mr-2' />} Continue</AlertDialogAction>
                           </AlertDialogFooter>
                         </AlertDialogContent>
-                      </AlertDialog> 
+                      </AlertDialog>
 
-                
+
                     </div>
                     {/* Icon for space representation */}
                     <div className="flex justify-center mb-4">
@@ -163,7 +159,7 @@ const createSpaceSchema = z.object({
 })
 
 
-export function DialogDemo({ addSpace, subscriptionTier }: {subscriptionTier:any, addSpace: (newSpace: any) => void }) {
+export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: any, addSpace: (newSpace: any) => void }) {
   const [name, setName] = useState('');
   const [errors, setErrors] = useState<any>({});
   const [loading, setLoading] = useState(false);
@@ -215,16 +211,15 @@ export function DialogDemo({ addSpace, subscriptionTier }: {subscriptionTier:any
 
   return (
     <div>
-      <ToastContainer />
       <Dialog>
         <DialogTrigger asChild>
-        
-    
+
+
           <Button disabled={!can}>
-            Create New Space 
+            Create New Space
             {(!user?.isProUser || spaceCount >= 1) && <Gem className="ml-2 h-4 w-4" />}
           </Button>
-         
+
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] max-w-xs">
           <DialogHeader>

@@ -1,10 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { Loader2, Link, User } from 'lucide-react';
+import { Loader2, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { disconnectOAuth } from '../../action';
 import { Card } from '@/components/ui/card';
+import { redirect } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 
 
@@ -21,7 +23,9 @@ export default function ConnectedAcc() {
 
       try {
         const data = await fetch('/api/user').then((res) => res.json());
-        if (session?.user?.email !== data.userData.email) return;
+        if (session?.user?.email !== data.userData.email) {
+          redirect('/login');
+        }
 
        
         setOauthAccounts(data.userData.oauthAccounts);
@@ -33,6 +37,20 @@ export default function ConnectedAcc() {
 
     getUserData();
   }, [session]);
+
+  const handleDisconnectOAuth = async (provider: string) => {
+    setLoading(true);
+    try {
+      disconnectOAuth(session?.user?.id as string, provider)      
+      setOauthAccounts((prev) => prev.filter((acc) => acc.provider !== provider));
+      toast.success('Account disconnected successfully');
+    } catch (error) {
+      toast.error('Error disconnecting OAuth');
+      console.error('Error disconnecting OAuth:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
     return (
         <Card className="mb-12 p-4">
@@ -51,7 +69,7 @@ export default function ConnectedAcc() {
                 <Button
                   variant="destructive"
                   onClick={() =>
-                    disconnectOAuth(session?.user?.id as string, account.provider)
+                    handleDisconnectOAuth(account.provider)
                   }
                   disabled={oauthAccounts.length === 1 || loading}
                   className="mt-2 md:mt-0 md:ml-2"
