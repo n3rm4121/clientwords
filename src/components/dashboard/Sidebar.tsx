@@ -25,10 +25,11 @@ export const dashboardNavItems = [
     title: 'Settings',
     icon: <Settings size={25} />,
     link: '/dashboard/settings'
-  }
+  },
+
 ];
 
-function Sidebar({ isProUser, isOpen }: { isProUser?: boolean, isOpen: boolean }) {
+function Sidebar({ isFreeAccount, isOpen }: { isFreeAccount?: boolean, isOpen: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   return (
@@ -40,8 +41,9 @@ function Sidebar({ isProUser, isOpen }: { isProUser?: boolean, isOpen: boolean }
       {dashboardNavItems.map((item, index) => {
         const isActive = pathname === item.link || (pathname.startsWith(item.link) && item.link !== '/dashboard');
         return (
+          <>
           <Link
-            href={item.link}
+            href={ item.link }
             key={index}
             className={cn(buttonVariants({ variant: 'ghost' }), "flex gap-4 w-full px-4 py-2 justify-start hover:text-blue-500", {
               'text-blue-500 bg-slate-200 dark:bg-slate-900 ': isActive,
@@ -52,25 +54,24 @@ function Sidebar({ isProUser, isOpen }: { isProUser?: boolean, isOpen: boolean }
             </span>
             <span>{item.title}</span>
           </Link>
+          </>
         );
       })}
       <Separator />
+      {isFreeAccount && (
+        <Link href="/dashboard/upgrade" className={cn(buttonVariants({ variant: 'default' }), "flex gap-4 w-full px-4 py-2 justify-start")}>
+          <span className="text-2xl">
+            <Gem size={25} />
+          </span>
+          <span>Upgrade to Pro</span>
+        </Link>
+      )}
       <Button variant='ghost' className='flex items-center gap-4 hover:text-red-500' onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
         <span className="text-2xl">
           <LogOut size={25} />
         </span>
         <span>Sign Out</span>
       </Button>
-
-      {/* TODO: Add the Upgrade to Pro logic here */}
-      {/* Adjust the width of the Card */}
-      {/* {!isProUser && (
-              <Button onClick={() => router.push('/upgrade')}>
-                Upgrade to Pro
-                <Gem className="ml-2" size={18} />
-              </Button>
-            )} */}
-
     </div>
   );
 }

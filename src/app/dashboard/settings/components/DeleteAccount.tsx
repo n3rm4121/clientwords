@@ -33,11 +33,7 @@ export default function DeleteAccount() {
                 <Trash className="mr-3 text-red-600" /> Danger Zone
             </h2>
             <div className="space-y-4">
-                {/* <p className="text-gray-700">
-                    Deleting your account will remove all of your data from our system.
-                    This action is irreversible.
-                </p> */}
-
+                
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                         <Button variant="destructive">Delete Account</Button>

@@ -11,6 +11,7 @@ import ActiveLoveGallery from './components/activeLoveGalleries';
 import User from '@/models/user.model';
 import dbConnect from '@/lib/dbConnect';
 import { redirect } from 'next/navigation';
+import AccountType from './components/AccountType';
 
 
 export default async function DashboardPage() {
@@ -27,10 +28,12 @@ export default async function DashboardPage() {
     // If user is new, redirect to welcome page
     return redirect('/dashboard/spaces');
   }
+
+  const accountType = userData.subscriptionTier;
   return (
     <div>
      
-      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
     
          <Suspense fallback={<CardSkeleton />}>
           <TotalTestimonials />
@@ -42,6 +45,10 @@ export default async function DashboardPage() {
 
         <Suspense fallback={<CardSkeleton />}>
           <ActiveLoveGallery />
+        </Suspense>
+
+        <Suspense fallback={<CardSkeleton />}>
+          <AccountType accountType={accountType} />
         </Suspense>
         
       </div>

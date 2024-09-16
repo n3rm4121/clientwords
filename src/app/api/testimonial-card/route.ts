@@ -5,8 +5,7 @@ import { auth } from '@/auth';
 import { testimonialCardSchema } from '@/schemas/validationSchema';
 import Space from '@/models/space.model';
 import { deleteFromCloudinary, uploadOnCloudinary } from '@/lib/cloudinary';
-// TODO: check if the user is a pro user and allow them to create more than 1 testimonial card
-// TODO:: Attach the testimonial card to a space
+
 export const  POST = auth(async function POST(request){
     await dbConnect();
     

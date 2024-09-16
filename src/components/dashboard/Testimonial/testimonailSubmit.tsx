@@ -9,7 +9,7 @@ import { z } from 'zod';
 import Link from "next/link";
 import axios from "axios";
 import { testimonailSchema } from "@/schemas/validationSchema";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FcAddImage } from "react-icons/fc";
 import { Thankyou } from "./ThankYou";
@@ -135,8 +135,6 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: any }
     }
     return (
       <div className="bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg">
-
-        <ToastContainer />
         
         {/* Fixed Header */}
         <div className="fixed p-6 top-0 left-0 w-full z-10 ">

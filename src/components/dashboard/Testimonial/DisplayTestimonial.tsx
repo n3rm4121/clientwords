@@ -42,7 +42,7 @@ export default function DisplayTestimonials({ params, uniqueLink }: Props) {
   return (
     <div className="flex flex-col h-screen">
       <div className="p-4">
-        <Search placeholder="Search testimonials by name or message..." onSearch={handleSearch} disabled={TotalTestimonials === 0}/>
+        <Search placeholder="Search testimonials by name or message..." onSearch={handleSearch}/>
       </div>
       
       <ScrollArea className="flex-grow rounded-md border p-4">

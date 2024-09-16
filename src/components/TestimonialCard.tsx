@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import axios from "axios"
-import { toast, ToastContainer } from "react-toastify"
+import { toast } from "react-toastify"
 import { Heart, Loader2, Trash2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
@@ -84,9 +84,8 @@ export default function TestimonialCard({ location, onDelete, testimonial, theme
 
   return (
     <div className={`flex flex-col border rounded-md p-4 shadow-lg w-full max-w-[500px] ${
-      location === 'embed' && (theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black')
+      location === 'embed' && (theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black')
     }`}>
-      <ToastContainer />
       <div className="flex flex-wrap items-start justify-between mb-4">
         <div className="flex items-center gap-4 mb-2 sm:mb-0">
           <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">

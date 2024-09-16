@@ -6,6 +6,7 @@ import Space from '@/models/space.model';
 import { Suspense } from 'react';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 // Dynamically import the client components
 const Card = dynamic(() => import('@/components/ui/card').then(mod => mod.Card), { ssr: false });
 const CardContent = dynamic(() => import('@/components/ui/card').then(mod => mod.CardContent), { ssr: false });
@@ -62,10 +63,13 @@ async function Page({ params }: { params: { id: string } }) {
             <CardTitle>Testimonial Form</CardTitle>
             <CardDescription>
               This is your testimonial form Card for this space. Update the form as needed.
+              <Link href={`{process.env.NEXT_PUBLIC_APP_URL}/spaces/${id}`} target="_blank" rel="noopener noreferrer">
+                  Link
+              </Link>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <TestimonialCardForm isUpdate={true} spaceId={id} />
+            <TestimonialCardForm isUpdate={true} spaceId={id} uniqueLink={uniqueLink}/>
           </CardContent>
         </Card>
       </TabsContent>

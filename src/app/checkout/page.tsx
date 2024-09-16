@@ -1,6 +1,5 @@
 import { auth } from '@/auth';
 import { Checkout } from '@/components/PaddleCheckout';
-
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 

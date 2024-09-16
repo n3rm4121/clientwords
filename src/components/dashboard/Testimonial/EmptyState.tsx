@@ -1,8 +1,8 @@
 'use client'
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { CircleCheck, Copy, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export function EmptyState({ uniqueLink }: { uniqueLink: string }) {
     const [copied, setCopied] = useState(false);
@@ -11,8 +11,10 @@ export function EmptyState({ uniqueLink }: { uniqueLink: string }) {
         try {
             await navigator.clipboard.writeText(uniqueLink);
             setCopied(true);
+            toast.success('Link copied to clipboard');
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
+            toast.error('Failed to copy link');
             console.error('Failed to copy text: ', err);
         }
     };
@@ -30,25 +32,25 @@ export function EmptyState({ uniqueLink }: { uniqueLink: string }) {
 
             <div className="w-full max-w-lg flex flex-col items-center">
                 <div className="bg-gray-100 text-gray-700 font-mono text-sm p-4 rounded-md mb-4 w-full overflow-auto">
-                    <code className="block break-all">{uniqueLink}</code>
-                </div>
-
-                <Button
+                    <code className="block break-all">{uniqueLink}
+                    <Button
                     onClick={copyToClipboard}
-                    className={`flex items-center justify-center rounded-md focus:outline-none transition-colors duration-200 px-4 py-2 ${copied ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'}`}
+                    className={`inline ml-4 rounded-md focus:outline-none transition-colors duration-200 px-4 py-2 ${copied ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'}`}
                 >
                     {copied ? (
                         <>
                             <CircleCheck className="w-4 h-4 text-white" />
-                            <span className="ml-2 text-white">Copied!</span>
                         </>
                     ) : (
                         <>
                             <Copy className="w-4 h-4 text-white" />
-                            <span className="ml-2 text-white">Copy</span>
                         </>
                     )}
                 </Button>
+                    </code>
+                </div>
+
+               
             </div>
         </div>
     );

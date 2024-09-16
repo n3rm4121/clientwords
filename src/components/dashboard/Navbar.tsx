@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa";
 import ModeToggle from "../toggleThemeBtn";
@@ -20,11 +20,10 @@ import {
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { signOut, useSession } from "next-auth/react";
-import { Badge } from "../ui/badge";
 import { Gem } from "lucide-react";
 
 
-export default function Navbar({ isProUser, handleToggle }: { isProUser?: boolean, handleToggle: () => void }) {
+export default function Navbar({ handleToggle, isAccountFree }: { isAccountFree?: boolean, handleToggle: () => void }) {
   const session = useSession();
   const user = session.data?.user;
   const pathname = usePathname();
@@ -41,10 +40,6 @@ export default function Navbar({ isProUser, handleToggle }: { isProUser?: boolea
               <Link href="/" className="flex-shrink-0">
                 <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
               </Link>
-              {/* <img src="/brand.png" alt="ClientWords" className="h-8 w-8" /> */}
-              {/* <Badge variant={'secondary'} className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
-                Beta
-              </Badge> */}
             </div>
           </div>
         </div>
@@ -64,12 +59,14 @@ export default function Navbar({ isProUser, handleToggle }: { isProUser?: boolea
 
         <div>
           <div className="flex gap-4">
-            {/* {!isProUser && (
-              <Button className="hidden md:flex" onClick={() => router.push('/upgrade')}>
-                Upgrade to Pro
-                <Gem className="ml-2" size={18} />
-              </Button>
-            )} */}
+            {isAccountFree && (
+              <Link href="/#pricing" target="_blank" className="hidden md:flex">
+                <Button>
+                  Upgrade to Pro
+                  <Gem className="ml-2" size={18} />
+                </Button>
+              </Link>
+            )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -90,7 +87,6 @@ export default function Navbar({ isProUser, handleToggle }: { isProUser?: boolea
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => router.push('/dashboard/settings')}>Settings</DropdownMenuItem>
-                {/* <DropdownMenuItem>Support</DropdownMenuItem> */}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>Sign Out</DropdownMenuItem>
               </DropdownMenuContent>

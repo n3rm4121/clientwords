@@ -10,19 +10,21 @@ import { z } from 'zod';
 import { useParams } from 'next/navigation';
 import { testimonialCardSchema, avatarSchema } from '@/schemas/validationSchema';
 import { FcAddImage } from 'react-icons/fc';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useSWR from 'swr';
+import { CircleCheck, Copy } from 'lucide-react';
 
 interface Props {
   isUpdate: boolean;
   spaceId: string;
   setIsNewSpace?: React.Dispatch<React.SetStateAction<boolean>>;
+  uniqueLink?: string;
 
 }
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
-const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace }) => {
+const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace, uniqueLink }) => {
   const { data, error } = useSWR(isUpdate ? `/api/testimonial-card?spaceId=${spaceId}` : null, fetcher, { revalidateOnFocus: false, });
 
   const [companyName, setCompanyName] = useState('Your Company');
@@ -36,6 +38,8 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
   const { name } = useParams();
   const [initialData, setInitialData] = useState<any>({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [copied, setCopied] = useState(false);
+
 
   useEffect(() => {
     if (data && data.testimonialCard) {
@@ -191,9 +195,21 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
     }
   };
 
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(uniqueLink as string);
+      setCopied(true);
+      toast.success('Link copied to clipboard');
+      setTimeout(() => setCopied(false), 3000);
+    } catch (err) {
+      toast.error('Failed to copy text');
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   return (
     <div>
-      <ToastContainer />
       {!isUpdate && <h1 className="text-2xl text-muted-foreground font-semibold text-center mb-4">Lets Customize and Create Your Message Box</h1>}
       <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="rounded-md border p-4">
@@ -274,8 +290,32 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
 
           <div>
 
+            {isUpdate &&
+              <div className="bg-gray-100 text-gray-700 font-mono text-sm p-4 rounded-md mb-4 w-full overflow-auto">
+                <code className="block break-all">{uniqueLink}
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      copyToClipboard();
+                    }}
+                    variant={'outline'}
+                    className={`rounded-lg focus:outline-none transition-colors duration-200 ml-3 ${copied ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500  hover:bg-blue-600'}`}
+                  >
+                    {copied ? (
+                      <>
+                        <CircleCheck className="w-4 h-4 text-white" />
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4 text-white" />
+                      </>
+                    )}
+                  </Button>
+                </code>
 
-            <h2 className="underline text-xl text-center text-gray-700 font-semibold mb-4">Preview</h2>
+              </div>
+            }
+
             <div className="flex items-center justify-center gap-4 mb-4">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={logoPreview || '/user.png'} alt="companyLogo" />

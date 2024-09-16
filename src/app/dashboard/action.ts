@@ -165,7 +165,6 @@ export async function deleteTestimonial(testimonialId: string) {
     }
   try {
     await Testimonial.findByIdAndDelete(testimonialId);
-    console.log("Testimonial deleted successfully");
   }
   catch (error) {
     console.error("Error deleting testimonial:", error);
@@ -177,9 +176,7 @@ export async function getUserSubscriptionTier(userId: string) {
   await dbConnect();
 
   try {
-    // const user = await User.findById(userId); 
-    // return user?.subscriptionTier;
-    /// only send after promise gets resolved
+
     const user = await User.findById(userId).select('subscriptionTier').exec();
     return user?.subscriptionTier;
 

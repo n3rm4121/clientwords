@@ -1,9 +1,9 @@
-// components/embedcodegenerator.tsx
 'use client'
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircledIcon, CopyIcon } from '@radix-ui/react-icons';
+import { toast } from 'react-toastify';
 interface EmbedCodeGeneratorProps {
   spaceId: string;
   theme: string;
@@ -21,16 +21,16 @@ export const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
     try {
       await navigator.clipboard.writeText(iframeCode);
       setCopied(true);
+      toast.success('Embed code copied to clipboard');
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
+      toast.error('Failed to copy embed code');
       console.error('Failed to copy text: ', err);
     }
   };
 
 
-  // const iframeSrc = `/embed/${spaceId}?theme=${theme}&showLikeButton=${showLikeButton}
   const iframeSrc = `${process.env.NEXT_PUBLIC_APP_URL}/embed/${spaceId}?theme=${theme}&layout=${layout}`;
-//   const embedUrl = `${process.env.NEXT_PUBLIC_APP_URL}/embed/${spaceId}`;
 
   const iframeCode = `<iframe src="${iframeSrc}"style="border: 0; width: 100%; height: 300px; overflow: hidden;"
   frameborder="0"
@@ -46,6 +46,14 @@ export const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
       className="mt-6 p-6 border rounded-lg shadow-lg"
     >
       <h2 className="text-xl font-semibold">Embed Code</h2>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="mt-3 text-sm text-gray-600 dark:text-gray-400"
+      >
+        Copy the code below to embed the Love Gallery on your website.
+      </motion.p>
       <div className="relative">
         <textarea
           readOnly
@@ -55,8 +63,11 @@ export const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
         />
 
         <Button
-          onClick={copyToClipboard}
-          className={`absolute top-2 right-2 px-3 py-1 rounded-md focus:outline-none transition-colors duration-200 ${copied ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
+          onClick={(e) => {
+            e.preventDefault();
+            copyToClipboard();
+          }}
+          className={`absolute top-2 right-10 px-3 py-1 rounded-md focus:outline-none transition-colors duration-200 ${copied ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
             }`}
         >
           {copied ? (
@@ -64,17 +75,9 @@ export const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
           ) : (
             <CopyIcon className="w-4 h-4 text-white" />
           )}
-          <span className="ml-2 text-white">{copied ? 'Copied!' : 'Copy'}</span>
         </Button>
       </div>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="mt-3 text-sm text-gray-600 dark:text-gray-400"
-      >
-        Copy the code above to embed the Love Gallery on your website.
-      </motion.p>
+     
     </motion.div>
   );
 };

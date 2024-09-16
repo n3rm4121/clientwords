@@ -58,9 +58,7 @@ export function Checkout({ user }: CheckoutProps) {
           case 'checkout.closed':
             router.push('/');
             break;
-          // case 'checkout.created':
-          //   console.log('Checkout created:', event.data);
-          //   break;
+        
           case 'checkout.loaded':
             break;
           case 'checkout.error':

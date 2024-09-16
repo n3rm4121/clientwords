@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import Link from 'next/link';
 import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
-import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 
 export function Thankyou({ userName, companyName, companyURL }: { userName: string, companyName: string, companyURL: string }) {

@@ -3,6 +3,7 @@ import { ITestimonial } from '@/lib/interface';
 import TestimonialCard from '@/components/TestimonialCard';
 import TestimonialCarousel from '@/components/iframeLayout/carousel';
 import Image from 'next/image';
+import Link from 'next/link';
 interface EmbedPageProps {
   params: {
     spaceId: string;
@@ -38,10 +39,7 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
     return (
      
         <div className="w-full  min-h-screen bg-white  px-8">
-           <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
-           <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
-         
-        </div>
+          
           {layout === 'carousel' ? (
             <div className="w-full">
               <TestimonialCarousel testimonials={testimonials} theme={theme} />
@@ -58,6 +56,11 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
               ))}
             </div>
           )}
+           <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
+            <Link href='https://clientwords.com' target='_blank' rel='noopener noreferrer'>
+           <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+           </Link>
+        </div>
         </div>
    
     );

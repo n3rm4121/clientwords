@@ -7,26 +7,26 @@ import { BookHeart } from "lucide-react";
 export default async function ActiveLoveGallery() {
 
   const session = await auth();
-  if(!session) return null;
+  if (!session) return null;
   const userId = session.user?.id;
 
-await dbConnect();
-const activeLoveGalleries = await LoveGallery.find({owner: userId}).countDocuments();
+  await dbConnect();
+  const activeLoveGalleries = await LoveGallery.find({ owner: userId }).countDocuments();
 
   return (
     <Card>
-    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-      
-        <CardTitle  className="text-sm font-medium">Total Love Gallery</CardTitle>
-        <BookHeart className="h-4 w-4 text-muted-foreground" />
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+
+        <CardTitle className="text-sm font-medium">Total Love Gallery</CardTitle>
+        <BookHeart className="h-4 w-4 " />
       </CardHeader>
       <CardContent>
-      <div  className="text-4xl font-bold">
-                    {activeLoveGalleries}
-                  </div>
-                 
+        <div className="text-4xl font-bold">
+          {activeLoveGalleries}
+        </div>
+
       </CardContent>
-    
+
     </Card>
   )
 }
