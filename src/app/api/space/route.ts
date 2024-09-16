@@ -54,49 +54,57 @@ export const GET = auth(async function GET(req, ) {
   });
   
 
-export const POST = auth(async function POST(req) {
-    
+  export const POST = auth(async function POST(req) {
     await dbConnect();
-
+  
     const user = req.auth?.user;
-
-  if (!req.auth) {
-    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
-  }
-
-  try {
-    const body = await req.json(); // Parse the body as JSON
-    const { name } = body; // Extract the `name` property from the parsed body
- 
-      const eligibleUser = await User.findById(user?.id).select('spaces subscriptionTier')
   
-     const can = canCreateSpace(eligibleUser.subscriptionTier, eligibleUser.spaces.length);
-  
-    if(!can) {
-      return NextResponse.json({ message: "You have reached the limit of creating space" }, { status: 400 });
+    if (!req.auth) {
+      return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
     }
-    let space = await new Space({ name, owner: user?.id });
-
-   // add this space id into User's space array
-    await User.findByIdAndUpdate({_id: user?.id}, { $push: { spaces: space._id } });
-    
-    const uniqueLink = generateUniqueLink(name, space._id);
-    
-    // add unique Link to the space
-    space.uniqueLink = uniqueLink;
-    space = await space.save();
-
-    if(!space) {
+  
+    try {
+      const body = await req.json(); // Parse the body as JSON
+      const { name } = body; // Extract the `name` property from the parsed body
+  
+      // Check if the space name already exists
+      const existingSpace = await Space.findOne({ name });
+      if (existingSpace) {
+        return NextResponse.json(
+          { message: "This name is already taken. Please choose another one." },
+          { status: 400 }
+        );
+      }
+  
+      const eligibleUser = await User.findById(user?.id).select('spaces subscriptionTier');
+      const can = canCreateSpace(eligibleUser.subscriptionTier, eligibleUser.spaces.length);
+  
+      if (!can) {
+        return NextResponse.json({ message: "You have reached the limit of creating space" }, { status: 400 });
+      }
+  
+      let space = new Space({ name, owner: user?.id });
+  
+      // Add this space ID into User's space array
+      await User.findByIdAndUpdate({ _id: user?.id }, { $push: { spaces: space._id } });
+  
+      // Generate unique link
+      const uniqueLink = generateUniqueLink(name);
+  
+      // Add unique link to the space
+      space.uniqueLink = uniqueLink;
+      space = await space.save();
+  
+      if (!space) {
         return NextResponse.json({ message: "Error creating space" }, { status: 400 });
-        }
-    
-    return NextResponse.json({ message: "Space created successfully", space });
-
-  } catch (error) {
-
-    return NextResponse.json(
-      { message: "Error creating space", error },
-      { status: 400 }
-    );
-  }
-});
+      }
+  
+      return NextResponse.json({ message: "Space created successfully", space });
+    } catch (error) {
+      return NextResponse.json(
+        { message: "Error creating space", error },
+        { status: 400 }
+      );
+    }
+  });
+  

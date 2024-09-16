@@ -242,7 +242,7 @@ export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: a
           <DialogTitle>Create Space</DialogTitle>
           <DialogDescription>
             <span className="text-blue-500">
-              {generateUniqueLink(name, 'Space_Id')}
+              {generateUniqueLink(name)}
             </span>
           </DialogDescription>
         </DialogHeader>

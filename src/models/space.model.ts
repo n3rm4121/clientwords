@@ -13,6 +13,8 @@ const spaceSchema = new Schema<Space>({
   name: {
     type: String,
     required: true,
+    unique: true,
+    index: true,
     minlength: 3,
     maxlength: 50,
     trim: true,

@@ -5,7 +5,6 @@ import { canCollectTestimonial } from "@/lib/featureAccess";
 import Space from "@/models/space.model";
 import TestimonialCard, { ITestimonialCard } from "@/models/testimonial-card.model"; // Assuming ITestimonialCard is the correct type for TestimonialCard
 import User from "@/models/user.model";
-import mongoose from "mongoose";
 import { Metadata } from "next";
 
 export const metadata: Metadata= {
@@ -21,31 +20,35 @@ interface SubmissionPageProps {
 
 const SubmissionPage = async ({ params }: SubmissionPageProps) => {
 
-  const { spaceName, id } = params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    // Return default 404 page if the id is not a valid ObjectId
-    return <NotFound />;
-  }
+  const { spaceName } = params;
 
   try {
     // Connect to MongoDB
     await dbConnect();
     // Fetch the testimonial card data based on the id (which is the spaceId)
-    let testimonialCardData = await TestimonialCard.findOne({ spaceName, spaceId: id });
+    let testimonialCardData = await TestimonialCard.findOne({ spaceName: spaceName }).exec();
+    if(!testimonialCardData) {
+      return <NotFound />;
+    }
 
-    const space = await Space.findById(id).select('testimonials, owner').exec();
+    const space = await Space.findOne({name: spaceName}).select('testimonials, owner').exec();
+    if (!space) {
+      return <NotFound />;
+    }
     const user = await User.findById(space.owner).select('subscriptionTier').exec();
+    if (!user) {
+      return <NotFound />;
+    }
 
     const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length|| 0);
-    if (!testimonialCardData) {
+    if (!can) {
       return <NotFound />;
     }
     
     testimonialCardData = testimonialCardData.toObject();
     testimonialCardData._id = testimonialCardData._id.toString();
     testimonialCardData.spaceId = testimonialCardData.spaceId.toString();
-    
+
     if(!can) {
       return <NotFound />;
     }

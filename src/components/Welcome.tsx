@@ -69,7 +69,7 @@ export const Welcome = () => {
                     <DialogTitle>Let's Create Your First Space🚀</DialogTitle>
                     <DialogDescription>
                         Each Space Represents Your Business or Project. <br />
-                        {generateUniqueLink(name, 'Space_Id')}
+                        {generateUniqueLink(name)}
                     </DialogDescription>
                 </DialogHeader>
                 <div>
