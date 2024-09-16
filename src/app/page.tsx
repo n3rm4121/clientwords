@@ -4,9 +4,10 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaFacebookF, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedinIn, FaMapMarkerAlt, FaPhone, FaRocket, FaStore, FaTwitter, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { CircleCheckBig, Mail } from "lucide-react";
+import { ArrowRight, CircleCheckBig, Mail } from "lucide-react";
 import AwesomePricingSection from "./login/components/PricingCard";
 import Image from "next/image";
+import { SlideInFromRight } from "@/components/FramerMotionAnimations";
 
 const perks = [
   {
@@ -34,31 +35,39 @@ export default function LandingPage() {
       <Navbar />
       <MaxWidthWrapper>
         {/* Hero Section */}
-        <div className="py-20 mx-auto text-center flex flex-col items-center max-w-4xl">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-7xl mb-6">
-            Turn Your Client&apos;s Words into Powerful <span className="inline-block z-10 bg-yellow-400 px-2 rounded-md shadow-lg">Social Proof.</span>
-            {/*<span className="text-red-600 animate-pulse">❤️</span> {' '} */}
+        <section className="relative overflow-hidden py-20">
 
-          </h1>
-
-          <p className="mt-6 text-xl text-muted-foreground max-w-2xl mx-auto">
-            Easily collect, curate, and showcase authentic client testimonials to skyrocket trust and conversions.
-          </p>
-
-          <div className="grid md:grid-cols-2  py-8 space-x-4 text-lg font-medium">
-            <span><CircleCheckBig className="text-green-500 mr-2 inline" /> No coding required</span>
-            <span><CircleCheckBig className="text-green-500 mr-2 inline" /> Easy Integration</span>
+          <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center">
+              <h1 className="max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                Turn Your Client&apos;s Words into Powerful{" "}
+                <span className="relative inline-block">
+                  <span className="absolute inset-0 bg-yellow-400 rounded-lg" />
+                  <span className="relative">Social Proof.</span>
+                </span>
+              </h1>
+              <p className="mt-6 max-w-2xl text-xl text-muted-foreground">
+                Easily collect, curate, and showcase authentic client testimonials to skyrocket trust and conversions.
+              </p>
+              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+                <div className="flex items-center rounded-lg p-4 shadow-sm">
+                  <CircleCheckBig className="mr-3 h-6 w-6 text-green-500" />
+                  <span className="text-lg font-medium">No coding required</span>
+                </div>
+                <div className="flex items-center rounded-lg p-4 shadow-sm">
+                  <CircleCheckBig className="mr-3 h-6 w-6 text-green-500" />
+                  <span className="text-lg font-medium">Easy Integration</span>
+                </div>
+              </div>
+              <Link
+                href="/dashboard"
+                className="mt-10 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+              >
+                Get Started for Free <ArrowRight />
+              </Link>
+            </div>
           </div>
-
-          <Link
-            href="/dashboard"
-            className="px-8 py-4 rounded-full font-semibold bg-gradient-to-r  from-yellow-400 to-orange-500 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-          >
-            Get Started for Free
-          </Link>
-
-
-        </div>
+        </section>
       </MaxWidthWrapper>
 
       {/* Features Section */}
@@ -117,7 +126,7 @@ export default function LandingPage() {
             <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
               <div className="text-3xl font-bold text-yellow-500 mb-4">3</div>
               <h3 className="text-xl font-semibold mb-2">Receive Testimonials</h3>
-              <p className="text-muted-foreground">Collect and review client feedback in your dashboard.</p>
+              <p className="text-muted-foreground">Collect and review client's testimonials in your dashboard.</p>
             </Card>
 
             <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
