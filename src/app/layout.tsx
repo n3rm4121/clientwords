@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { cn } from '../lib/utils'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { GoogleAnalytics } from '@next/third-parties/google'
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -13,7 +15,6 @@ const fontSans = FontSans({
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ToastContainer } from "react-toastify";
 export const metadata: Metadata = {
   metadataBase: new URL('https://clientwords.com'),
   alternates: {
@@ -61,6 +62,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SpeedInsights />
 
       </body>
+      <GoogleAnalytics gaId="G-BE8G1KFHX1" />
+
     </html>
   )
 }
