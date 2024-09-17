@@ -73,9 +73,9 @@ export default async function DashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <Input type="search" placeholder="Search testimonials..." />
-              </div>
+              </div> */}
               <Suspense fallback={<TestimonialsSkeleton />}>
                 <LatestTestimonials userId={userId || ''} />
               </Suspense>
