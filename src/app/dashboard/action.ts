@@ -175,8 +175,7 @@ export async function deleteTestimonial(testimonialId: string) {
 export async function getUserSubscriptionTier(userId: string) {
   await dbConnect();
 
-  try {
-
+  try {   
     const user = await User.findById(userId).select('subscriptionTier').exec();
     return user?.subscriptionTier;
 

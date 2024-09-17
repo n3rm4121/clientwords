@@ -4,6 +4,8 @@ import TestimonialCard from '@/components/TestimonialCard';
 import TestimonialCarousel from '@/components/iframeLayout/carousel';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getUserSubscriptionTier } from '@/app/dashboard/action';
+import Space from '@/models/space.model';
 interface EmbedPageProps {
   params: {
     spaceId: string;
@@ -17,10 +19,11 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
   const { spaceId } = params;
   const theme = searchParams?.theme || 'light';
   const layout = searchParams?.layout || 'grid';
-
+  const spaceOwner = await Space.findById(spaceId).select('owner').exec();
   const HOST = process.env.NEXT_PUBLIC_APP_URL;
   const apiURL = `${HOST}/api/embed/testimonials?spaceId=${spaceId}`;
-
+  const subscriptionTier = await getUserSubscriptionTier(spaceOwner.owner as string)
+console.log('subscriptionTier', subscriptionTier)
   try {
     const response = await fetch(apiURL, {
       headers: {
@@ -56,11 +59,15 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
               ))}
             </div>
           )}
-           <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
-            <Link href='https://clientwords.com' target='_blank' rel='noopener noreferrer'>
-           <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
-           </Link>
-        </div>
+          {subscriptionTier === 'Free' && (
+             <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
+             <Link href='https://clientwords.com' target='_blank' rel='noopener noreferrer'>
+            <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+            </Link>
+         </div>
+          )
+            }
+          
         </div>
    
     );

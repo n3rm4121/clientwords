@@ -255,6 +255,7 @@ export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: a
             placeholder="eg. My Business"
             className="col-span-3"
             value={name}
+            disabled={loading || !can}
             onChange={(e) => setName(e.target.value)}
           />
           {errors?.name && (
@@ -265,7 +266,7 @@ export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: a
           <Button
             loading={loading}
             onClick={() => handleCreateSpace(name.replace(/\s+/g, ''))}
-            disabled={!can}  // Disable button if user already has a space
+            disabled={!can || loading}  // Disable button if user already has a space
           >
             Create New Space
           </Button>
