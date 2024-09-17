@@ -16,7 +16,7 @@ export default async function LatestTestimonials({ userId }: { userId: string })
         <div className="text-muted-foreground text-center">No testimonials yet</div>
       ) : (
         <div className="space-y-6"> {/* Increased space between testimonial cards */}
-          <Input type="search" placeholder="Search testimonials..." />
+          {/* <Input type="search" placeholder="Search testimonials..." /> */}
 
           {latestTestimonials.map((testimonial) => (
             <div key={testimonial._id} className="flex items-start space-x-4 p-4 border rounded-lg shadow-sm ">
