@@ -23,7 +23,6 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
   const HOST = process.env.NEXT_PUBLIC_APP_URL;
   const apiURL = `${HOST}/api/embed/testimonials?spaceId=${spaceId}`;
   const subscriptionTier = await getUserSubscriptionTier(spaceOwner.owner as string)
-console.log('subscriptionTier', subscriptionTier)
   try {
     const response = await fetch(apiURL, {
       headers: {

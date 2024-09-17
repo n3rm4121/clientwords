@@ -19,11 +19,11 @@ const spaceLimits: FeatureLimits = {
 };
 
 export function canCollectTestimonial(tier: SubscriptionTier, currentCount: number): boolean {
-  return currentCount < testimonialLimits[tier];
+  return currentCount <= testimonialLimits[tier];
 }
 
 export function canCreateSpace(tier: SubscriptionTier, currentCount: number): boolean {
-  return currentCount < spaceLimits[tier];
+  return currentCount <= spaceLimits[tier];
 }
 
 export function hasAdvancedCustomization(tier: SubscriptionTier): boolean {
