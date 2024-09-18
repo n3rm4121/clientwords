@@ -30,15 +30,15 @@ export default function DisplayTestimonials({ params, uniqueLink }: Props) {
     router.push(`?${params.toString()}`, { scroll: false })
   }, [debouncedQuery, router, searchParams])
 
-  useEffect(() => {
-    async function fetchTestimonials() {
-     const testimonials =  await fetch(`/api/testimonial?spaceId=${params.id}&query=${debouncedQuery}&page=1&limit=9`)
-      const data = await testimonials.json()
-      setTotalTestimonials(data.testimonials.length)
+  // useEffect(() => {
+  //   async function fetchTestimonials() {
+  //    const testimonials =  await fetch(`/api/testimonial?spaceId=${params.id}&query=${debouncedQuery}&page=1&limit=9`)
+  //     const data = await testimonials.json()
+  //     setTotalTestimonials(data.testimonials.length)
      
-    }
-    fetchTestimonials()
-  },[debouncedQuery, params.id])
+  //   }
+  //   fetchTestimonials()
+  // },[debouncedQuery, params.id])
   return (
     <div className="flex flex-col h-screen">
       <div className="p-4">

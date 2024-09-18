@@ -8,6 +8,7 @@ import { testimonialSubmitRateLimit } from "@/utils/rateLimit";
 import Space from "@/models/space.model";
 import User from "@/models/user.model";
 import { canCollectTestimonial } from "@/lib/featureAccess";
+import LoveGallery from "@/models/loveGallery.model";
 
 
 async function uploadUserAvatar(file: File): Promise<string> {
@@ -144,7 +145,7 @@ export const GET = auth(async function GET(request) {
         const searchQuery = {
             spaceId,
             $or: [
-                { name: { $regex: query, $options: 'i' } },
+                { userName: { $regex: query, $options: 'i' } },
                 { message: { $regex: query, $options: 'i' } }
             ]
         };
@@ -157,7 +158,16 @@ export const GET = auth(async function GET(request) {
             Testimonial.countDocuments(searchQuery)
         ]);
 
-        return NextResponse.json({ testimonials, total, page, limit }, { status: 200 });
+        const lovedTestimonials = await LoveGallery.find({ spaceId }).select('testimonials').exec();
+        
+        const lovedIds = lovedTestimonials.flatMap((lovedTestimonial) => lovedTestimonial.testimonials.map((id:any) => id.toString()));
+
+        const response = testimonials.map((testimonial) => ({
+            ...testimonial.toObject(),
+            isLoved: lovedIds.includes(testimonial._id.toString()),
+          }));
+        
+        return NextResponse.json({ testimonials:response, total, page, limit }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: 'An error occurred while fetching the testimonials' }, { status: 500 });
     }
