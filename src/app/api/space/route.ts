@@ -67,8 +67,8 @@ export const GET = auth(async function GET(req, ) {
       const body = await req.json(); // Parse the body as JSON
       const { name } = body; // Extract the `name` property from the parsed body
   
-      // Check if the space name already exists
-      const existingSpace = await Space.findOne({ name });
+      const existingSpace = await Space.findOne({ name: { $regex: new RegExp(`^${name}$`, "i") } });
+      // const existingSpace = await Space.findOne({ name });
       if (existingSpace) {
         return NextResponse.json(
           { message: "This name is already taken. Please choose another one." },
