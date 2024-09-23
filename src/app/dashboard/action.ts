@@ -156,21 +156,33 @@ export async function isPro(userId: string) {
 }
 
 
-export async function deleteTestimonial(testimonialId: string) {
+export async function deleteTestimonial(testimonialId: string, spaceId?: string) {
   await dbConnect();
   const session = await auth();
   const userId = session?.user?.id;
-    if(!userId) {
-      return null;
-    }
-  try {
-    await Testimonial.findByIdAndDelete(testimonialId);
+  
+  if (!userId) {
+    return null;
   }
-  catch (error) {
+
+  try {
+    // Delete the testimonial by its ID
+    await Testimonial.findByIdAndDelete(testimonialId);
+
+    // Find space by _id spaceId and owner userId and pull testimonialId from testimonials array
+    await Space.findByIdAndUpdate(
+      spaceId, 
+      { $pull: { testimonials: testimonialId } }
+    );
+
+    // Retrieve the updated space
+    const updatedSpace = await Space.findById(spaceId);
+  } catch (error) {
     console.error("Error deleting testimonial:", error);
     throw error;
   }
 }
+
 
 export async function getUserSubscriptionTier(userId: string) {
   await dbConnect();

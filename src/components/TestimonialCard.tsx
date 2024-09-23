@@ -40,13 +40,13 @@ export default function TestimonialCard({
   const [isLoved, setIsLoved] = useState(testimonial.isLoved)
   const [isLoading, setIsLoading] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
-
+  
   const session = useSession()
   const userId = session.data?.user?.id
 
   const maxLength = 100
 
-
+  console.log("testimonial from TestimonialCard : ", testimonial);
   const handleCreateLoveGallery = async () => {
     setIsLoading(true)
     setIsLoved(!isLoved)
@@ -79,7 +79,7 @@ export default function TestimonialCard({
   const handleDelete = async () => {
     try {
       setIsLoading(true)
-      await deleteTestimonial(testimonial._id)
+      await deleteTestimonial(testimonial._id, testimonial.spaceId)
       toast.success("Testimonial deleted successfully")
       if (onDelete) {
         onDelete(testimonial._id)
@@ -171,6 +171,7 @@ export default function TestimonialCard({
                   <AlertDialogAction
                     disabled={isLoading}
                     onClick={handleDelete}
+                    className='bg-red-500 hover:bg-red-600'
                   >
                     {isLoading && (
                       <Loader2 className="animate-spin w-4 h-4 mr-2" />
