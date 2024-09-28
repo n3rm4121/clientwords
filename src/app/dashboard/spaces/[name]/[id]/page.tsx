@@ -63,9 +63,6 @@ async function Page({ params }: { params: { id: string } }) {
             <CardTitle>Testimonial Form</CardTitle>
             <CardDescription>
               This is your testimonial form Card for this space. Update the form as needed.
-              <Link href={`{process.env.NEXT_PUBLIC_APP_URL}/spaces/${id}`} target="_blank" rel="noopener noreferrer">
-                  Link
-              </Link>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">

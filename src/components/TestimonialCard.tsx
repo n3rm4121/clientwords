@@ -46,7 +46,6 @@ export default function TestimonialCard({
 
   const maxLength = 100
 
-  console.log("testimonial from TestimonialCard : ", testimonial);
   const handleCreateLoveGallery = async () => {
     setIsLoading(true)
     setIsLoved(!isLoved)

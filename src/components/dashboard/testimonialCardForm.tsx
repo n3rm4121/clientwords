@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useSWR from 'swr';
 import { CircleCheck, Copy } from 'lucide-react';
+import QRCodeGenerator from '../QRCodeGenerator';
 
 interface Props {
   isUpdate: boolean;
@@ -291,7 +292,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
           <div>
 
             {isUpdate &&
-              <div className="bg-gray-100 text-gray-700 font-mono text-sm p-4 rounded-md mb-4 w-full overflow-auto">
+              <div className="bg-gray-100 flex gap-4 flex-col md:flex-row justify-between text-gray-700 font-mono text-sm p-4 rounded-md mb-4 w-full overflow-auto">
                 <code className="block break-all">{uniqueLink}
                   <Button
                     onClick={(e) => {
@@ -312,8 +313,10 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                     )}
                   </Button>
                 </code>
-
-              </div>
+                
+                <QRCodeGenerator url={uniqueLink as string} />
+           
+                </div>
             }
 
             <div className="flex items-center justify-center gap-4 mb-4">
