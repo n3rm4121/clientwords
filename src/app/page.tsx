@@ -60,7 +60,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <Link
-                href="/dashboard"
+                href="/login"
                 className="mt-10 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
               >
                 Get Started for Free <ArrowRight />
@@ -138,7 +138,7 @@ export default function LandingPage() {
 
           <div className="mt-16 text-center">
             <Link
-              href="/dashboard"
+              href="/login"
               className="inline-block px-10 py-4 rounded-full font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
             >
               Start Collecting Testimonials
