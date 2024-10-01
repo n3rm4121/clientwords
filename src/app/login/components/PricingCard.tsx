@@ -110,7 +110,7 @@ const PricingCard = ({ title, price, priceId, features, buttonText, isPro = fals
                     className: 'w-full'
                 })}
             >
-                {buttonText}{isPro && <Gem className='w-4 h-4 ml-2'/>}
+                {buttonText}{(isPro || isBusiness) && <Gem className='w-4 h-4 ml-2'/>}
             </Link>
         </CardFooter>
     </Card>

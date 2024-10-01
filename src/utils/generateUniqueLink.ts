@@ -17,7 +17,6 @@ export const generateUniqueLink = (name: string) => {
   // Step 2: Remove any characters that are not alphanumeric or hyphen
   name = name.replace(/[^a-z0-9-]/g, '');
 
-  console.log("unique link", `${HOST}/${name}`);
   return `${HOST}/${name}`;
 };
 

@@ -1,13 +1,11 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { Navbar } from "@/components/Navbar";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaFacebookF, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedinIn, FaMapMarkerAlt, FaPhone, FaRocket, FaStore, FaTwitter, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, CircleCheckBig, Mail } from "lucide-react";
 import AwesomePricingSection from "./login/components/PricingCard";
 import Image from "next/image";
-import { SlideInFromRight } from "@/components/FramerMotionAnimations";
 
 const perks = [
   {
@@ -31,7 +29,7 @@ const perks = [
 export default function LandingPage() {
 
   return (
-    <div className="">
+    <div>
       <Navbar />
       <MaxWidthWrapper>
         {/* Hero Section */}
@@ -61,7 +59,7 @@ export default function LandingPage() {
               </div>
               <Link
                 href="/login"
-                className="mt-10 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+                className="mt-10 inline-flex items-center justify-center  px-10 py-4  rounded-full font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
               >
                 Get Started for Free <ArrowRight />
               </Link>
@@ -262,7 +260,7 @@ export default function LandingPage() {
       {/* Footer Section */}
       <footer className="bg-gray-900 text-white py-12">
         <MaxWidthWrapper>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-between mb-8">
             <div>
               <Link href="/" className="flex-shrink-0">
                 <Image src='/brand.png' width={200} height={200} alt='ClientWords' />

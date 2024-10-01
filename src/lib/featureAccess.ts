@@ -23,7 +23,7 @@ export function canCollectTestimonial(tier: SubscriptionTier, currentCount: numb
 }
 
 export function canCreateSpace(tier: SubscriptionTier, currentCount: number): boolean {
-  return currentCount <= spaceLimits[tier];
+  return currentCount < spaceLimits[tier];
 }
 
 export function hasAdvancedCustomization(tier: SubscriptionTier): boolean {
