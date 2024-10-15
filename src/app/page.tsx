@@ -279,7 +279,7 @@ export default function LandingPage() {
                   <Mail className="mr-2 inline h-5 w-5 " />
                 </a>
 
-                <Link href='https://linkedin.com/in/clientwords' ><FaLinkedin
+                <Link href='https://www.linkedin.com/company/clientwords' ><FaLinkedin
                   className="inline w-5 h-5 " /></Link>
               </div>
             </div>
