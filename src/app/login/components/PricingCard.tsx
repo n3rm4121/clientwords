@@ -30,7 +30,7 @@ interface PlanProps {
     priceId?: string;
 }
 
-const PricingCard = ({ title, price, priceId, features, buttonText, isPro = false, isBusiness=false, popularPlan = false }: PlanProps) => (
+const PricingCard = ({ title, price, priceId, features, buttonText, isPro = false, isBusiness = false, popularPlan = false }: PlanProps) => (
     <Card className={`relative overflow-hidden transition-all duration-300 ${popularPlan ? 'border-primary shadow-lg scale-105' : 'hover:border-primary hover:shadow-md'
         }`}>
         {/* {popularPlan && (
@@ -40,23 +40,23 @@ const PricingCard = ({ title, price, priceId, features, buttonText, isPro = fals
         )} */}
 
         <CardHeader>
-            <CardTitle className={`text-2xl font-bold`}>{title}</CardTitle>
+            <CardTitle className={`text-2xl font-bold text-gray-200`}>{title}</CardTitle>
         </CardHeader>
         <CardDescription>
             {isPro && (
-                <span className="text-muted-foreground">For Small Business</span>
-            ) }
+                <span className="text-gray-400">For Small Business</span>
+            )}
             {isBusiness && (
-                <span className="text-muted-foreground">For Growing Business</span>
-            ) }
+                <span className="text-gray-400">For Growing Business</span>
+            )}
             {!isPro && !isBusiness && (
-                <span className="text-muted-foreground">For Hobby Project</span>
-            ) }
-            
+                <span className="text-gray-400">For Hobby Project</span>
+            )}
+
         </CardDescription>
         <CardContent>
-            <p className="text-4xl font-bold mb-6">
-                ${price}<span className="text-lg font-normal text-muted-foreground">/month</span>
+            <p className="text-4xl text-gray-200 font-bold mb-6">
+                ${price}<span className="text-lg font-normal text-gray-400">/month</span>
             </p>
             <ul className="space-y-4 mb-8 flex justify-center items-start flex-col">
                 {features.map((feature, index) => (
@@ -70,22 +70,22 @@ const PricingCard = ({ title, price, priceId, features, buttonText, isPro = fals
                                         <X className="text-red-500 mr-3 flex-shrink-0" />
                                     )}
 
-                                    <span className={feature.included ? '' : 'text-muted-foreground'}>
-                                        <div className='relative'>
-                                        {feature.text}
-                                        {feature.commingSoon && (
-                                        <Badge className="ml-2 inline" variant="secondary">
-                                            Coming Soon
-                                        </Badge>
-                                    )}
+                                    <span className={feature.included ? '' : 'text-gray-400'}>
+                                        <div className='relative text-gray-300'>
+                                            {feature.text}
+                                            {feature.commingSoon && (
+                                                <Badge className="ml-2 inline" variant="secondary">
+                                                    Coming Soon
+                                                </Badge>
+                                            )}
                                         </div>
-                                    
-                                    
+
+
                                     </span>
                                     {feature.tooltip && (
                                         <HelpCircle className="ml-2 h-4 w-4 text-muted-foreground" />
                                     )}
-                                    
+
                                 </li>
                             </TooltipTrigger>
                             {feature.tooltip && (
@@ -100,17 +100,17 @@ const PricingCard = ({ title, price, priceId, features, buttonText, isPro = fals
         </CardContent>
         <CardFooter>
             <Link
-               href = {
-                     buttonText === 'Get Started' ? '/login' : `/checkout?priceId=${priceId}`
-               }
-                
+                href={
+                    buttonText === 'Get Started' ? '/login' : `/checkout?priceId=${priceId}`
+                }
+
                 className={buttonVariants({
-                    variant:'default',
+                    variant: 'default',
                     size: 'lg',
                     className: 'w-full'
                 })}
             >
-                {buttonText}{(isPro || isBusiness) && <Gem className='w-4 h-4 ml-2'/>}
+                {buttonText}{(isPro || isBusiness) && <Gem className='w-4 h-4 ml-2' />}
             </Link>
         </CardFooter>
     </Card>
@@ -125,11 +125,9 @@ const AwesomePricingSection: React.FC = () => {
                 { text: "Collect up to 10 testimonials", included: true },
                 { text: "1 Space", included: true, tooltip: "A space is a collection of testimonials for a specific product or service" },
                 { text: "Public testimonial form", included: true },
-                {text: "Love Gallery with our branding", included: true},
+                { text: "Love Gallery with our branding", included: true },
 
                 { text: "Basic customization", included: true },
-                // { text: "Email support", included: true },
-                // { text: "Analytics", included: false },
             ],
             buttonText: "Get Started",
         },
@@ -140,7 +138,7 @@ const AwesomePricingSection: React.FC = () => {
                 { text: "Collect unlimited testimonials", included: true },
                 { text: "1 Space", included: true, tooltip: "A space is a collection of testimonials for a specific product or service" },
                 { text: "Public testimonial form", included: true },
-                {text: "Love Gallery without our branding", included: true},
+                { text: "Love Gallery without our branding", included: true },
 
                 { text: "Advanced customization", included: true, commingSoon: true },
                 // { text: "Priority email support", included: true },
@@ -160,25 +158,25 @@ const AwesomePricingSection: React.FC = () => {
                 { text: "Collect unlimited testimonials", included: true },
                 { text: "5 Spaces", included: true, tooltip: "A space is a collection of testimonials for a specific product or service" },
                 { text: "Public testimonial form", included: true },
-                {text: "Love Gallery without our branding", included: true},
+                { text: "Love Gallery without our branding", included: true },
                 { text: "Advanced customization", included: true, commingSoon: true },
                 // { text: "Priority email support", included: true },
                 // { text: "Advanced analytics", included: true },
                 // { text: "Priority support", included: true },
             ],
             buttonText: "Upgrade Now",
-            priceId:'pri_01j7qw282z1ny3p1zhx3afh83h',
+            priceId: 'pri_01j7qw282z1ny3p1zhx3afh83h',
             isBusiness: true,
         }
     ];
 
     return (
-        <section id="pricing" className="py-24 bg-gradient-to-b from-background to-secondary/20">
+        <section id="pricing" className="py-10">
             <MaxWidthWrapper className="text-center">
-                <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">
+                <h2 className="text-4xl font-bold text-gray-200 tracking-tight sm:text-5xl mb-4">
                     Simple, Transparent Pricing
                 </h2>
-                <p className="text-xl text-muted-foreground mb-12">Choose the plan that's right for you</p>
+                <p className="text-xl text-gray-400 mb-12">Choose the plan that's right for you</p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
                     {plans.map((plan, index) => (
                         <PricingCard key={index} {...plan} />
@@ -205,7 +203,7 @@ const AwesomePricingSection: React.FC = () => {
                         <AccordionItem value="item-3">
                             <AccordionTrigger>Do you offer a free trial?</AccordionTrigger>
                             <AccordionContent>
-                           
+
                                 No we do not offer a free trial at this time. You can start with our free plan and upgrade at any time.
                             </AccordionContent>
                         </AccordionItem>
@@ -213,17 +211,14 @@ const AwesomePricingSection: React.FC = () => {
                 </div>
 
                 <div className="text-center mt-12">
-                    <p className="text-muted-foreground mb-4">Still have questions?</p>
+                    <p className="text-gray-200 mb-4">Still have questions?</p>
                     <Button variant="outline">
-
-                        <HelpCircle className="mr-2 inline h-4 w-4" />
+                        <HelpCircle className="mr-2 inline h-4 w-4 text-muted-foreground" />
                         <a href="mailto:support@clientwords.com" className="text-indigo-400 hover:underline">
                             Email Support
                         </a>
                     </Button>
-
                 </div>
-
             </MaxWidthWrapper>
         </section>
     );

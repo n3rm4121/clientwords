@@ -32,13 +32,13 @@ export default function Navbar({ handleToggle, isAccountFree }: { isAccountFree?
 
   return (
     <MaxWidthWrapper>
-      <nav className="fixed border-b border-gray-200 backdrop-filter backdrop-blur-lg inset-x-0 top-0 z-50 w-full h-16  flex items-center justify-between px-4">
+      <nav className="fixed border-b border-gray-200 bg-[#212121] text-white backdrop-filter backdrop-blur-lg inset-x-0 top-0 z-50 w-full h-16  flex items-center justify-between px-4">
         <div className="flex  justify-center text-center gap-3">
           <div className="cursor-pointer items-center justify-center flex lg:hidden" onClick={handleToggle}><FaBars /></div>
           <div className="flex justify-center gap-4 items-center h-16">
             <div className="relative inline-flex items-center">
               <Link href="/" className="flex-shrink-0">
-                <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+                <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
               </Link>
             </div>
           </div>

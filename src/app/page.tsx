@@ -1,11 +1,12 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { Navbar } from "@/components/Navbar";
-import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaFacebookF, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedinIn, FaMapMarkerAlt, FaPhone, FaRocket, FaStore, FaTwitter, FaUserMd } from "react-icons/fa";
+import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedin, FaRocket, FaStore, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, CircleCheckBig, Mail } from "lucide-react";
 import AwesomePricingSection from "./login/components/PricingCard";
 import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
 
 const perks = [
   {
@@ -25,26 +26,86 @@ const perks = [
   }
 ];
 
+const process = [
+  {
+    name: 'Create Your Form',
+    description: 'Design a custom testimonial form tailored to your business needs.',
+    icon: FaCode
+  },
+  {
+    name: 'Share the Link',
+    description: 'Send the unique form link to your clients via email or any channel.',
+    icon: FaEnvelope
+  },
+  {
+    name: 'Receive Testimonials',
+    description: 'Collect and review client\'s testimonials in your dashboard.',
+    icon: FaBriefcase
+  },
+  {
+    name: 'Showcase Testimonials',
+    description: 'Embed the love gallery on your website to boost credibility.',
+    icon: FaChartLine
+  }
+]
+
+const useCases = [
+  {
+    name: 'E-commerce',
+    description: 'Showcase product reviews to increase trust and drive more sales. Display customer experiences to highlight product quality and satisfaction.',
+    icon: FaStore
+  },
+  {
+    name: 'B2B Services',
+    description: 'Highlight client success stories and testimonials to demonstrate expertise and build credibility with potential clients in your industry.',
+    icon: FaBriefcase
+  },
+  {
+    name: 'Education',
+    description: 'Feature student and parent testimonials to showcase the quality of your educational programs and attract more enrollments.',
+    icon: FaGraduationCap
+  },
+  {
+    name: 'Hospitality',
+    description: 'Display guest reviews to highlight your excellent service and amenities, encouraging more bookings for your hotel or restaurant.',
+    icon: FaHotel
+  },
+  {
+    name: 'SaaS',
+    description: 'Showcase user testimonials to demonstrate the value of your software, highlighting key features and benefits that drive user adoption.',
+    icon: FaLaptopCode
+  },
+  {
+    name: 'Healthcare',
+    description: 'Share patient testimonials to build trust in your healthcare services, emphasizing quality care and positive outcomes.',
+    icon: FaUserMd
+  }
+]
+
 
 export default function LandingPage() {
 
   return (
-    <div>
+    <div className="bg-[#212121] text-gray-100">
       <Navbar />
+
       <MaxWidthWrapper>
         {/* Hero Section */}
-        <section className="relative overflow-hidden py-20">
+
+        <section className="relative overflow-hidden py-10">
 
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center text-center">
-              <h1 className="max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+
+              <h1 className="max-w-4xl text-4xl text-gray-200 font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
                 Turn Your Client&apos;s Words into Powerful{" "}
+
                 <span className="relative inline-block">
-                  <span className="absolute inset-0 bg-yellow-400 rounded-lg" />
+                  <span className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg opacity-50" />
                   <span className="relative">Social Proof.</span>
                 </span>
               </h1>
-              <p className="mt-6 max-w-2xl text-xl text-muted-foreground">
+              <p className="mt-6 max-w-2xl text-xl text-gray-400 ">
                 Easily collect, curate, and showcase authentic client testimonials to skyrocket trust and conversions.
               </p>
               <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
@@ -56,6 +117,7 @@ export default function LandingPage() {
                   <CircleCheckBig className="mr-3 h-6 w-6 text-green-500" />
                   <span className="text-lg font-medium">Easy Integration</span>
                 </div>
+
               </div>
               <Link
                 href="/login"
@@ -69,26 +131,31 @@ export default function LandingPage() {
       </MaxWidthWrapper>
 
       {/* Features Section */}
-      <section id="features" className="py-20">
+      <section id="features" className="py-10 relative">
         <MaxWidthWrapper>
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold sm:text-5xl mb-4">
-              Why ClientWords?
+            <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
+              <span className="relative z-10">Why ClientWords?</span>
+              {/* Decorative underline */}
+              <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-gradient-to-r from-teal-400 to-blue-600 rounded-full"></span>
+
+              {/* Background shape */}
+
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               With ClientWords, you can effortlessly collect, manage, and showcase authentic client testimonials in your own website by embedding a single line of code.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {perks.map((perk, index) => (
-              <Card key={index} className=" p-8 rounded-xl shadow-lg transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
+              <Card key={index} className=" p-8 rounded-xl shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
                 <div className="flex flex-col items-center text-center">
                   <div className=" p-3 rounded-full mb-4">
                     <perk.icon className="text-4xl text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-2">{perk.name}</h3>
-                  <p className="text-muted-foreground">{perk.description}</p>
+                  <h3 className="text-2xl text-gray-200 font-bold mb-2">{perk.name}</h3>
+                  <p className="text-gray-400">{perk.description}</p>
                 </div>
               </Card>
             ))}
@@ -96,42 +163,29 @@ export default function LandingPage() {
         </MaxWidthWrapper>
       </section>
 
+
       {/* Process Section */}
-      <section id="how-it-works" className="py-20">
+      <section id="how-it-works" className="py-10 relative">
         <MaxWidthWrapper>
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold sm:text-5xl mb-4">
-              How it Works?
+            <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
+              <span className="relative z-10">How it Works?</span>
+              {/* Decorative underline */}
+              <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-gradient-to-r from-teal-400 to-blue-600 rounded-full"></span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Collect and showcase authentic testimonials in four easy steps:
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className=" p-6 shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="text-3xl font-bold text-yellow-500 mb-4">1</div>
-              <h3 className="text-xl font-semibold mb-2">Create Your Form</h3>
-              <p className="text-muted-foreground">Design a custom testimonial form tailored to your business needs.</p>
-            </Card>
-
-            <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="text-3xl font-bold text-yellow-500 mb-4">2</div>
-              <h3 className="text-xl font-semibold mb-2">Share the Link</h3>
-              <p className="text-muted-foreground">Send the unique form link to your clients via email or any channel.</p>
-            </Card>
-
-            <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="text-3xl font-bold text-yellow-500 mb-4">3</div>
-              <h3 className="text-xl font-semibold mb-2">Receive Testimonials</h3>
-              <p className="text-muted-foreground">Collect and review client's testimonials in your dashboard.</p>
-            </Card>
-
-            <Card className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="text-3xl font-bold text-yellow-500 mb-4">4</div>
-              <h3 className="text-xl font-semibold mb-2">Showcase Testimonials</h3>
-              <p className="text-muted-foreground">Embed the love gallery on your website to boost credibility.</p>
-            </Card>
+            {process.map((step, index) => (
+              <Card key={index} className=" p-6  shadow-md transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
+                <div className="text-3xl font-bold text-yellow-500 mb-4">{index + 1}</div>
+                <h3 className="text-xl text-gray-200 font-semibold mb-2">{step.name}</h3>
+                <p className="text-gray-400">{step.description}</p>
+              </Card>
+            ))}
           </div>
 
           <div className="mt-16 text-center">
@@ -146,77 +200,35 @@ export default function LandingPage() {
       </section>
 
       {/* Use Cases Section */}
-      <section id="use-cases" className="py-20 ">
+      <section id="use-cases" className="py-10 relative">
         <MaxWidthWrapper>
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold sm:text-5xl mb-4">
-              ClientWords for Every Business
+            <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
+              <span className="relative z-10">ClientWords for you.</span>
+              {/* Decorative underline */}
+              <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-gradient-to-r from-teal-400 to-blue-600 rounded-full"></span>
+
+              {/* Background shape */}
+
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            {/* <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Discover how businesses across various industries leverage ClientWords to boost credibility and conversions.
-            </p>
+            </p> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="flex items-center mb-4">
-                <FaStore className="text-3xl text-yellow-500 mr-3" />
-                <h3 className="text-2xl font-semibold">E-commerce</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Showcase product reviews to increase trust and drive more sales. Display customer experiences to highlight product quality and satisfaction.
-              </p>
-            </Card>
 
-            <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="flex items-center mb-4">
-                <FaBriefcase className="text-3xl text-yellow-500 mr-3" />
-                <h3 className="text-2xl font-semibold">B2B Services</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Highlight client success stories and testimonials to demonstrate expertise and build credibility with potential clients in your industry.
-              </p>
-            </Card>
-
-            <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="flex items-center mb-4">
-                <FaGraduationCap className="text-3xl text-yellow-500 mr-3" />
-                <h3 className="text-2xl font-semibold">Education</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Feature student and parent testimonials to showcase the quality of your educational programs and attract more enrollments.
-              </p>
-            </Card>
-
-            <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="flex items-center mb-4">
-                <FaHotel className="text-3xl text-yellow-500 mr-3" />
-                <h3 className="text-2xl font-semibold">Hospitality</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Display guest reviews to highlight your excellent service and amenities, encouraging more bookings for your hotel or restaurant.
-              </p>
-            </Card>
-
-            <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="flex items-center mb-4">
-                <FaLaptopCode className="text-3xl text-yellow-500 mr-3" />
-                <h3 className="text-2xl font-semibold">SaaS</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Showcase user testimonials to demonstrate the value of your software, highlighting key features and benefits that drive user adoption.
-              </p>
-            </Card>
-
-            <Card className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
-              <div className="flex items-center mb-4">
-                <FaUserMd className="text-3xl text-yellow-500 mr-3" />
-                <h3 className="text-2xl font-semibold">Healthcare</h3>
-              </div>
-              <p className="text-muted-foreground">
-                Share patient testimonials to build trust in your healthcare services, emphasizing quality care and positive outcomes.
-              </p>
-            </Card>
+            {useCases.map((useCase, index) => (
+              <Card key={index} className="p-6 transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,165,0,0.5)] relative overflow-hidden">
+                <div className="flex items-center mb-4">
+                  <useCase.icon className="text-3xl text-yellow-500 mr-3" />
+                  <h3 className="text-2xl font-semibold text-gray-200">{useCase.name}</h3>
+                </div>
+                <p className="text-gray-400">
+                  {useCase.description}
+                </p>
+              </Card>
+            ))}
           </div>
 
           <div className="mt-16 text-center">
@@ -234,10 +246,10 @@ export default function LandingPage() {
       <AwesomePricingSection />
 
       {/* CTA Section */}
-      <section className="relative bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white p-8 md:p-16 m-5 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl">
+      <section className=" bg-black text-white md:p-16 overflow-hidden pb-4 pt-4">
         <div className="relative z-10 text-center space-y-6">
           <h2 className="text-4xl md:text-5xl text-center font-extrabold tracking-tight mb-4">
-            Ready to <span className="text-yellow-400">Boost Your Conversions?</span>
+            Ready to <span className="text-primary">Boost Your Conversions?</span>
           </h2>
           <p className="text-md md:text-xl max-w-md md:max-w-3xl mx-auto mb-8">
             Discover how <span className="text-yellow-300 font-bold">ClientWords</span> can transform your customer testimonials into powerful social proof.
@@ -249,27 +261,32 @@ export default function LandingPage() {
             Let's Get Started! 🚀
           </Link>
         </div>
-
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-24 h-24 md:w-40 md:h-40 bg-yellow-400 opacity-30 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-32 h-32 md:w-56 md:h-56 bg-orange-500 opacity-20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 right-10 w-20 h-20 md:w-32 md:h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
       </section>
 
 
       {/* Footer Section */}
-      <footer className="bg-gray-900 text-white py-12">
+      <Separator className="bg-gray-700" />
+      <footer className="bg-black py-12">
         <MaxWidthWrapper>
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-between mb-8">
             <div>
               <Link href="/" className="flex-shrink-0">
-                <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+                <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
               </Link>
-              {/* <p className="text-muted-foreground">Transforming customer testimonials into powerful social proof.</p> */}
-              <div className="text-muted-foreground"><Mail className="inline mr-2" />support@clientwords.com</div>
+              <div className="ml-12">
+                <a href="mailto:support@clientwords.com" className="text-indigo-400 hover:underline">
+                  <Mail className="mr-2 inline h-5 w-5 " />
+                </a>
+
+                <Link href='https://linkedin.com/in/clientwords' ><FaLinkedin
+                  className="inline w-5 h-5 " /></Link>
+              </div>
             </div>
+
+
             <div>
-              <h4 className="font-bold text-lg mb-4">Product</h4>
+              <h4 className="font-bold text-lg mb-4">Links</h4>
               <ul className="space-y-2">
                 <li><Link href="#features" className="hover:text-blue-400 transition-colors duration-200">Features</Link></li>
                 <li><Link href="#pricing" className="hover:text-blue-400 transition-colors duration-200">Pricing</Link></li>

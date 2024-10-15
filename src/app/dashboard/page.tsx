@@ -17,7 +17,7 @@ import AccountType from './components/AccountType';
 export default async function DashboardPage() {
   const session = await auth();
 
-  if(!session) {
+  if (!session) {
     redirect('/login');
   }
   const userId = session?.user?.id;
@@ -32,16 +32,16 @@ export default async function DashboardPage() {
   const accountType = userData.subscriptionTier;
   return (
     <div>
-     
+
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-    
-         <Suspense fallback={<CardSkeleton />}>
+
+        <Suspense fallback={<CardSkeleton />}>
           <TotalTestimonials />
-        </Suspense> 
-        
+        </Suspense>
+
         <Suspense fallback={<CardSkeleton />}>
           <AdditionalMetrics />
-        </Suspense> 
+        </Suspense>
 
         <Suspense fallback={<CardSkeleton />}>
           <ActiveLoveGallery />
@@ -50,7 +50,7 @@ export default async function DashboardPage() {
         <Suspense fallback={<CardSkeleton />}>
           <AccountType accountType={accountType} />
         </Suspense>
-        
+
       </div>
 
       <div className='flex flex-col md:flex-row gap-4 md:space-x-4 mt-5'>
@@ -82,12 +82,12 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-        
-     
+
+
       </div>
     </div>
 
-    
+
   )
 }
 

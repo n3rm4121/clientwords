@@ -50,14 +50,14 @@ export function Navbar() {
 
   return (
     <div className={`flex z-50 items-center justify-center top-0 md:sticky transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
-      <nav className="mt-4 border rounded-full backdrop-filter backdrop-blur-lg border-gray-400 px-2.5 sticky top-0 z-50">
+      <nav className="mt-4 border rounded-full backdrop-filter backdrop-blur-lg border-yellow-500 px-2.5 sticky top-0 z-50">
         <MaxWidthWrapper>
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div className="flex justify-center gap-4 items-center h-16">
               <div className="relative inline-flex items-center">
                 <Link href="/" className="flex-shrink-0">
-                  <Image 
-                  src='/brand.png' width={200} height={200} alt='ClientWords' />
+                  <Image
+                    src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
                 </Link>
               </div>
               <div>
@@ -70,10 +70,9 @@ export function Navbar() {
                 </div>
               </div>
               <div className='flex items-center gap-2 justify-center'>
-                <Link href="/login" className={buttonVariants({ variant: 'secondary' })}>
+                <Link href="/login" className='bg-primary rounded-md text-black p-2 hover:bg-yellow-500'>
                   Login
                 </Link>
-                <ModeToggle />
               </div>
             </div>
           </div>
