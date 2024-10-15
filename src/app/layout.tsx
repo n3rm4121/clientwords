@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     images: '/opengraph-image.png',
   },
   title: {
-    default: "ClientWords - Amplify Your Success with your Client's Words",
+    default: "ClientWords - Collect and Showcase Testiomonials with Ease",
     template: '%s - ClientWords',
   },
   description: "Elevate your business credibility with your Client's Words - the smart way to collect, manage, and showcase powerful customer testimonials",
