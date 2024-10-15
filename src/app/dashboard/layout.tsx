@@ -21,23 +21,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         };
         fetchSubscriptionTier();
     })
-   
+
     useEffect(() => {
         const handleScrollRestoration = () => {
-          const scrollPos = sessionStorage.getItem(pathname);
-          if (scrollPos) {
-            window.scrollTo(0, parseInt(scrollPos, 10));
-          } else {
-            window.scrollTo(0, 0);
-          }
+            const scrollPos = sessionStorage.getItem(pathname);
+            if (scrollPos) {
+                window.scrollTo(0, parseInt(scrollPos, 10));
+            } else {
+                window.scrollTo(0, 0);
+            }
         };
-    
+
         handleScrollRestoration();
-    
+
         return () => {
-        sessionStorage.setItem(pathname, window.scrollY.toString());
+            sessionStorage.setItem(pathname, window.scrollY.toString());
         };
-      }, [pathname]);
+    }, [pathname]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -62,13 +62,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
     return (
         <div className="flex min-h-screen">
-            <ToastProvider /> 
+            <ToastProvider />
 
             {/* Sidebar */}
             <Sidebar isOpen={isOpen} isFreeAccount={isAccountFree} />
 
             {/* Main Content Area */}
-            <div className={`flex-1 transition-all duration-300`}>
+            <div className={`flex-1 transition-all duration-300 bg-[#212121]`}>
                 {/* Navbar */}
                 <Navbar handleToggle={handleToggle} isAccountFree={isAccountFree} />
 

@@ -92,7 +92,7 @@ export default function Navbar({ handleToggle, isAccountFree }: { isAccountFree?
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <ModeToggle />
+            {/* <ModeToggle /> */}
           </div>
         </div>
       </nav>
