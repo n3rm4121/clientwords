@@ -32,7 +32,7 @@ export default function Navbar({ handleToggle, isAccountFree }: { isAccountFree?
 
   return (
     <MaxWidthWrapper>
-      <nav className="fixed border-b border-gray-200 bg-[#212121] text-white backdrop-filter backdrop-blur-lg inset-x-0 top-0 z-50 w-full h-16  flex items-center justify-between px-4">
+      <nav className="fixed border-b border-gray-200 bg-[#212121] backdrop-filter backdrop-blur-lg inset-x-0 top-0 z-50 w-full h-16  flex items-center justify-between px-4">
         <div className="flex  justify-center text-center gap-3">
           <div className="cursor-pointer items-center justify-center flex lg:hidden" onClick={handleToggle}><FaBars /></div>
           <div className="flex justify-center gap-4 items-center h-16">
@@ -48,7 +48,7 @@ export default function Navbar({ handleToggle, isAccountFree }: { isAccountFree?
           {dashboardNavItems.map((item, index) => {
             const isActive = pathname === item.link || (pathname.startsWith(item.link) && item.link !== '/dashboard');
             return (
-              <Link href={item.link} key={index} className={cn('px-4 py-2 hover:text-muted-foreground', { 'text-blue-500': isActive, })}>
+              <Link href={item.link} key={index} className={cn('px-4 py-2 text-gray-200 hover:text-yellow-500', { 'text-yellow-400': isActive, })}>
                 {item.title}
               </Link>
             );
@@ -92,7 +92,7 @@ export default function Navbar({ handleToggle, isAccountFree }: { isAccountFree?
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* <ModeToggle /> */}
+            <ModeToggle />
           </div>
         </div>
       </nav>

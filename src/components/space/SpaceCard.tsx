@@ -153,7 +153,7 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
 }
 
 const reservedKeywords = [
-  'admin','clientwords', 'clienword', 'dashboard', 'profile', 'settings', 'login', 'signup', 'api', 'space', 'spaces', 'user', 'users',
+  'admin', 'clientwords', 'clienword', 'dashboard', 'profile', 'settings', 'login', 'signup', 'api', 'space', 'spaces', 'user', 'users',
   'system', 'help', 'support', 'about', 'terms', 'privacy', 'home', 'localhost', 'test'
 ];
 
@@ -230,49 +230,49 @@ export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: a
 
   return (
     <div>
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button disabled={!can}>
-          Create New Space
-          {(!user?.isProUser || spaceCount >= 1) && <Gem className="ml-2 h-4 w-4" />}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-w-xs">
-        <DialogHeader>
-          <DialogTitle>Create Space</DialogTitle>
-          <DialogDescription>
-            <span className="text-blue-500">
-              {generateUniqueLink(name)}
-            </span>
-          </DialogDescription>
-        </DialogHeader>
-        <div>
-          <Label htmlFor="name" className="text-right">
-            Name
-          </Label>
-          <Input
-            id="name"
-            placeholder="eg. My Business"
-            className="col-span-3"
-            value={name}
-            disabled={loading || !can}
-            onChange={(e) => setName(e.target.value)}
-          />
-          {errors?.name && (
-            <span className="text-red-500 text-sm mt-1">{errors.name._errors[0]}</span>
-          )}
-        </div>
-        <DialogFooter>
-          <Button
-            loading={loading}
-            onClick={() => handleCreateSpace(name.replace(/\s+/g, ''))}
-            disabled={!can || loading}  // Disable button if user already has a space
-          >
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button disabled={!can}>
             Create New Space
+            {(!user?.isProUser || spaceCount >= 1) && <Gem className="ml-2 h-4 w-4" />}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  </div>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px] max-w-xs">
+          <DialogHeader>
+            <DialogTitle>Create Space</DialogTitle>
+            <DialogDescription>
+              <span className="text-blue-500">
+                {generateUniqueLink(name)}
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          <div>
+            <Label htmlFor="name" className="text-right">
+              Name
+            </Label>
+            <Input
+              id="name"
+              placeholder="eg. My Business"
+              className="col-span-3"
+              value={name}
+              disabled={loading || !can}
+              onChange={(e) => setName(e.target.value)}
+            />
+            {errors?.name && (
+              <span className="text-red-500 text-sm mt-1">{errors.name._errors[0]}</span>
+            )}
+          </div>
+          <DialogFooter>
+            <Button
+              loading={loading}
+              onClick={() => handleCreateSpace(name.replace(/\s+/g, ''))}
+              disabled={!can || loading}  // Disable button if user already has a space
+            >
+              Create New Space
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

@@ -68,7 +68,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Sidebar isOpen={isOpen} isFreeAccount={isAccountFree} />
 
             {/* Main Content Area */}
-            <div className={`flex-1 transition-all duration-300 bg-[#212121]`}>
+            <div className={`flex-1 transition-all duration-300`}>
                 {/* Navbar */}
                 <Navbar handleToggle={handleToggle} isAccountFree={isAccountFree} />
 

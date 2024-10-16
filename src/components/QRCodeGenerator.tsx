@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { buttonVariants } from './ui/button';
-import { Badge } from './ui/badge';
 
 interface QRCodeGeneratorProps {
   url: string;
@@ -32,26 +31,26 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ url }) => {
           variant: 'default',
           size: 'lg',
           className: 'w-full font-sans relative'
-        })} ><Badge className='absolute right-0 -top-2 bg-cyan-500'>New</Badge>Show QR Code</DialogTrigger>
+        })} >Show QR Code</DialogTrigger>
         <DialogContent className='p-4'>
           <DialogHeader>
             <DialogTitle>Your QR Code has been generated!</DialogTitle>
             <DialogDescription>
               Share this QR code with your clients to get testimonials.
             </DialogDescription>
-            </DialogHeader>
+          </DialogHeader>
 
-            <div ref={qrRef} className="mb-4">
-              <QRCodeCanvas value={url} size={256} />
-            </div>
-            <button
-              onClick={downloadQRCode}
-              className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition-all duration-200"
-            >
-              Download QR Code
-            </button>
+          <div ref={qrRef} className="mb-4">
+            <QRCodeCanvas value={url} size={256} />
+          </div>
+          <button
+            onClick={downloadQRCode}
+            className="bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition-all duration-200"
+          >
+            Download QR Code
+          </button>
 
-          
+
         </DialogContent>
       </Dialog>
 

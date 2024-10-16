@@ -10,10 +10,10 @@ import { useDebounce } from 'use-debounce'
 interface Props {
   params: {
     id: string
-  },  uniqueLink: string
+  }, uniqueLink: string
 }
 
-export default function DisplayTestimonials({ params, uniqueLink }: Props) {  
+export default function DisplayTestimonials({ params, uniqueLink }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('query') || '')
@@ -30,26 +30,17 @@ export default function DisplayTestimonials({ params, uniqueLink }: Props) {
     router.push(`?${params.toString()}`, { scroll: false })
   }, [debouncedQuery, router, searchParams])
 
-  // useEffect(() => {
-  //   async function fetchTestimonials() {
-  //    const testimonials =  await fetch(`/api/testimonial?spaceId=${params.id}&query=${debouncedQuery}&page=1&limit=9`)
-  //     const data = await testimonials.json()
-  //     setTotalTestimonials(data.testimonials.length)
-     
-  //   }
-  //   fetchTestimonials()
-  // },[debouncedQuery, params.id])
   return (
     <div className="flex flex-col h-screen">
       <div className="p-4">
-        <Search placeholder="Search testimonials by name or message..." onSearch={handleSearch}/>
+        <Search placeholder="Search testimonials by name or message..." onSearch={handleSearch} />
       </div>
-      
+
       <ScrollArea className="flex-grow rounded-md border p-4">
-        <Testimonials 
-          query={debouncedQuery} 
-          spaceId={params.id} 
-          uniqueLink={uniqueLink} 
+        <Testimonials
+          query={debouncedQuery}
+          spaceId={params.id}
+          uniqueLink={uniqueLink}
         />
       </ScrollArea>
     </div>
