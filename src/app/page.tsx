@@ -275,7 +275,7 @@ export default function LandingPage() {
                 <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
               </Link>
               <div className="ml-12">
-                <a href="mailto:support@clientwords.com" className="text-indigo-400 hover:underline">
+                <a href="mailto:hello@clientwords.com" className="text-indigo-400 hover:underline">
                   <Mail className="mr-2 inline h-5 w-5 " />
                 </a>
 
