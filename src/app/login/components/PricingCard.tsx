@@ -176,17 +176,17 @@ export default function AwesomePricingSection() {
     return (
         <section id="pricing" className="py-10">
             <MaxWidthWrapper>
-                <h2 className="text-4xl font-bold text-gray-200 tracking-tight sm:text-5xl mb-4">
+                <h2 className="text-4xl text-center font-bold text-gray-200 tracking-tight sm:text-5xl mb-4">
                     Simple, Transparent Pricing
                 </h2>
-                <p className="text-xl text-gray-400 mb-8">Choose the plan that's right for you</p>
+                <p className="text-xl text-center text-gray-400 mb-8">Choose the plan that's right for you</p>
 
                 <div className="bg-gradient-to-r from-blue-600 to-teal-500 p-6 rounded-lg mb-8 shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out">
                     <h3 className="text-2xl font-bold text-white mb-4 flex items-center justify-center">
                         <Tag className="mr-3 text-yellow-400 animate-bounce" /> Launch Offer
                     </h3>
                     <p className="text-lg text-gray-100 text-center">
-                        Use promo code <span className="font-semibold text-yellow-300">'LAUNCH'</span> to get <span className="font-bold text-white">{DISCOUNT_PERCENTAGE}%</span> off your first month (monthly plan) or first year (annual plan)!
+                        Use discount code <span className="font-semibold text-yellow-300">'LAUNCH'</span> to get <span className="font-bold text-white">{DISCOUNT_PERCENTAGE}%</span> off your first month (monthly plan) or first year (annual plan)!
                     </p>
                     <p className="text-md text-yellow-200 text-center mt-4">
                         Offer ends in: <span className="font-bold">{timeLeft}</span>
