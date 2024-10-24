@@ -17,41 +17,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const fetchSubscriptionTier = async () => {
             const subscriptionTier = await getUserSubscriptionTier(session.data?.user?.id as string);
-            setIsAccountFree(subscriptionTier === 'free');
+            setIsAccountFree(subscriptionTier === 'Free');
         };
         fetchSubscriptionTier();
     })
 
-    useEffect(() => {
-        const handleScrollRestoration = () => {
-            const scrollPos = sessionStorage.getItem(pathname);
-            if (scrollPos) {
-                window.scrollTo(0, parseInt(scrollPos, 10));
-            } else {
-                window.scrollTo(0, 0);
-            }
-        };
-
-        handleScrollRestoration();
-
-        return () => {
-            sessionStorage.setItem(pathname, window.scrollY.toString());
-        };
-    }, [pathname]);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsOpen(window.innerWidth >= 1024);
-        };
-
-        handleResize();
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
 
 
     const [isOpen, setIsOpen] = useState(true);

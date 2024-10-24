@@ -11,10 +11,9 @@ import { Card } from "@/components/ui/card"
 import { toast } from "react-toastify"
 // import { SubscriptionTier } from "@/types/user"
 export enum SubscriptionTier {
-    FREE = 'free',
-    PRO = 'Pro',
-    BUSINESS = 'Business'
-  }
+  FREE = 'Free',
+  PRO = 'Pro',
+}
 
 interface SubscriptionData {
   tier: SubscriptionTier
@@ -41,10 +40,10 @@ export default function ProfileSettings() {
         setEmail(data.userData.email)
         // setSubscription(data.userData.subscription)
         setSubscription({
-            tier: data.userData.subscriptionTier,
-            endDate: data.userData.subscriptionEndDate
+          tier: data.userData.subscriptionTier,
+          endDate: data.userData.subscriptionEndDate
         })
-        
+
       } catch (error) {
         console.error(error)
       }
@@ -152,15 +151,7 @@ export default function ProfileSettings() {
               <Button onClick={() => handleUpgradeSubscription(SubscriptionTier.PRO)} disabled={loading}>
                 Upgrade to Pro
               </Button>
-              <Button onClick={() => handleUpgradeSubscription(SubscriptionTier.BUSINESS)} disabled={loading}>
-                Upgrade to Business
-              </Button>
             </div>
-          )}
-          {subscription?.tier === SubscriptionTier.PRO && (
-            <Button onClick={() => handleUpgradeSubscription(SubscriptionTier.BUSINESS)} disabled={loading} className="mt-2">
-              Upgrade to Business
-            </Button>
           )}
         </div>
       </div>

@@ -3,7 +3,6 @@ import mongoose, { Schema, model, Document } from 'mongoose';
 export enum SubscriptionTier {
   FREE = 'Free',
   PRO = 'Pro',
-  BUSINESS = 'Business'
 }
 
 interface OAuthAccount {
