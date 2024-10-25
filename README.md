@@ -2,7 +2,7 @@
 
 # ClientWords
 
-**ClientWords** is a SaaS platform built with Next.js and TypeScript that enables you to effortlessly collect, manage, and display testimonials on your websites. This tool turns positive customer experiences into social proof, helping you build trust and boost conversions.
+**ClientWords** is a platform that enables you to effortlessly collect, manage, and display testimonials on your websites. This tool turns positive customer experiences into social proof, helping you build trust and boost conversions.
 
 ## 🌐 Website
 [ClientWords.com](https://clientwords.com)
@@ -146,24 +146,11 @@ Contributions are very welcome! A contribution can be as small as a ⭐ or even 
 - Include documentation for new features or changes.
 - Test your changes to avoid breaking existing functionality.
 
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ---
 ## Acknowledgments
 Thanks to all early adopters and contributors for valuable feedback and support!
 
 ---
-Enjoy using ClientWords? Give us a star ⭐ on GitHub to show your support!
+## Enjoy using ClientWords? Give us a star ⭐ on GitHub to show your support!
 
-## Contact
-For questions or support, reach out to us:
-
-LinkedIn
-Twitter
-Email
-
-```bash
-This README includes instructions, environment setup, contributing guidelines, and contact information to help users and contributors understand, deploy, and collaborate on **ClientWords**.
-```
 
