@@ -114,14 +114,13 @@ const PricingCard = ({ title, monthlyPrice, annualPrice, monthlyPriceId, annualP
 export default function AwesomePricingSection() {
     const [isAnnual, setIsAnnual] = useState(false);
     const [timeLeft, setTimeLeft] = useState('');
+    const START_DATE = new Date('2024-10-25T00:00:00');
+    const END_DATE = new Date('2024-10-29T00:00:00');
 
     useEffect(() => {
-        const endDate = new Date();
-        endDate.setDate(endDate.getDate() + 4);
-
         const updateCountdown = () => {
-            const now = new Date();
-            const difference = endDate.getTime() - now.getTime();
+            const now = new Date().getTime();
+            const difference = END_DATE.getTime() - now; // Time difference from now to END_DATE
 
             if (difference > 0) {
                 const days = Math.floor(difference / (1000 * 60 * 60 * 24));
@@ -135,12 +134,11 @@ export default function AwesomePricingSection() {
             }
         };
 
-        updateCountdown();
-        const timer = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial update
+        const timer = setInterval(updateCountdown, 1000); // Update every second
 
-        return () => clearInterval(timer);
+        return () => clearInterval(timer); // Cleanup on unmount
     }, []);
-
     const plans: PlanProps[] = [
         {
             title: "Starter",
