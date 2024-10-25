@@ -1,9 +1,8 @@
-![og-image](https:clientwords.com/opengraph-image.png)
+![opengraph-image.png](https://github.com/user-attachments/assets/1ad8d8df-55ff-441a-8e84-bb1649687c29)
 
 # ClientWords
 
-**ClientWords** is a SaaS platform built with Next.js and TypeScript that enables businesses to effortlessly collect, manage, and display customer te!
-stimonials on their websites. This tool turns positive customer experiences into social proof, helping businesses build trust and boost conversions.
+**ClientWords** is a SaaS platform built with Next.js and TypeScript that enables you to effortlessly collect, manage, and display testimonials on your websites. This tool turns positive customer experiences into social proof, helping you build trust and boost conversions.
 
 ## 🌐 Website
 [ClientWords.com](https://clientwords.com)
