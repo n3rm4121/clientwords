@@ -1,4 +1,4 @@
-![opengraph-image.png](https://github.com/user-attachments/assets/1ad8d8df-55ff-441a-8e84-bb1649687c29)
+![opengraph-image png](https://github.com/user-attachments/assets/3877e161-8464-4989-8f30-039213bcf688)
 
 # ClientWords
 
