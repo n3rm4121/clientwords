@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import { useState } from 'react'
+import { signIn } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'

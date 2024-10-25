@@ -1,8 +1,6 @@
-// custom form of testimonial
+import mongoose, { Schema, Document, model } from "mongoose";
 
-import mongoose, {Schema, Document, model} from "mongoose";
-
-export interface ITestimonialCard extends Document{
+export interface ITestimonialCard extends Document {
     companyName: string;
     companyLogo: string;
     companyURL: string;
@@ -13,7 +11,7 @@ export interface ITestimonialCard extends Document{
 }
 
 const testimonialCardSchema = new Schema<ITestimonialCard>({
-   
+
     spaceId: {
         type: Schema.Types.ObjectId,
         ref: 'Space',
@@ -45,7 +43,7 @@ const testimonialCardSchema = new Schema<ITestimonialCard>({
         type: String,
         required: true,
     },
-    
+
 });
 
 const TestimonialCard = mongoose.models?.TestimonialCard || model<ITestimonialCard>('TestimonialCard', testimonialCardSchema);

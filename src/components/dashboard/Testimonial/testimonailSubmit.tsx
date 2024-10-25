@@ -76,7 +76,6 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: any }
 
     const handleFormSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        // Execute reCAPTCHA and get token
         const token = await (window as any).grecaptcha.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!, { action: 'submit' });
 
         setLoading(true);
@@ -93,7 +92,7 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: any }
             newForm.append('userName', data.userName);
             newForm.append('userIntro', data.userIntro);
             newForm.append('message', data.message);
-            newForm.append('userAvatar', data.userAvatar!); // `!` asserts that it's not null
+            newForm.append('userAvatar', data.userAvatar!);
             newForm.append('spaceId', data.spaceId);
             newForm.append('recaptchaToken', token);
             const res = await axios.post('/api/testimonial', newForm, {

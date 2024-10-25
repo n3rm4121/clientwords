@@ -3,7 +3,6 @@ import Testimonial from '@/models/testimonials.model'
 import Image from 'next/image'
 import { badgeVariants } from "@/components/ui/badge"
 import Link from 'next/link'
-import { Input } from '@/components/ui/input'
 
 export default async function LatestTestimonials({ userId }: { userId: string }) {
   await dbConnect()
@@ -15,9 +14,7 @@ export default async function LatestTestimonials({ userId }: { userId: string })
       {latestTestimonials.length === 0 ? (
         <div className="text-muted-foreground text-center">No testimonials yet</div>
       ) : (
-        <div className="space-y-6"> {/* Increased space between testimonial cards */}
-          {/* <Input type="search" placeholder="Search testimonials..." /> */}
-
+        <div className="space-y-6">
           {latestTestimonials.map((testimonial) => (
             <div key={testimonial._id} className="flex items-start space-x-4 p-4 border rounded-lg shadow-sm ">
               {/* User Avatar */}

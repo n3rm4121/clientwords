@@ -8,7 +8,6 @@ export interface CheckoutProps {
   user: {
     id: string;
     email: string;
-    // customerId?: string;
   };
 }
 
@@ -43,7 +42,6 @@ export function Checkout({ user }: CheckoutProps) {
 
   useEffect(() => {
     initializePaddle({
-      // environment: process.env.NEXT_PUBLIC_PADDLE_ENVIRONMENT as Environments,
       token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN as string,
       checkout: {
         settings: {
@@ -58,7 +56,7 @@ export function Checkout({ user }: CheckoutProps) {
           case 'checkout.closed':
             router.push('/');
             break;
-        
+
           case 'checkout.loaded':
             break;
           case 'checkout.error':

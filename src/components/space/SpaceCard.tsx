@@ -1,4 +1,5 @@
 'use client'
+
 import { generateUniqueLink } from '@/utils/generateUniqueLink';
 import {
   Dialog,
@@ -13,7 +14,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { FaBuilding } from 'react-icons/fa';
 import { z } from 'zod'
-
 import React, { useEffect, useState, useCallback } from 'react'
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
@@ -27,6 +27,7 @@ import { deleteSpace, getUserSpaceCount } from '@/app/dashboard/action';
 import { toast } from 'react-toastify';
 import { useSession } from 'next-auth/react';
 import { canCreateSpace } from '@/lib/featureAccess';
+
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
 export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
@@ -95,7 +96,7 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
                 >
                   <div className="px-2 py-4 max-w-sm">
 
-                    {/* Icon for Deleting Space */}
+
                     <div className='absolute top-2 right-2'>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -125,17 +126,14 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
                       <FaBuilding className="text-3xl" />
                     </div>
 
-                    {/* Space name */}
                     <h2 className="text-xl font-bold overflow-hidden text-center mb-2">
                       {space.name}
                     </h2>
 
-                    {/* Testimonials count */}
                     <p className="text-center">
                       Total Testimonials Received: <span className="font-semibold">{space.testimonialsCount | 0}</span>
                     </p>
 
-                    {/* Optional Call to Action */}
                     <div className="mt-4 flex justify-center">
                       <Button onClick={() => router.push(`/dashboard/spaces/${space.name}/${space._id}`)} variant='outline'>
                         View Details
@@ -179,7 +177,7 @@ export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: a
   const [name, setName] = useState('');
   const [errors, setErrors] = useState<any>({});
   const [loading, setLoading] = useState(false);
-  const [spaceCount, setSpaceCount] = useState(0);  // Track space count
+  const [spaceCount, setSpaceCount] = useState(0);
   const session = useSession();
   const user = session.data?.user;
   const router = useRouter();
@@ -190,7 +188,7 @@ export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: a
     const fetchSpaceCount = async () => {
       try {
         if (user?.id) {
-          const count = await getUserSpaceCount(user.id);  // Assuming this returns a number
+          const count = await getUserSpaceCount(user.id);
           setSpaceCount(count);
         }
       } catch (error) {
@@ -206,7 +204,6 @@ export function DialogDemo({ addSpace, subscriptionTier }: { subscriptionTier: a
     try {
       setLoading(true);
 
-      // Validate the name with the updated Zod schema
       createSpaceSchema.parse({ name });
 
       const res = await axios.post('/api/space', { name });

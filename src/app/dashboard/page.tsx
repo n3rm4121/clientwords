@@ -2,7 +2,6 @@ import TotalTestimonials from './components/TotalTestimonials'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { TestimonialsChart } from './components/TestimonialsChart';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Input } from '@/components/ui/input';
 import { Suspense } from 'react';
 import LatestTestimonials from './components/LatestTestimonials';
 import { auth } from '@/auth';
@@ -32,9 +31,7 @@ export default async function DashboardPage() {
   const accountType = userData.subscriptionTier;
   return (
     <div>
-
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-
         <Suspense fallback={<CardSkeleton />}>
           <TotalTestimonials />
         </Suspense>
@@ -50,7 +47,6 @@ export default async function DashboardPage() {
         <Suspense fallback={<CardSkeleton />}>
           <AccountType accountType={accountType} />
         </Suspense>
-
       </div>
 
       <div className='flex flex-col md:flex-row gap-4 md:space-x-4 mt-5'>
@@ -73,17 +69,12 @@ export default async function DashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {/* <div className="mb-4">
-                <Input type="search" placeholder="Search testimonials..." />
-              </div> */}
               <Suspense fallback={<TestimonialsSkeleton />}>
                 <LatestTestimonials userId={userId || ''} />
               </Suspense>
             </CardContent>
           </Card>
         </div>
-
-
       </div>
     </div>
 

@@ -1,4 +1,3 @@
-// src/schemas/testimonialSchema.ts
 import { z } from 'zod';
 
 
@@ -10,7 +9,7 @@ export const testimonialCardSchema = z.object({
   placeholder: z.string().min(1, 'Placeholder is required'),
   spaceId: z.string().min(1, 'Space ID is required'),
   spaceName: z.string().min(1, 'Space name is required'),
-  
+
 });
 
 

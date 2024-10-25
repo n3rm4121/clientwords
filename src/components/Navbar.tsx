@@ -1,12 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Button, buttonVariants } from './ui/button';
 import { MaxWidthWrapper } from './MaxWidthWrapper';
-import ModeToggle from './toggleThemeBtn';
 import Image from 'next/image';
-import { Badge } from './ui/badge';
-import { useTheme } from 'next-themes';
 
 export function Navbar() {
   const [scrollY, setScrollY] = useState(0);

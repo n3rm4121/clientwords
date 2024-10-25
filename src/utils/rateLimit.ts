@@ -5,22 +5,22 @@ import { NextRequest, NextResponse } from "next/server";
 const url = process.env.UPSTASH_REDIS_REST_URL;
 const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-if(!url) {
+if (!url) {
     throw new Error('Please provide a Redis URL');
 }
 
-if(!token) {
+if (!token) {
     throw new Error('Please provide a Redis Token');
 }
 const redis = new Redis({
-   
+
     url: url,
     token: token,
 });
 
 export async function likeRateLimit(request: NextRequest) {
     const ip = request.ip ?? request.headers.get('X-Forwarded-For') ?? 'unknown';
-    
+
     const perMinuteLimit = new Ratelimit({
         redis: redis,
         limiter: Ratelimit.slidingWindow(10, '1 m'),
@@ -92,15 +92,13 @@ export async function testimonialSubmitRateLimit(
         );
     }
 
-    return null; // No rate limit error
+    return null;
 }
 
 // Rate limiter for iframe fetching
 export async function iframeFetchRateLimit(request: NextRequest) {
-    // You might want to use domain or user identification if available
     const domain = request.headers.get('Origin') || 'unknown';
 
-    // Define rate limits
     const perMinuteLimit = new Ratelimit({
         redis: redis,
         limiter: Ratelimit.slidingWindow(30, '1 m'), // Example: 30 requests per minute
@@ -115,7 +113,7 @@ export async function iframeFetchRateLimit(request: NextRequest) {
 
     const perDayLimit = new Ratelimit({
         redis: redis,
-        limiter: Ratelimit.slidingWindow(3000, '1 d'), // Example: 3000 requests per day
+        limiter: Ratelimit.slidingWindow(3000, '1 d'), // 3000 requests per day
         prefix: 'iframe_fetch_per_day',
     });
 
@@ -141,5 +139,5 @@ export async function iframeFetchRateLimit(request: NextRequest) {
         }
     }
 
-    return null; // No rate limit error
+    return null;
 }

@@ -10,7 +10,6 @@ interface QRCodeGeneratorProps {
 const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ url }) => {
   const qrRef = useRef<HTMLDivElement | null>(null);
 
-  // Function to download the QR code as an image
   const downloadQRCode = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     const canvas = qrRef.current?.querySelector('canvas');
@@ -25,7 +24,6 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ url }) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-
       <Dialog>
         <DialogTrigger className={buttonVariants({
           variant: 'default',
@@ -49,14 +47,8 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ url }) => {
           >
             Download QR Code
           </button>
-
-
         </DialogContent>
       </Dialog>
-
-
-      {/* Button to download the QR code */}
-
     </div>
   );
 };

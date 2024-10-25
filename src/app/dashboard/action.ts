@@ -7,9 +7,7 @@ import Space from "@/models/space.model";
 import TestimonialCard from "@/models/testimonial-card.model";
 import Testimonial from "@/models/testimonials.model";
 import User from "@/models/user.model";
-import mongoose, { Types } from "mongoose";
-import { redirect } from "next/navigation";
-import { testimonailSchema } from "@/schemas/validationSchema";
+import { Types } from "mongoose";
 
 export async function fetchSpaceData() {
   try {
@@ -29,7 +27,7 @@ export async function fetchSpaceData() {
       {
         $addFields: {
           testimonialsCount: {
-            $size: { 
+            $size: {
               $ifNull: ["$testimonials", []]  // Ensure testimonials is an array, or default to an empty array
             }
           }
@@ -51,7 +49,6 @@ export async function fetchSpaceData() {
   }
 }
 
-// Update the user's name
 export async function updateName(userId: string, newName: string) {
   await dbConnect();
 
@@ -59,7 +56,6 @@ export async function updateName(userId: string, newName: string) {
   return user?.name;
 }
 
-// Delete the user's account
 export async function deleteAccount(userId: string) {
   await dbConnect();
 
@@ -71,15 +67,14 @@ export async function deleteAccount(userId: string) {
     await LoveGallery.deleteMany({ owner: userId });
     await User.findByIdAndDelete(userId);
     signOut();
-    
+
   } catch (error) {
     console.error("Error deleting user account:", error);
     throw error;
-    
+
   }
 }
 
-// Disconnect an OAuth provider from the user's account
 export async function disconnectOAuth(userId: string, provider: string) {
   await dbConnect();
 
@@ -89,7 +84,7 @@ export async function disconnectOAuth(userId: string, provider: string) {
   } catch (error) {
     console.error("Error disconnecting OAuth provider:", error);
     throw error
-    
+
   }
 }
 
@@ -141,8 +136,6 @@ export async function getUserSpaceCount(userId: string) {
 }
 
 
-// get if user is pro or not
-
 export async function isPro(userId: string) {
   await dbConnect();
 
@@ -160,22 +153,19 @@ export async function deleteTestimonial(testimonialId: string, spaceId?: string)
   await dbConnect();
   const session = await auth();
   const userId = session?.user?.id;
-  
+
   if (!userId) {
     return null;
   }
 
   try {
-    // Delete the testimonial by its ID
     await Testimonial.findByIdAndDelete(testimonialId);
 
-    // Find space by _id spaceId and owner userId and pull testimonialId from testimonials array
     await Space.findByIdAndUpdate(
-      spaceId, 
+      spaceId,
       { $pull: { testimonials: testimonialId } }
     );
 
-    // Retrieve the updated space
     const updatedSpace = await Space.findById(spaceId);
   } catch (error) {
     console.error("Error deleting testimonial:", error);
@@ -187,7 +177,7 @@ export async function deleteTestimonial(testimonialId: string, spaceId?: string)
 export async function getUserSubscriptionTier(userId: string) {
   await dbConnect();
 
-  try {   
+  try {
     const user = await User.findById(userId).select('subscriptionTier').exec();
     return user?.subscriptionTier;
 

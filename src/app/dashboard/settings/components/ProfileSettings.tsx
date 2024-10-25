@@ -9,7 +9,7 @@ import { updateName } from "../../action"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { toast } from "react-toastify"
-// import { SubscriptionTier } from "@/types/user"
+
 export enum SubscriptionTier {
   FREE = 'Free',
   PRO = 'Pro',
@@ -38,7 +38,6 @@ export default function ProfileSettings() {
 
         setName(data.userData.name)
         setEmail(data.userData.email)
-        // setSubscription(data.userData.subscription)
         setSubscription({
           tier: data.userData.subscriptionTier,
           endDate: data.userData.subscriptionEndDate

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import LoginButton from './components/LoginButton' // Client component for sign-in logic
+import LoginButton from './components/LoginButton'
 import { Metadata } from 'next'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
@@ -29,7 +29,7 @@ export default async function LoginPage() {
               Sign in to manage your testimonials
             </p>
           </div>
-          <LoginButton /> {/* Client-side sign-in logic */}
+          <LoginButton />
           <div className="mt-8 text-center md:text-left text-sm text-gray-500">
             By continuing, you agree to ClientWords&apos;s{' '}
             <Link href="/terms" className="text-yellow-400 hover:underline">

@@ -1,8 +1,6 @@
-
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
 
 export default function Component() {
   return (
@@ -29,7 +27,7 @@ export default function Component() {
           </div>
         </div>
       </section>
-     
+
     </div>
   )
 }

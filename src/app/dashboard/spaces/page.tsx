@@ -14,7 +14,7 @@ export default async function Spaces() {
   const userId = session.user?.id;
   await dbConnect();
 
-  const userData = await User.findById(userId).select('isNewUser subscriptionTier subscriptionEndDate spaces').exec();  
+  const userData = await User.findById(userId).select('isNewUser subscriptionTier subscriptionEndDate spaces').exec();
 
   if (userData.isNewUser) {
     return <Welcome />;
@@ -24,7 +24,6 @@ export default async function Spaces() {
 
   return (
     <div className="space-y-6">
-      {/* Conditional Alert for Space Limit */}
       {!canCreate && (
         <Alert className="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4">
           <Terminal className="h-4 w-4 mr-2" />
@@ -37,8 +36,7 @@ export default async function Spaces() {
         </Alert>
       )}
 
-      {/* Show the spaces component if spaces are available */}
-        <ShowSpaces subscriptionTier={userData.subscriptionTier} />
+      <ShowSpaces subscriptionTier={userData.subscriptionTier} />
     </div>
   );
 }

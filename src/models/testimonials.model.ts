@@ -1,16 +1,14 @@
-//testimonail received by the space owner from the users who have visited the space
-// data of sender
-import mongoose, {Schema, Document, model} from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
 
-interface Testimonial extends Document{
-    userName: string;  
-    userAvatar: string;   
-    userIntro: string;  
+interface Testimonial extends Document {
+    userName: string;
+    userAvatar: string;
+    userIntro: string;
     message: string;
-    spaceId: Schema.Types.ObjectId;  
+    spaceId: Schema.Types.ObjectId;
     createdAt: Date;
-    owner: Schema.Types.ObjectId;  // added
-    spaceName: string;       // added
+    owner: Schema.Types.ObjectId;
+    spaceName: string;
 }
 
 const testimonialSchema = new Schema<Testimonial>({
@@ -25,7 +23,7 @@ const testimonialSchema = new Schema<Testimonial>({
     },
     userIntro: {
         type: String,
-        
+
     },
     message: {
         type: String,
@@ -50,7 +48,7 @@ const testimonialSchema = new Schema<Testimonial>({
         type: Date,
         default: Date.now,
     },
-}, {timestamps: true});
+}, { timestamps: true });
 
 const Testimonial = mongoose.models?.Testimonial || model<Testimonial>('Testimonial', testimonialSchema);
 export default Testimonial;

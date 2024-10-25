@@ -4,21 +4,21 @@ import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
 
-export const GET = auth(async function GET(req: NextRequest) {  
+export const GET = auth(async function GET(req: NextRequest) {
   try {
-    // Get session using the auth middleware
+
     const session = await auth();
 
     if (!session || !session.user) {
       return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
     }
 
-    const userId = session.user.id; // Assuming `id` exists on session.user
+    const userId = session.user.id;
 
     await dbConnect();
 
     const userData = await User.findById(userId).exec();
-    
+
     if (!userData) {
       return NextResponse.json({ message: "No user found" }, { status: 404 });
     }

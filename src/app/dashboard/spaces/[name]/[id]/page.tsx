@@ -6,7 +6,6 @@ import Space from '@/models/space.model';
 import { Suspense } from 'react';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 // Dynamically import the client components
 const Card = dynamic(() => import('@/components/ui/card').then(mod => mod.Card), { ssr: false });
 const CardContent = dynamic(() => import('@/components/ui/card').then(mod => mod.CardContent), { ssr: false });
@@ -18,7 +17,7 @@ const Tabs = dynamic(() => import('@/components/ui/tabs').then(mod => mod.Tabs),
 const TabsContent = dynamic(() => import('@/components/ui/tabs').then(mod => mod.TabsContent), { ssr: false });
 const TabsList = dynamic(() => import('@/components/ui/tabs').then(mod => mod.TabsList), { ssr: false });
 const TabsTrigger = dynamic(() => import('@/components/ui/tabs').then(mod => mod.TabsTrigger), { ssr: false });
-const DynamicSpaceWrapper = dynamic(() => import('../../components/DynamicSpaceWrapper'), { ssr: false});
+const DynamicSpaceWrapper = dynamic(() => import('../../components/DynamicSpaceWrapper'), { ssr: false });
 
 
 async function Page({ params }: { params: { id: string } }) {
@@ -28,12 +27,12 @@ async function Page({ params }: { params: { id: string } }) {
     redirect('/login');
   }
 
-  // Fetch space data server-side
+
   const space = await Space.findById(id).exec();
   const isInitiallyNewSpace = space.isNewSpace;
   const uniqueLink = space.uniqueLink;
   // Render content based on whether it's a new space or not
-  const content = 
+  const content =
     <Tabs defaultValue="Testimonials" className="">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
@@ -66,7 +65,7 @@ async function Page({ params }: { params: { id: string } }) {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <TestimonialCardForm isUpdate={true} spaceId={id} uniqueLink={uniqueLink}/>
+            <TestimonialCardForm isUpdate={true} spaceId={id} uniqueLink={uniqueLink} />
           </CardContent>
         </Card>
       </TabsContent>

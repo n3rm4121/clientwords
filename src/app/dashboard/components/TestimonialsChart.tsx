@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/chart"
 import { useEffect, useState } from "react"
 import { fetchSpaceData } from "../action"
-import { Skeleton } from "@/components/ui/skeleton"
 
 const chartConfig = {
   testimonialsCount: {
@@ -37,7 +36,7 @@ export function TestimonialsChart() {
         const data = await fetchSpaceData()
         if (data && Array.isArray(data) && data.length > 0) {
           setChartData(data as never[])
-        } 
+        }
       } catch (error) {
         console.error('Error in TestimonialsChart:', error)
         setError('An error occurred while loading chart data.')
@@ -54,7 +53,7 @@ export function TestimonialsChart() {
   if (error) return <ChartError error={error} />
 
   return (
-      <>
+    <>
       {chartData.length === 0 ? (
 
         <Card>
@@ -72,43 +71,42 @@ export function TestimonialsChart() {
             </CardDescription>
           </CardFooter>
         </Card>
-      ): 
-      (
-        <ChartContainer config={chartConfig}>
-        <BarChart
-          accessibilityLayer
-          data={chartData}
-          margin={{
-            top: 25,
-          }}
-        >
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="name"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            
-          />
-          <ChartTooltip
-            cursor={false}
-            content={<ChartTooltipContent hideLabel />}
-          />
-          <Bar dataKey="testimonialsCount" fill="var(--color-testimonialsCount)" radius={8}>
-            <LabelList
-              dataKey="testimonialsCount"
-              position="top"
-              offset={12}
-              className="fill-foreground"
-              fontSize={12}
-            />
-          </Bar>
-        </BarChart>
-      </ChartContainer>
-      )
+      ) :
+        (
+          <ChartContainer config={chartConfig}>
+            <BarChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                top: 25,
+              }}
+            >
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="name"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Bar dataKey="testimonialsCount" fill="var(--color-testimonialsCount)" radius={8}>
+                <LabelList
+                  dataKey="testimonialsCount"
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        )
       }
-       
-        </>
+    </>
   )
 }
 

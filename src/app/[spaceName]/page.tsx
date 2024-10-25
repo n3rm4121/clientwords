@@ -3,11 +3,11 @@ import TestimonialSubmit from "@/components/dashboard/Testimonial/testimonailSub
 import dbConnect from "@/lib/dbConnect";
 import { canCollectTestimonial } from "@/lib/featureAccess";
 import Space from "@/models/space.model";
-import TestimonialCard, { ITestimonialCard } from "@/models/testimonial-card.model"; // Assuming ITestimonialCard is the correct type for TestimonialCard
+import TestimonialCard from "@/models/testimonial-card.model";
 import User from "@/models/user.model";
 import { Metadata } from "next";
 
-export const metadata: Metadata= {
+export const metadata: Metadata = {
   title: 'Testimonial Submission',
 };
 
@@ -23,15 +23,13 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
   const { spaceName } = params;
 
   try {
-    // Connect to MongoDB
     await dbConnect();
-    // Fetch the testimonial card data based on the id (which is the spaceId)
     let testimonialCardData = await TestimonialCard.findOne({ spaceName: spaceName }).exec();
-    if(!testimonialCardData) {
+    if (!testimonialCardData) {
       return <NotFound />;
     }
 
-    const space = await Space.findOne({name: spaceName}).select('testimonials, owner').exec();
+    const space = await Space.findOne({ name: spaceName }).select('testimonials, owner').exec();
     if (!space) {
       return <NotFound />;
     }
@@ -40,16 +38,16 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
       return <NotFound />;
     }
 
-    const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length|| 0);
+    const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length || 0);
     if (!can) {
       return <NotFound />;
     }
-    
+
     testimonialCardData = testimonialCardData.toObject();
     testimonialCardData._id = testimonialCardData._id.toString();
     testimonialCardData.spaceId = testimonialCardData.spaceId.toString();
 
-    if(!can) {
+    if (!can) {
       return <NotFound />;
     }
     return <TestimonialSubmit testimonialCardData={testimonialCardData} />;

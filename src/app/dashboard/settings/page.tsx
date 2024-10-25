@@ -10,20 +10,17 @@ import { Metadata } from 'next';
 const meta: Metadata = {
   title: 'Settings',
 };
-const SettingsPage = async() => {
+const SettingsPage = async () => {
 
   const session = await auth();
-  if(!session) {
+  if (!session) {
     redirect('/login');
   }
   return (
     <MaxWidthWrapper>
-      {/* <h1 className="text-3xl font-bold mb-8">Settings</h1> */}
-  
       <ProfileSettings />
       <ConnectedAcc />
       <DeleteAccount />
-
     </MaxWidthWrapper>
   );
 };

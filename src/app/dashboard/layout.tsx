@@ -22,8 +22,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         fetchSubscriptionTier();
     })
 
-
-
     const [isOpen, setIsOpen] = useState(true);
 
     const handleToggle = () => {
@@ -34,23 +32,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex min-h-screen">
             <ToastProvider />
 
-            {/* Sidebar */}
             <Sidebar isOpen={isOpen} isFreeAccount={isAccountFree} />
 
-            {/* Main Content Area */}
             <div className={`flex-1 transition-all duration-300`}>
-                {/* Navbar */}
                 <Navbar handleToggle={handleToggle} isAccountFree={isAccountFree} />
-
-                {/* Main Content */}
-
                 <main className={`pt-16`}>
                     <div className={`p-4`}>
                         {children}
                     </div>
                 </main>
-
-
             </div>
         </div>
     );

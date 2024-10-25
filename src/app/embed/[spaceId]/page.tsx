@@ -25,10 +25,7 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
   const subscriptionTier = await getUserSubscriptionTier(spaceOwner.owner as string)
   try {
     const response = await fetch(apiURL, {
-      headers: {
-        // Optional: You can add headers if needed, such as authorization
-      },
-      cache: 'no-store', // Ensures the latest data is fetched
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -39,36 +36,36 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
 
     const testimonials: ITestimonial[] = data.testimonials;  // Ensure the correct key is accessed
     return (
-     
-        <div className="w-full  min-h-screen bg-white  px-8">
-          
-          {layout === 'carousel' ? (
-            <div className="w-full">
-              <TestimonialCarousel testimonials={testimonials} theme={theme} />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {testimonials.map((testimonial) => (
-                <TestimonialCard
-                  key={testimonial._id}
-                  location="embed"
-                  testimonial={testimonial}
-                  theme={theme}
-                />
-              ))}
-            </div>
-          )}
-          {subscriptionTier === 'Free' && (
-             <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
-             <Link href='https://clientwords.com' target='_blank' rel='noopener noreferrer'>
-            <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+
+      <div className="w-full  min-h-screen bg-white  px-8">
+
+        {layout === 'carousel' ? (
+          <div className="w-full">
+            <TestimonialCarousel testimonials={testimonials} theme={theme} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {testimonials.map((testimonial) => (
+              <TestimonialCard
+                key={testimonial._id}
+                location="embed"
+                testimonial={testimonial}
+                theme={theme}
+              />
+            ))}
+          </div>
+        )}
+        {subscriptionTier === 'Free' && (
+          <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
+            <Link href='https://clientwords.com' target='_blank' rel='noopener noreferrer'>
+              <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
             </Link>
-         </div>
-          )
-            }
-          
-        </div>
-   
+          </div>
+        )
+        }
+
+      </div>
+
     );
   } catch (error) {
     console.error('Error fetching testimonials:', error);

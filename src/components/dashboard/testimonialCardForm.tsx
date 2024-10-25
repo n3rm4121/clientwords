@@ -248,7 +248,7 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                 <Button
                   variant="outline"
                   onClick={(e) => {
-                    e.preventDefault(); // Prevent default button behavior
+                    e.preventDefault();
                     document.getElementById('companyLogo')?.click();
                   }}
                 >
@@ -313,10 +313,10 @@ const TestimonialCardForm: React.FC<Props> = ({ isUpdate, spaceId, setIsNewSpace
                     )}
                   </Button>
                 </code>
-                
+
                 <QRCodeGenerator url={uniqueLink as string} />
-           
-                </div>
+
+              </div>
             }
 
             <div className="flex items-center justify-center gap-4 mb-4">

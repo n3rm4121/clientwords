@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
 
-    const rateLimitResponse = await testimonialSubmitRateLimit(request, 2 , '10 m');
+    const rateLimitResponse = await testimonialSubmitRateLimit(request, 2, '10 m');
     if (rateLimitResponse) return rateLimitResponse;
 
     try {
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         }
         const userAvatar = formData.get('userAvatar') as File;
 
-         if(!userAvatar){
+        if (!userAvatar) {
             return NextResponse.json({ error: 'Avatar is required' }, { status: 400 });
         }
 
@@ -101,18 +101,16 @@ export async function POST(request: NextRequest) {
         parsedData.spaceName = space?.name;
         const user = await User.findById(parsedData.owner).select('subscriptionTier').exec();
         const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length || 0);
-        if(!can){
-            return NextResponse.json({error: `${parsedData.spaceName} has reached the limit of collecting testimonials`}, {status: 400});
+        if (!can) {
+            return NextResponse.json({ error: `${parsedData.spaceName} has reached the limit of collecting testimonials` }, { status: 400 });
         }
         const newTestimonial = await Testimonial.create(parsedData);
-        
-        // save this newTestimonial's id in space document
-        
+
         if (!space) {
             return NextResponse.json({ error: 'Space not found' }, { status: 404 });
         }
 
-        
+
         space.testimonials.push(newTestimonial._id);
         await space.save();
 
@@ -159,15 +157,15 @@ export const GET = auth(async function GET(request) {
         ]);
 
         const lovedTestimonials = await LoveGallery.find({ spaceId }).select('testimonials').exec();
-        
-        const lovedIds = lovedTestimonials.flatMap((lovedTestimonial) => lovedTestimonial.testimonials.map((id:any) => id.toString()));
+
+        const lovedIds = lovedTestimonials.flatMap((lovedTestimonial) => lovedTestimonial.testimonials.map((id: any) => id.toString()));
 
         const response = testimonials.map((testimonial) => ({
             ...testimonial.toObject(),
             isLoved: lovedIds.includes(testimonial._id.toString()),
-          }));
-        
-        return NextResponse.json({ testimonials:response, total, page, limit }, { status: 200 });
+        }));
+
+        return NextResponse.json({ testimonials: response, total, page, limit }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: 'An error occurred while fetching the testimonials' }, { status: 500 });
     }

@@ -13,7 +13,6 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error)
   }, [error])
 
@@ -27,13 +26,13 @@ export default function Error({
             We apologize for the inconvenience. An unexpected error has occurred.
           </p>
           <div className="space-y-4 w-full">
-            <Button 
+            <Button
               onClick={reset}
               className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded transition duration-300"
             >
               Try again
             </Button>
-            <Button 
+            <Button
               onClick={() => window.location.href = '/'}
               variant="outline"
               className="w-full border border-primary text-primary hover:bg-primary hover:text-white font-bold py-2 px-4 rounded transition duration-300"

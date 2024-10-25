@@ -21,8 +21,6 @@ export default async function AdditionalMetrics() {
         <div className="text-4xl font-bold">
           {totalSpaces}
         </div>
-
-
       </CardContent>
     </Card>
   )

@@ -208,12 +208,7 @@ export default function LandingPage() {
               {/* Decorative underline */}
               <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-gradient-to-r from-teal-400 to-blue-600 rounded-full"></span>
 
-              {/* Background shape */}
-
             </h2>
-            {/* <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Discover how businesses across various industries leverage ClientWords to boost credibility and conversions.
-            </p> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

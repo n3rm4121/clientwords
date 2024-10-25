@@ -17,7 +17,6 @@ export default function NotFoundPage() {
               Go Back to Homepage
             </Button>
           </Link>
-          
         </div>
       </MaxWidthWrapper>
     </section>

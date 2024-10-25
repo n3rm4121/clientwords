@@ -19,9 +19,8 @@ export const Welcome = () => {
     const [name, setName] = useState('')
     const [errors, setErrors] = useState<any>({})
     const [loading, setLoading] = useState(false)
-    const [userId, setUserId] = useState<string | null>(null); // Set userId state
+    const [userId, setUserId] = useState<string | null>(null);
 
-    // Monitor session status and set userId once session is available
     useEffect(() => {
         if (status === 'authenticated' && session?.user?.id) {
             setUserId(session.user.id);
@@ -39,7 +38,7 @@ export const Welcome = () => {
             const res = await axios.post('/api/space', { name });
 
             setErrors({});
-            await completeOnboarding(userId!); // Use the userId from state
+            await completeOnboarding(userId!);
             router.push(`/dashboard/spaces/${name}/${res.data.space._id}`);
             setLoading(false);
         } catch (error) {
@@ -54,11 +53,11 @@ export const Welcome = () => {
     }, [userId]);
 
     if (status === 'loading') {
-        return <div>Loading...</div>; // Optionally show a loading state
+        return <div>Loading...</div>;
     }
 
     if (status === 'unauthenticated') {
-        router.push('/login'); // Redirect if unauthenticated
+        router.push('/login');
         return null;
     }
 
