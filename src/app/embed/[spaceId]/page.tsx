@@ -58,7 +58,7 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
         {subscriptionTier === 'Free' && (
           <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
             <Link href='https://clientwords.com' target='_blank' rel='noopener noreferrer'>
-              <Image src='/brand.png' width={200} height={200} alt='ClientWords' />
+              <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
             </Link>
           </div>
         )
