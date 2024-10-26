@@ -13,8 +13,13 @@ const uploadOnCloudinary = async (fileBuffer: Buffer, type: string) => {
     if (!fileBuffer) return null;
 
     // Use sharp to resize, compress, and convert to WebP format
+    // const processedImage = await sharp(fileBuffer)
+    //   .resize(64, 64, { fit: "cover" })
+    //   .toBuffer();
+
+    // use sharp to compress to without resizing
     const processedImage = await sharp(fileBuffer)
-      .resize(64, 64, { fit: "cover" })
+      .webp({ quality: 1 })
       .toBuffer();
 
     // Convert the processed image buffer to a base64 data URI
