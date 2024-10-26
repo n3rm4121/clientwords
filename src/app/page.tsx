@@ -1,6 +1,7 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { Navbar } from "@/components/Navbar";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedin, FaRocket, FaStore, FaUserMd } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, CircleCheckBig, Mail } from "lucide-react";
@@ -276,6 +277,7 @@ export default function LandingPage() {
 
                 <Link href='https://www.linkedin.com/company/clientwords' ><FaLinkedin
                   className="inline w-5 h-5 " /></Link>
+                <Link href='https://x.com/clientwords'><FaXTwitter /></Link>
               </div>
             </div>
 

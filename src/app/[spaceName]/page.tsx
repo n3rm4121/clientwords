@@ -19,20 +19,28 @@ interface SubmissionPageProps {
 }
 
 const SubmissionPage = async ({ params }: SubmissionPageProps) => {
-
   const { spaceName } = params;
 
   try {
     await dbConnect();
-    let testimonialCardData = await TestimonialCard.findOne({ spaceName: spaceName }).exec();
+
+    // Use case-insensitive search for the spaceName
+    const testimonialCardData = await TestimonialCard.findOne({
+      spaceName: new RegExp(`^${spaceName}$`, 'i'),
+    }).exec();
+
     if (!testimonialCardData) {
       return <NotFound />;
     }
 
-    const space = await Space.findOne({ name: spaceName }).select('testimonials, owner').exec();
+    const space = await Space.findOne({
+      name: new RegExp(`^${spaceName}$`, 'i'),
+    }).select('testimonials owner').exec();
+
     if (!space) {
       return <NotFound />;
     }
+
     const user = await User.findById(space.owner).select('subscriptionTier').exec();
     if (!user) {
       return <NotFound />;
@@ -43,15 +51,11 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
       return <NotFound />;
     }
 
-    testimonialCardData = testimonialCardData.toObject();
-    testimonialCardData._id = testimonialCardData._id.toString();
-    testimonialCardData.spaceId = testimonialCardData.spaceId.toString();
+    const testimonialCardDataObj = testimonialCardData.toObject();
+    testimonialCardDataObj._id = testimonialCardDataObj._id.toString();
+    testimonialCardDataObj.spaceId = testimonialCardDataObj.spaceId.toString();
 
-    if (!can) {
-      return <NotFound />;
-    }
-    return <TestimonialSubmit testimonialCardData={testimonialCardData} />;
-
+    return <TestimonialSubmit testimonialCardData={testimonialCardDataObj} />;
   } catch (error) {
     console.error("Error fetching testimonial card data:", error);
     return <NotFound />;
