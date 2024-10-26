@@ -58,7 +58,7 @@ function Sidebar({ isFreeAccount, isOpen }: { isFreeAccount?: boolean, isOpen: b
       })}
       <Separator />
       {isFreeAccount && (
-        <Link href="/dashboard/upgrade" className={cn(buttonVariants({ variant: 'default' }), "flex gap-4 w-full px-4 py-2 justify-start")}>
+        <Link href="/#pricing" className={cn(buttonVariants({ variant: 'default' }), "flex gap-4 w-full px-4 py-2 justify-start")}>
           <span className="text-2xl">
             <Gem size={25} />
           </span>

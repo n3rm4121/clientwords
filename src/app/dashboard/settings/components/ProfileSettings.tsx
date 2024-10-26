@@ -9,6 +9,7 @@ import { updateName } from "../../action"
 import { Label } from "@/components/ui/label"
 import { Card } from "@/components/ui/card"
 import { toast } from "react-toastify"
+import { redirect } from "next/navigation"
 
 export enum SubscriptionTier {
   FREE = 'Free',
@@ -147,7 +148,10 @@ export default function ProfileSettings() {
           </div>
           {subscription?.tier === SubscriptionTier.FREE && (
             <div className="flex space-x-2 mt-2">
-              <Button onClick={() => handleUpgradeSubscription(SubscriptionTier.PRO)} disabled={loading}>
+              {/* <Button onClick={() => handleUpgradeSubscription(SubscriptionTier.PRO)} disabled={loading}>
+                Upgrade to Pro
+              </Button> */}
+              <Button onClick={redirect('/#pricing')} disabled={loading}>
                 Upgrade to Pro
               </Button>
             </div>
