@@ -6,6 +6,8 @@ import { ITestimonial } from '@/lib/interface'
 import { MultipleSkeletonTestimonialCard } from '@/components/ui/skeletons'
 import { EmptyState } from './EmptyState'
 import TestimonialCard from '@/components/TestimonialCard'
+import { RotateCw } from 'lucide-react';
+
 import {
   Pagination,
   PaginationContent,
@@ -64,35 +66,6 @@ export default function Testimonials({
     }
   }, [subTier, data])
 
-  // Event source setup
-  useEffect(() => {
-    if (!spaceId) return
-
-    const eventSource = new EventSource(`/api/sse?spaceId=${spaceId}`)
-
-    eventSource.onmessage = (event) => {
-      const newTestimonial = JSON.parse(event.data)
-      mutate((currentData) => {
-        if (!currentData) return { testimonials: [newTestimonial], total: 1, page: 1, limit }
-        return {
-          testimonials: [newTestimonial, ...currentData.testimonials],
-          total: currentData.total + 1,
-          page: currentData.page,
-          limit: currentData.limit,
-        }
-      }, false)
-    }
-
-    eventSource.onerror = (error) => {
-      console.error('EventSource failed:', error)
-      eventSource.close()
-    }
-
-    return () => {
-      eventSource.close()
-    }
-  }, [spaceId, mutate])
-
   // Memoize total pages to avoid unnecessary recalculations
   const totalPages = useMemo(() => {
     return Math.ceil((data?.total || 0) / limit)
@@ -116,6 +89,10 @@ export default function Testimonials({
     }, false)
   }
 
+  const handleRefresh = () => {
+    mutate()
+  }
+
   if (error) return <div className="text-red-500">Failed to load testimonials. Please try again later.</div>
   if (isLoading) return <MultipleSkeletonTestimonialCard />
 
@@ -132,11 +109,12 @@ export default function Testimonials({
           </div>
         </Alert>
       )}
+      <button onClick={handleRefresh} className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-md"><RotateCw className='inline w-5 h-5' /> Refresh</button>
       {data?.testimonials?.length === 0 && <EmptyState uniqueLink={uniqueLink} />}
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 mx-auto max-w-7xl">
         {data?.testimonials?.map((testimonial) => (
           <div key={testimonial._id} className="break-inside-avoid mb-6">
-            <TestimonialCard onDelete={handleDelete} location="testimonials" testimonial={testimonial} onMutate={mutate}/>
+            <TestimonialCard onDelete={handleDelete} location="testimonials" testimonial={testimonial} onMutate={mutate} />
           </div>
         ))}
       </div>
@@ -165,11 +143,11 @@ export default function Testimonials({
                   onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
                   className={page === totalPages ? 'pointer-events-none opacity-50' : ''}
                 >
-              </PaginationNext>
+                </PaginationNext>
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-          
+
         </div>
       )}
     </div>
