@@ -1,6 +1,7 @@
 'use server'
 
 import { auth, signOut } from "@/auth";
+import { deleteFromCloudinary } from "@/lib/cloudinary";
 import dbConnect from "@/lib/dbConnect";
 import LoveGallery from "@/models/loveGallery.model";
 import Space from "@/models/space.model";
@@ -159,14 +160,15 @@ export async function deleteTestimonial(testimonialId: string, spaceId?: string)
   }
 
   try {
+    const testimonailToDelete = await Testimonial.findById(testimonialId);
+    const publicId = testimonailToDelete.userAvatar.split('/').slice(-3).join('/').split('.')[0];
+    await deleteFromCloudinary(publicId);
     await Testimonial.findByIdAndDelete(testimonialId);
-
     await Space.findByIdAndUpdate(
       spaceId,
       { $pull: { testimonials: testimonialId } }
     );
 
-    const updatedSpace = await Space.findById(spaceId);
   } catch (error) {
     console.error("Error deleting testimonial:", error);
     throw error;
