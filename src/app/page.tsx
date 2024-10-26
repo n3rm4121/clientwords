@@ -277,7 +277,6 @@ export default function LandingPage() {
 
                 <Link href='https://www.linkedin.com/company/clientwords' ><FaLinkedin
                   className="inline w-5 h-5 " /></Link>
-                <Link href='https://x.com/clientwords'><FaXTwitter /></Link>
               </div>
             </div>
 
