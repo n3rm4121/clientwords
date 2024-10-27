@@ -109,7 +109,7 @@ export default function LandingPage() {
               <p className="mt-6 max-w-2xl text-xl text-gray-400 ">
                 Easily collect, curate, and showcase authentic client testimonials to skyrocket trust and conversions.
               </p>
-              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+              <div className="mt-8 mb-7 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
                 <div className="flex items-center rounded-lg p-4 shadow-sm">
                   <CircleCheckBig className="mr-3 h-6 w-6 text-green-500" />
                   <span className="text-lg font-medium">No coding required</span>
@@ -119,20 +119,7 @@ export default function LandingPage() {
                   <span className="text-lg font-medium">Easy Integration</span>
                 </div>
               </div>
-
-              <div className="mt-10 flex space-x-4">
-                <Link
-                  href="https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex border-2 border-primary items-center justify-center px-10 py-4 rounded-full font-semibold hover:bg-primary-foreground hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                >
-                  See Live Demo
-                  <ExternalLink className="ml-2 h-5 w-5" />
-                </Link>
-                <CTABtn redirectTo="/login" message="Get Started Today" />
-
-              </div>
+              <CTABtn redirectTo="/login" message="Get Started Today" />
             </div>
           </div>
         </section>
