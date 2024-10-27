@@ -9,11 +9,11 @@ import { iframeFetchRateLimit } from '@/utils/rateLimit';
 const url = process.env.UPSTASH_REDIS_REST_URL;
 const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
-if(!url) {
+if (!url) {
     throw new Error('Please provide a Redis URL');
 }
 
-if(!token) {
+if (!token) {
     throw new Error('Please provide a Redis Token');
 }
 const redis = new Redis({
@@ -36,34 +36,32 @@ export const GET = async (request: NextRequest) => {
             return NextResponse.json({ error: 'spaceId is required' }, { status: 400 });
         }
 
-        // Create a unique cache key
         const cacheKey = `testimonials_${spaceId}_${limit}`;
 
-        // Attempt to retrieve cached data
         const cachedTestimonials = await redis.get(cacheKey);
-       
-          
+
+
         if (cachedTestimonials) {
             return NextResponse.json(cachedTestimonials, {
                 status: 200,
                 headers: { 'Cache-Control': 'public, max-age=300' },
             });
         }
-        
+
 
         // If cache miss, fetch data from MongoDB
-      
-        const loveGallery = await LoveGallery.findOne({ spaceId })
-        .sort({ createdAt: -1 })
-        .limit(limit);
 
-        if(!loveGallery) {
+        const loveGallery = await LoveGallery.findOne({ spaceId })
+            .sort({ createdAt: -1 })
+            .limit(limit);
+
+        if (!loveGallery) {
             return NextResponse.json({ testimonials: [] }, { status: 200 });
         }
-        
+
         const testimonials = await Testimonial.find({ _id: { $in: loveGallery.testimonials } });
 
-        // Cache the fetched data for 5 minutes
+        // cache the data for 5 minutes
         await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
 
         return NextResponse.json({ testimonials }, {

@@ -1,7 +1,8 @@
 'use client'
 
-import TestimonialCardForm from '@/components/dashboard/testimonialCardForm';
+
 import React, { useEffect, useState } from 'react';
+import TestimonialCardForm from '../[name]/[id]/components/TestimonialCardForm';
 
 interface DynamicSpaceWrapperProps {
   children: React.ReactNode;
@@ -20,9 +21,9 @@ export default function DynamicSpaceWrapper({ children, spaceId, initialIsNewSpa
   }
 
   return (
-    <TestimonialCardForm 
-      isUpdate={false} 
-      spaceId={spaceId} 
+    <TestimonialCardForm
+      isUpdate={false}
+      spaceId={spaceId}
       setIsNewSpace={setIsNewSpace}
     />
   );

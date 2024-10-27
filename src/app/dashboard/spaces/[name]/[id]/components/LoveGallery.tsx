@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState } from 'react';
-import LoveGalleryCustomizer from './LoveGalleryCustomizer';
-import { EmbedCodeGenerator } from './EmbedCodeGenerator';
+import LoveGalleryCustomizer from '../../../../../../components/dashboard/Testimonial/LoveGalleryCustomizer';
+import { EmbedCodeGenerator } from '../../../../../../components/dashboard/Testimonial/EmbedCodeGenerator';
 import { usePathname } from 'next/navigation';
-import RealTimePreview from './RealTimeLoveGallery';
+import RealTimePreview from '../../../../../../components/dashboard/Testimonial/RealTimeLoveGallery';
 
 const LoveGallery = () => {
   const pathname = usePathname();

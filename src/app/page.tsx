@@ -1,13 +1,12 @@
 import { MaxWidthWrapper } from "@/components/MaxWidthWrapper";
 import { Navbar } from "@/components/Navbar";
-import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaGraduationCap, FaHotel, FaLaptopCode, FaLinkedin, FaRocket, FaStore, FaUserMd } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaGraduationCap, FaHotel, FaLaptopCode, FaRocket, FaStore, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, CircleCheckBig, Mail } from "lucide-react";
-import AwesomePricingSection from "./login/components/PricingCard";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import PricingSection from "@/components/pricing/PricingSection";
 
 const perks = [
   {
@@ -239,7 +238,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <AwesomePricingSection />
+      <PricingSection />
 
       {/* CTA Section */}
       <section className=" bg-black text-white md:p-16 overflow-hidden pb-4 pt-4">
@@ -274,9 +273,6 @@ export default function LandingPage() {
                 <a href="mailto:hello@clientwords.com" className="text-indigo-400 hover:underline">
                   <Mail className="mr-2 inline h-5 w-5 " />
                 </a>
-
-                <Link href='https://www.linkedin.com/company/clientwords' ><FaLinkedin
-                  className="inline w-5 h-5 " /></Link>
               </div>
             </div>
 

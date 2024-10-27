@@ -1,12 +1,12 @@
 import NotFound from "@/app/not-found";
-import TestimonialSubmit from "@/components/dashboard/Testimonial/testimonailSubmit";
+
 import dbConnect from "@/lib/dbConnect";
 import { canCollectTestimonial } from "@/lib/featureAccess";
 import Space from "@/models/space.model";
 import TestimonialCard from "@/models/testimonial-card.model";
 import User from "@/models/user.model";
 import { Metadata } from "next";
-import { toast } from "react-toastify";
+import { TestimonialSubmitForm } from "./components/TestimonailSubmitForm";
 
 export const metadata: Metadata = {
   title: 'Testimonial Submission',
@@ -56,7 +56,7 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
     testimonialCardDataObj._id = testimonialCardDataObj._id.toString();
     testimonialCardDataObj.spaceId = testimonialCardDataObj.spaceId.toString();
 
-    return <TestimonialSubmit testimonialCardData={testimonialCardDataObj} />;
+    return <TestimonialSubmitForm testimonialCardData={testimonialCardDataObj} />;
   } catch (error) {
     console.error("Error fetching testimonial card data:", error);
     return <NotFound />;

@@ -1,11 +1,11 @@
-import TestimonialCardForm from '@/components/dashboard/testimonialCardForm';
-import DisplayTestimonials from '@/components/dashboard/Testimonial/DisplayTestimonial';
-import LoveGallery from '@/components/dashboard/Testimonial/LoveGallery';
+import DisplayTestimonials from './components/DisplayTestimonial';
+import LoveGallery from './components/LoveGallery';
 import dynamic from 'next/dynamic';
 import Space from '@/models/space.model';
 import { Suspense } from 'react';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
+import TestimonialCardForm from './components/TestimonialCardForm';
 // Dynamically import the client components
 const Card = dynamic(() => import('@/components/ui/card').then(mod => mod.Card), { ssr: false });
 const CardContent = dynamic(() => import('@/components/ui/card').then(mod => mod.CardContent), { ssr: false });

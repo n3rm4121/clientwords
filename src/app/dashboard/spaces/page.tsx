@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { ShowSpaces } from '@/components/space/SpaceCard';
+import { ShowSpaces } from './components/ShowSpaces';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/user.model';
 import { Welcome } from '@/components/Welcome';

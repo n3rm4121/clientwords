@@ -15,7 +15,7 @@ import { Thankyou } from "./ThankYou";
 import Image from "next/image";
 import ToastProvider from "@/components/ToastProvider";
 
-const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: any }) => {
+export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCardData: any }) => {
     const [userName, setUsername] = useState<string>('');
     const [userIntro, setUserIntro] = useState<string>('');
     const [message, setMessage] = useState<string>('');
@@ -216,9 +216,5 @@ const TestimonialSubmit = ({ testimonialCardData }: { testimonialCardData: any }
 
             </div>
         </>
-
-
     );
 };
-
-export default TestimonialSubmit;
