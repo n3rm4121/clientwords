@@ -3,10 +3,11 @@ import { Navbar } from "@/components/Navbar";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaGraduationCap, FaHotel, FaLaptopCode, FaRocket, FaStore, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, CircleCheckBig, Mail } from "lucide-react";
+import { ArrowRight, CircleCheckBig, ExternalLink, Mail } from "lucide-react";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import PricingSection from "@/components/pricing/PricingSection";
+import CTABtn from "@/components/CTABtn";
 
 const perks = [
   {
@@ -86,13 +87,13 @@ const useCases = [
 export default function LandingPage() {
 
   return (
-    <div className="bg-[#212121] text-gray-100">
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       <Navbar />
 
       <MaxWidthWrapper>
         {/* Hero Section */}
 
-        <section className="relative overflow-hidden py-10">
+        <section className="relative overflow-hidden mt-20 mb-14">
 
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center text-center">
@@ -117,29 +118,34 @@ export default function LandingPage() {
                   <CircleCheckBig className="mr-3 h-6 w-6 text-green-500" />
                   <span className="text-lg font-medium">Easy Integration</span>
                 </div>
+              </div>
+
+              <div className="mt-10 flex space-x-4">
+                <Link
+                  href="https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex border-2 border-primary items-center justify-center px-10 py-4 rounded-full font-semibold hover:bg-primary-foreground hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  See Live Demo
+                  <ExternalLink className="ml-2 h-5 w-5" />
+                </Link>
+                <CTABtn redirectTo="/login" message="Get Started Today" />
 
               </div>
-              <Link
-                href="/login"
-                className="mt-10 inline-flex items-center justify-center  px-10 py-4  rounded-full font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
-              >
-                Get Started for Free <ArrowRight />
-              </Link>
             </div>
           </div>
         </section>
       </MaxWidthWrapper>
 
       {/* Features Section */}
-      <section id="features" className="py-10 relative">
+      <section id="features" className="py-10 relative bg-gray-900">
         <MaxWidthWrapper>
-          <div className="text-center tracking-tighter mb-16">
+          <div className="text-center mb-16">
             <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
-              <span className="relative z-10">Why ClientWords?</span>
+              <span className="relative  tracking-tighter z-10">Why ClientWords?</span>
               {/* Decorative underline */}
               <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-gradient-to-r from-teal-400 to-blue-600 rounded-full"></span>
-
-              {/* Background shape */}
 
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -189,18 +195,13 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-16 text-center">
-            <Link
-              href="/login"
-              className="inline-block px-10 py-4 rounded-full font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
-            >
-              Start Collecting Testimonials
-            </Link>
+            <CTABtn redirectTo="/login" message="Start Collecting Testimonials" />
           </div>
         </MaxWidthWrapper>
       </section>
 
       {/* Use Cases Section */}
-      <section id="use-cases" className="py-10 relative">
+      <section id="use-cases" className="py-10 relative bg-gray-900">
         <MaxWidthWrapper>
           <div className="text-center mb-16">
             <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
@@ -227,12 +228,7 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-16 text-center">
-            <Link
-              href="/login"
-              className="inline-block px-10 py-4  rounded-full font-semibold bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
-            >
-              Get Started Today
-            </Link>
+            <CTABtn redirectTo="/login" message="Get Started Today" />
           </div>
         </MaxWidthWrapper>
       </section>
@@ -249,12 +245,7 @@ export default function LandingPage() {
           <p className="text-md md:text-xl max-w-md md:max-w-3xl mx-auto mb-8">
             Discover how <span className="text-yellow-300 font-bold">ClientWords</span> can transform your customer testimonials into powerful social proof.
           </p>
-          <Link
-            href="/login"
-            className="inline-block px-6 py-3 md:px-10 md:py-4 rounded-full font-semibold text-lg bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:bg-orange-600 hover:shadow-xl transform hover:scale-105 transition-all duration-300 border border-transparent hover:border-white"
-          >
-            Let's Get Started! 🚀
-          </Link>
+          <CTABtn redirectTo="/login" message="Get Started 🚀" />
         </div>
       </section>
 
