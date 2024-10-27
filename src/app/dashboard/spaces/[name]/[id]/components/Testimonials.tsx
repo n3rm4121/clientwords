@@ -5,7 +5,6 @@ import useSWR from 'swr'
 import { ITestimonial } from '@/lib/interface'
 import { MultipleSkeletonTestimonialCard } from '@/components/ui/skeletons'
 import { EmptyState } from './EmptyState'
-import TestimonialCard from '@/components/TestimonialCard'
 import { RotateCw } from 'lucide-react';
 
 import {
@@ -21,6 +20,7 @@ import { useSession } from 'next-auth/react'
 import { canCollectTestimonial } from '@/lib/featureAccess'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Terminal } from 'lucide-react'
+import TestimonialCard from './TestimonialCard'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 

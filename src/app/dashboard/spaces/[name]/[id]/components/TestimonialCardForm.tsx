@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useSWR from 'swr';
 import { CircleCheck, Copy } from 'lucide-react';
-import QRCodeGenerator from '../../../../../../components/QRCodeGenerator';
+import QRCodeGenerator from './QRCodeGenerator';
 
 interface Props {
   isUpdate: boolean;

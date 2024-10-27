@@ -1,12 +1,12 @@
 'use client'
 
 import React from 'react';
-import { Button, buttonVariants } from '../ui/button';
+import { Button, buttonVariants } from '../../../components/ui/button';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Separator } from '../ui/separator';
+import { Separator } from '../../../components/ui/separator';
 import { Box, Gem, LayoutDashboard, LogOut, Settings } from 'lucide-react';
 
 export const dashboardNavItems = [

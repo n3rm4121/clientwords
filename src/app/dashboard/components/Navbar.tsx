@@ -2,9 +2,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaBars } from "react-icons/fa";
-import ModeToggle from "../toggleThemeBtn";
-import { MaxWidthWrapper } from "../MaxWidthWrapper";
-import { dashboardNavItems } from "./Sidebar";
+import ModeToggle from "../../../components/toggleThemeBtn";
+import { MaxWidthWrapper } from "../../../components/MaxWidthWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -18,9 +17,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Image from "next/image";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { Gem } from "lucide-react";
+import { dashboardNavItems } from "./Sidebar";
 
 
 export default function Navbar({ handleToggle, isAccountFree }: { isAccountFree?: boolean, handleToggle: () => void }) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ITestimonial } from '@/lib/interface';
-import TestimonialCard from '@/components/TestimonialCard';
+import TestimonialCard from '@/app/dashboard/spaces/[name]/[id]/components/TestimonialCard';
 import TestimonialCarousel from '@/components/iframeLayout/carousel';
 import Image from 'next/image';
 import Link from 'next/link';

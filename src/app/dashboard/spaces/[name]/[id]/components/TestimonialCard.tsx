@@ -20,14 +20,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "./ui/alert-dialog"
+} from "../../../../../../components/ui/alert-dialog"
 
 interface TestimonialCardProps {
   location: string
   testimonial: any
   theme?: string
   onDelete?: (deleteId: string) => void
-  onMutate?: () => void 
+  onMutate?: () => void
 }
 
 export default function TestimonialCard({
@@ -40,7 +40,7 @@ export default function TestimonialCard({
   const [isLoved, setIsLoved] = useState(testimonial.isLoved)
   const [isLoading, setIsLoading] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
-  
+
   const session = useSession()
   const userId = session.data?.user?.id
 
@@ -49,7 +49,7 @@ export default function TestimonialCard({
   const handleCreateLoveGallery = async () => {
     setIsLoading(true)
     setIsLoved(!isLoved)
-    
+
     try {
       const res = await axios.post("/api/love-gallery", {
         testimonialId: testimonial._id,
@@ -97,10 +97,9 @@ export default function TestimonialCard({
 
   return (
     <div
-      className={`flex flex-col border rounded-md p-4 shadow-lg w-full max-w-[500px] ${
-        location === "embed" &&
+      className={`flex flex-col border rounded-md p-4 shadow-lg w-full max-w-[500px] ${location === "embed" &&
         (theme === "dark" ? "bg-black text-white" : "bg-white text-black")
-      }`}
+        }`}
     >
       <div className="flex flex-wrap items-start justify-between mb-4">
         <div className="flex items-center gap-4 mb-2 sm:mb-0">
@@ -138,11 +137,10 @@ export default function TestimonialCard({
                   disabled={isLoading}
                 >
                   <Heart
-                    className={`${
-                      isLoved
+                    className={`${isLoved
                         ? "fill-red-500 text-red-500"
                         : "text-gray-400"
-                    } hover:text-red-500`}
+                      } hover:text-red-500`}
                   />
                   <span className="sr-only">
                     {isLoved ? "Remove from" : "Add to"} Love Gallery

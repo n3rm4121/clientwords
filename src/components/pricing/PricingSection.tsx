@@ -66,10 +66,10 @@ export default function PricingSection() {
     return (
         <section id="pricing" className="py-10">
             <MaxWidthWrapper>
-                <h2 className="text-4xl text-center font-bold text-gray-200 tracking-tight sm:text-5xl mb-4">
-                    Simple, Transparent Pricing
+                <h2 className="text-4xl text-center font-bold text-gray-200 tracking-tighter sm:text-5xl mb-4">
+                    Simple, Transparent Pricing.
                 </h2>
-                <p className="text-xl text-center text-gray-400 mb-8">Choose the plan that's right for you</p>
+                <p className="text-xl tracking-tighter text-center text-gray-400 mb-8">Choose the plan that's right for you.</p>
 
                 <div className="flex justify-center items-center space-x-4 mb-12">
                     <span className={`text-sm ${!isAnnual ? 'text-gray-200' : 'text-gray-400'}`}>Monthly</span>

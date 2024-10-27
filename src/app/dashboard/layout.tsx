@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import Sidebar from '@/components/dashboard/Sidebar';
-import Navbar from '@/components/dashboard/Navbar';
+import Sidebar from '@/app/dashboard/components/Sidebar';
+import Navbar from '@/app/dashboard/components/Navbar';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import ToastProvider from '@/components/ToastProvider';

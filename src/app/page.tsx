@@ -133,7 +133,7 @@ export default function LandingPage() {
       {/* Features Section */}
       <section id="features" className="py-10 relative">
         <MaxWidthWrapper>
-          <div className="text-center mb-16">
+          <div className="text-center tracking-tighter mb-16">
             <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
               <span className="relative z-10">Why ClientWords?</span>
               {/* Decorative underline */}
@@ -168,7 +168,7 @@ export default function LandingPage() {
       <section id="how-it-works" className="py-10 relative">
         <MaxWidthWrapper>
           <div className="text-center mb-16">
-            <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
+            <h2 className="relative text-4xl text-gray-200 tracking-tighter font-bold sm:text-5xl mb-4">
               <span className="relative z-10">How it Works?</span>
               {/* Decorative underline */}
               <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-gradient-to-r from-teal-400 to-blue-600 rounded-full"></span>
@@ -204,7 +204,7 @@ export default function LandingPage() {
         <MaxWidthWrapper>
           <div className="text-center mb-16">
             <h2 className="relative text-4xl text-gray-200 font-bold sm:text-5xl mb-4">
-              <span className="relative z-10">ClientWords for you.</span>
+              <span className="relative tracking-tighter z-10">ClientWords for you.</span>
               {/* Decorative underline */}
               <span className="absolute left-1/2 transform -translate-x-1/2 -bottom-2 w-24 h-1 bg-gradient-to-r from-teal-400 to-blue-600 rounded-full"></span>
 

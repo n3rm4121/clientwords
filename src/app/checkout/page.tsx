@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { Checkout } from '@/components/PaddleCheckout';
+import { Checkout } from '@/components/pricing/PaddleCheckout';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
@@ -14,10 +14,10 @@ interface User {
 }
 export default async function Page() {
   const session = await auth();
- 
-  if(!session){
+
+  if (!session) {
     redirect('/login');
-  } 
+  }
   const user = session?.user;
   return <Checkout user={user as User} />;
 }

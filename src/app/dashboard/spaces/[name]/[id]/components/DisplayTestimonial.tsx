@@ -2,7 +2,7 @@
 
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Search from '@/components/ui/search'
-import Testimonials from '../../../../../../components/dashboard/Testimonial/Testimonials'
+import Testimonials from './Testimonials'
 import { useCallback, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDebounce } from 'use-debounce'

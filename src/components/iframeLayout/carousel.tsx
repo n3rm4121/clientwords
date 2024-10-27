@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { ITestimonial } from '@/lib/interface';
-import TestimonialCard from '@/components/TestimonialCard';
+import TestimonialCard from '@/app/dashboard/spaces/[name]/[id]/components/TestimonialCard';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';

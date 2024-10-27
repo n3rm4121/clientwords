@@ -1,10 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { ITestimonial } from '@/lib/interface';
-import TestimonialCard from '@/components/TestimonialCard';
 import TestimonialCarousel from '@/components/iframeLayout/carousel';
 import { Card } from '@/components/ui/card';
-// TODO: css in mobile view while option crousel is selected
+import TestimonialCard from './TestimonialCard';
 interface RealTimePreviewProps {
   spaceId: string;
   theme: string;
@@ -22,17 +21,6 @@ const RealTimePreview: React.FC<RealTimePreviewProps> = ({ spaceId, theme, layou
     };
 
     fetchInitialTestimonials();
-
-    // const eventSource = new EventSource(`/api/sse?spaceId=${spaceId}`);
-
-    // eventSource.onmessage = (event) => {  
-    //   const newTestimonial = JSON.parse(event.data);
-    //   setTestimonials((prevTestimonials) => [...prevTestimonials, newTestimonial]);
-    // };
-
-    // return () => {
-    //   eventSource.close();
-    // };
   }, [spaceId]);
 
   return (

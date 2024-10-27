@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
-import { buttonVariants } from './ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../../../../../../components/ui/dialog';
+import { buttonVariants } from '../../../../../../components/ui/button';
 
 interface QRCodeGeneratorProps {
   url: string;
