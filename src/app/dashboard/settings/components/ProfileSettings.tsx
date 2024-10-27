@@ -60,29 +60,6 @@ export default function ProfileSettings() {
     setLoading(false)
   }
 
-  const handleUpgradeSubscription = async (newTier: SubscriptionTier) => {
-    setLoading(true)
-    try {
-      const response = await fetch('/api/upgrade-subscription', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ newTier }),
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setSubscription(data.subscription)
-      } else {
-        throw new Error('Failed to upgrade subscription')
-      }
-    } catch (error) {
-      console.error('Error upgrading subscription:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const getRemainingDays = () => {
     if (!subscription?.endDate) return null
     const endDate = new Date(subscription.endDate)
@@ -148,10 +125,7 @@ export default function ProfileSettings() {
           </div>
           {subscription?.tier === SubscriptionTier.FREE && (
             <div className="flex space-x-2 mt-2">
-              {/* <Button onClick={() => handleUpgradeSubscription(SubscriptionTier.PRO)} disabled={loading}>
-                Upgrade to Pro
-              </Button> */}
-              <Button onClick={redirect('/#pricing')} disabled={loading}>
+              <Button onClick={() => redirect('/#pricing')} disabled={loading}>
                 Upgrade to Pro
               </Button>
             </div>
