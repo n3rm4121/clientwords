@@ -3,7 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaGraduationCap, FaHotel, FaLaptopCode, FaRocket, FaStore, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, CircleCheckBig, ExternalLink, Mail } from "lucide-react";
+import { CircleCheckBig } from "lucide-react";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import PricingSection from "@/components/pricing/PricingSection";
@@ -249,7 +249,7 @@ export default function LandingPage() {
               </Link>
               <div className="ml-12">
                 <a href="mailto:hello@clientwords.com" className="text-indigo-400 hover:underline">
-                  <Mail className="mr-2 inline h-5 w-5 " />
+                  hello@clientwords.com
                 </a>
               </div>
             </div>
