@@ -17,8 +17,8 @@
   - [Installation](#installation)
   - [Environment Variables](#environment-variables)
 - [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
+- [Guidelines](#guidelines)
+- [Contributors](#contributors)
 
 ---
 
@@ -28,6 +28,12 @@
 - **Customizable Display**: Showcase testimonials in various formats to suit your brand style.
 - **Automated Approval Workflows**: Review and manage testimonials seamlessly.
 - **Responsive Design**: Optimized for mobile and desktop viewing.
+
+## The Stack
+<div align='center'>
+<img src = 'https://tech-orbit.wontory.dev/api?title=ClientWords&tech=Next.js,TypeScript,Vercel,shadcn/ui,MongoDB,Tailwind%20CSS&size=900&duration=20' alt="SuperMemory" width="400">
+</div>
+
 
 ## Build With
 
@@ -147,9 +153,13 @@ Contributions are very welcome! A contribution can be as small as a ⭐ or even 
 - Test your changes to avoid breaking existing functionality.
 
 ---
-## Acknowledgments
-Thanks to all early adopters and contributors for valuable feedback and support!
+## Contributors
 
+Contributions are very welcome! A contribution can be as small as a ⭐ or even finding and creating issues.
+
+<a href="https://github.com/n3rm4121/clientwords/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=n3rm4121/clientwords" />
+</a>
 ---
 ## Enjoy using ClientWords? Give us a star ⭐ on GitHub to show your support!
 
