@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import LoginButton from '../../components/LoginButton'
+import LoginButton from './components/LoginButton'
 import { Metadata } from 'next'
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
@@ -22,7 +22,7 @@ export default async function LoginPage() {
         </Link>
         <div className="w-full pt-12 max-w-md space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold mb-2 text-yellow-500">
+            <h1 className="text-4xl font-bold mb-2 text-white">
               Welcome to ClientWords
             </h1>
             <p className="text-xl text-gray-400">

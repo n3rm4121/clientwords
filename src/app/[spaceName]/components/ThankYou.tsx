@@ -20,7 +20,7 @@ export function Thankyou({ userName, companyName, companyURL }: { userName: stri
 
     <MaxWidthWrapper className='bg-gradient-to-r from-blue-500 to-purple-500'>
 
-      {/* Fixed Header */}
+      {/* Header */}
       <div className="fixed p-6 top-0 left-0 w-full z-10 ">
         <div className="relative inline-flex items-center">
           <Link href="/" className="flex-shrink-0">

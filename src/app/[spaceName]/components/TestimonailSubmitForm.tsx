@@ -14,6 +14,7 @@ import { FcAddImage } from "react-icons/fc";
 import { Thankyou } from "./ThankYou";
 import Image from "next/image";
 import ToastProvider from "@/components/ToastProvider";
+import config from "@/config";
 
 export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCardData: any }) => {
     const [userName, setUsername] = useState<string>('');
@@ -33,16 +34,19 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
         }
     };
 
-    useEffect(() => {
-        const loadReCaptcha = () => {
-            const script = document.createElement('script');
-            script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
-            script.async = true;
-            document.body.appendChild(script);
-        };
-        loadReCaptcha();
-    }, []);
+    // recaptcha only in production
+    if (config.recaptcha) {
+        useEffect(() => {
+            const loadReCaptcha = () => {
+                const script = document.createElement('script');
+                script.src = `https://www.google.com/recaptcha/api.js?render=${config.recaptcha.siteKey}`;
+                script.async = true;
+                document.body.appendChild(script);
+            };
+            loadReCaptcha();
+        }, []);
 
+    }
 
     useEffect(() => {
         if (userAvatar) {
@@ -77,7 +81,12 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
 
     const handleFormSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        const token = await (window as any).grecaptcha.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!, { action: 'submit' });
+
+        let token: string | null = null;
+
+        if (config.recaptcha) {
+            token = await (window as any).grecaptcha.execute(config.recaptcha.siteKey, { action: 'submit' });
+        }
 
         setLoading(true);
         try {
@@ -95,7 +104,9 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
             newForm.append('message', data.message);
             newForm.append('userAvatar', data.userAvatar!);
             newForm.append('spaceId', data.spaceId);
-            newForm.append('recaptchaToken', token);
+            if (token) {
+                newForm.append('recaptchaToken', token);
+            }
             const res = await axios.post('/api/testimonial', newForm, {
                 headers: {
                     'Content-Type': 'multipart/form-data'

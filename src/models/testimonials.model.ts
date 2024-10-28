@@ -23,10 +23,11 @@ const testimonialSchema = new Schema<Testimonial>({
     },
     userIntro: {
         type: String,
-
+        max: 50
     },
     message: {
         type: String,
+        max: 500,
         required: true,
     },
     owner: {

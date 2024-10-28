@@ -9,6 +9,7 @@ import Space from "@/models/space.model";
 import User from "@/models/user.model";
 import { canCollectTestimonial } from "@/lib/featureAccess";
 import LoveGallery from "@/models/loveGallery.model";
+import config from "@/config";
 
 
 async function uploadUserAvatar(file: File): Promise<string> {
@@ -37,43 +38,42 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
 
-    const rateLimitResponse = await testimonialSubmitRateLimit(request, 2, '10 m');
-    if (rateLimitResponse) return rateLimitResponse;
+    if (config.upstashRedis) {
+        console.log("here")
+        const rateLimitResponse = await testimonialSubmitRateLimit(request, 2, '10 m');
+        if (rateLimitResponse) return rateLimitResponse;
+    }
 
     try {
-
         const formData = await request.formData();
-        const recaptchaToken = formData.get('recaptchaToken') as string;
-        if (!recaptchaToken) {
-            return NextResponse.json({ error: 'reCAPTCHA token is missing' }, { status: 400 });
-        }
-        const secretKey = process.env.RECAPTCHA_SECRET_KEY!;
-        if (!secretKey) {
-            console.error('reCAPTCHA secret key is not defined');
-            return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
-        }
-        const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
 
-        try {
-            const recaptchaResponse = await fetch(verificationUrl, { method: 'POST' });
-
-            const recaptchaData = await recaptchaResponse.json();
-
-            if (!recaptchaData.success) {
-                return NextResponse.json({ error: 'reCAPTCHA verification failed' }, { status: 400 });
+        // recaptcha verification only in production
+        if (config.recaptcha) {
+            const recaptchaToken = formData.get('recaptchaToken') as string;
+            if (!recaptchaToken) {
+                return NextResponse.json({ error: 'reCAPTCHA token is missing' }, { status: 400 });
             }
-        } catch (error) {
-            console.error('reCAPTCHA verification error:', error);
-            return NextResponse.json({ error: 'An error occurred while verifying reCAPTCHA' }, { status: 500 });
+            const secretKey = config.recaptcha.secretKey;
+            const verificationUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${recaptchaToken}`;
 
+            try {
+                const recaptchaResponse = await fetch(verificationUrl, { method: 'POST' });
+                const recaptchaData = await recaptchaResponse.json();
+
+                if (!recaptchaData.success) {
+                    return NextResponse.json({ error: 'reCAPTCHA verification failed' }, { status: 400 });
+                }
+            } catch (error) {
+                console.error('reCAPTCHA verification error:', error);
+                return NextResponse.json({ error: 'An error occurred while verifying reCAPTCHA' }, { status: 500 });
+            }
         }
-
 
         if (!formData) {
             return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
         }
-        const userAvatar = formData.get('userAvatar') as File;
 
+        const userAvatar = formData.get('userAvatar') as File;
         if (!userAvatar) {
             return NextResponse.json({ error: 'Avatar is required' }, { status: 400 });
         }
@@ -93,23 +93,22 @@ export async function POST(request: NextRequest) {
             spaceId: formData.get('spaceId') as string,
         };
 
-        // find owner of that spaceId
         const space = await Space.findById(data.spaceId);
         const parsedData = testimonailSchema.parse(data);
-
         parsedData.owner = space?.owner;
         parsedData.spaceName = space?.name;
+
         const user = await User.findById(parsedData.owner).select('subscriptionTier').exec();
         const can = canCollectTestimonial(user.subscriptionTier, space.testimonials?.length || 0);
         if (!can) {
             return NextResponse.json({ error: `${parsedData.spaceName} has reached the limit of collecting testimonials` }, { status: 400 });
         }
+
         const newTestimonial = await Testimonial.create(parsedData);
 
         if (!space) {
             return NextResponse.json({ error: 'Space not found' }, { status: 404 });
         }
-
 
         space.testimonials.push(newTestimonial._id);
         await space.save();
@@ -119,13 +118,12 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json({ message: 'Testimonial submitted successfully' }, { status: 200 });
-
-
     } catch (error) {
         console.error('Testimonial creation error:', error);
         return NextResponse.json({ error: 'An error occurred while submitting the testimonial' }, { status: 500 });
     }
 }
+
 
 
 export const GET = auth(async function GET(request) {

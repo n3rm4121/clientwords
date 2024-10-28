@@ -4,22 +4,23 @@ import dbConnect from '@/lib/dbConnect';
 import { Redis } from '@upstash/redis';
 import LoveGallery from '@/models/loveGallery.model';
 import { iframeFetchRateLimit } from '@/utils/rateLimit';
-// Initialize Redis connection
-// data will be udpated every 5 minutes
-const url = process.env.UPSTASH_REDIS_REST_URL;
-const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+import config from '@/config';
 
-if (!url) {
-    throw new Error('Please provide a Redis URL');
+let redis: Redis | null = null;
+
+if (config.upstashRedis) {
+    const url = config.upstashRedis.restUrl;
+    const token = config.upstashRedis.restToken;
+
+    redis = new Redis({
+        url: url,
+        token: token,
+    });
+
+} else {
+    console.warn('Redis is not configured. Skipping Redis setup.');
 }
 
-if (!token) {
-    throw new Error('Please provide a Redis Token');
-}
-const redis = new Redis({
-    url: url,
-    token: token,
-});
 
 export const GET = async (request: NextRequest) => {
     await dbConnect();
@@ -37,9 +38,11 @@ export const GET = async (request: NextRequest) => {
         }
 
         const cacheKey = `testimonials_${spaceId}_${limit}`;
+        let cachedTestimonials: any = null;
 
-        const cachedTestimonials = await redis.get(cacheKey);
-
+        if (redis) {
+            cachedTestimonials = await redis.get(cacheKey);
+        }
 
         if (cachedTestimonials) {
             return NextResponse.json(cachedTestimonials, {
@@ -48,9 +51,7 @@ export const GET = async (request: NextRequest) => {
             });
         }
 
-
         // If cache miss, fetch data from MongoDB
-
         const loveGallery = await LoveGallery.findOne({ spaceId })
             .sort({ createdAt: -1 })
             .limit(limit);
@@ -59,10 +60,12 @@ export const GET = async (request: NextRequest) => {
             return NextResponse.json({ testimonials: [] }, { status: 200 });
         }
 
-        const testimonials = await Testimonial.find({ _id: { $in: loveGallery.testimonials } });
+        const testimonials = await Testimonial.find({ _id: { $in: loveGallery.testimonials } }).select('userName userAvatar userIntro message').exec();
 
-        // cache the data for 5 minutes
-        await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
+        // Cache the data for 5 minutes if Redis is available
+        if (redis) {
+            await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
+        }
 
         return NextResponse.json({ testimonials }, {
             status: 200,

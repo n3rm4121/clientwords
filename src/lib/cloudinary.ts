@@ -1,23 +1,18 @@
+import config from "@/config";
 import { v2 as cloudinary } from "cloudinary";
-import sharp from "sharp";  // Import sharp for image processing
+import sharp from "sharp";
 
 // Configuring Cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
+  cloud_name: config.cloudinary.cloudName,
+  api_key: config.cloudinary.apiKey,
+  api_secret: config.cloudinary.apiSecret,
 });
 
 const uploadOnCloudinary = async (fileBuffer: Buffer, type: string) => {
   try {
     if (!fileBuffer) return null;
 
-    // Use sharp to resize, compress, and convert to WebP format
-    // const processedImage = await sharp(fileBuffer)
-    //   .resize(64, 64, { fit: "cover" })
-    //   .toBuffer();
-
-    // use sharp to compress to without resizing
     const processedImage = await sharp(fileBuffer)
       .webp({ quality: 1 })
       .toBuffer();

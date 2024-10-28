@@ -1,8 +1,9 @@
+import config from '@/config';
 import mongoose from 'mongoose';
 
 export default async function dbConnect() {
-    const uri = process.env.MONGODB_URI;
-    const DB_NAME = process.env.DB_NAME;
+    const uri = config.mongodbURI;
+    const DB_NAME = config.dbName;
 
     if (!uri) {
         throw new Error(

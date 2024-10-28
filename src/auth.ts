@@ -3,21 +3,22 @@ import dbConnect from "./lib/dbConnect";
 import User from "./models/user.model";
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
+import config from "./config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GithubProvider({
-      clientId: process.env.AUTH_GITHUB_ID,
-      clientSecret: process.env.AUTH_GITHUB_SECRET
+      clientId: config.auth.github.clientID,
+      clientSecret: config.auth.github.clientSecret
     }),
     GoogleProvider({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET
+      clientId: config.auth.google.clientID,
+      clientSecret: config.auth.google.clientSecret
     }),
 
   ],
 
-  secret: process.env.AUTH_SECRET,
+  secret: config.auth.secret,
   session: {
     strategy: "jwt",
   },

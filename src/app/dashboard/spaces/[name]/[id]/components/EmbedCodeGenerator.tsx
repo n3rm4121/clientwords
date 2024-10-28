@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircledIcon, CopyIcon } from '@radix-ui/react-icons';
 import { toast } from 'react-toastify';
+import config from '@/config';
 interface EmbedCodeGeneratorProps {
   spaceId: string;
   theme: string;
@@ -30,7 +31,7 @@ export const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
   };
 
 
-  const iframeSrc = `${process.env.NEXT_PUBLIC_APP_URL}/embed/${spaceId}?theme=${theme}&layout=${layout}`;
+  const iframeSrc = `${config.appUrl}/embed/${spaceId}?theme=${theme}&layout=${layout}`;
 
   const iframeCode = `<iframe src="${iframeSrc}"style="border: 0; width: 100%; height: 300px; overflow: hidden;"
   frameborder="0"
@@ -77,7 +78,7 @@ export const EmbedCodeGenerator: React.FC<EmbedCodeGeneratorProps> = ({
           )}
         </Button>
       </div>
-     
+
     </motion.div>
   );
 };

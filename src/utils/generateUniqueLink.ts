@@ -1,4 +1,6 @@
-const HOST = process.env.NEXT_PUBLIC_APP_URL;
+import config from "@/config";
+
+const HOST = config.appUrl;
 if (!HOST) {
   console.error('NEXT_PUBLIC_APP_URL is not set');
 }

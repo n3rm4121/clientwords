@@ -1,5 +1,6 @@
 'use client';
 
+import config from '@/config';
 import { initializePaddle, Paddle, Environments } from '@paddle/paddle-js';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -42,6 +43,7 @@ export function Checkout({ user }: CheckoutProps) {
 
   useEffect(() => {
     initializePaddle({
+      //environment: config.paddle.environment as Environments,  // Uncomment this line for local development
       token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN as string,
       checkout: {
         settings: {

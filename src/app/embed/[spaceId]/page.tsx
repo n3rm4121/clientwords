@@ -6,6 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getUserSubscriptionTier } from '@/app/dashboard/action';
 import Space from '@/models/space.model';
+import config from '@/config';
+
 interface EmbedPageProps {
   params: {
     spaceId: string;
@@ -19,26 +21,28 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
   const { spaceId } = params;
   const theme = searchParams?.theme || 'light';
   const layout = searchParams?.layout || 'grid';
-  const spaceOwner = await Space.findById(spaceId).select('owner').exec();
-  const HOST = process.env.NEXT_PUBLIC_APP_URL;
-  const apiURL = `${HOST}/api/embed/testimonials?spaceId=${spaceId}`;
-  const subscriptionTier = await getUserSubscriptionTier(spaceOwner.owner as string)
+
   try {
-    const response = await fetch(apiURL, {
-      cache: 'no-store',
-    });
+    console.time('fetchSpaceOwner');
+    const spaceOwner = await Space.findById(spaceId).select('owner').exec();
+    console.timeEnd('fetchSpaceOwner');
+
+    const apiURL = `${config.appUrl}/api/embed/testimonials?spaceId=${spaceId}`;
+    const subscriptionTier = await getUserSubscriptionTier(spaceOwner.owner as string);
+
+    console.time('fetchTestimonials');
+    const response = await fetch(apiURL, { cache: 'no-store' });
+    console.timeEnd('fetchTestimonials');
 
     if (!response.ok) {
       throw new Error('Failed to fetch testimonials');
     }
 
     const data = await response.json();
+    const testimonials: ITestimonial[] = data.testimonials;
 
-    const testimonials: ITestimonial[] = data.testimonials;  // Ensure the correct key is accessed
     return (
-
-      <div className="w-full  min-h-screen bg-white  px-8">
-
+      <div className="w-full min-h-screen bg-white px-8">
         {layout === 'carousel' ? (
           <div className="w-full">
             <TestimonialCarousel testimonials={testimonials} theme={theme} />
@@ -61,15 +65,16 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
               <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
             </Link>
           </div>
-        )
-        }
-
+        )}
       </div>
-
     );
   } catch (error) {
     console.error('Error fetching testimonials:', error);
-    return <div className="w-full h-full flex items-center justify-center bg-transparent text-center p-4">Failed to load testimonials</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-transparent text-center p-4">
+        Failed to load testimonials
+      </div>
+    );
   }
 };
 

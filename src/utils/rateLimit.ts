@@ -1,24 +1,20 @@
 import { Redis } from '@upstash/redis';
 import { Duration, Ratelimit } from '@upstash/ratelimit';
 import { NextRequest, NextResponse } from "next/server";
+import config from '@/config';
 
-const url = process.env.UPSTASH_REDIS_REST_URL;
-const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-
-if (!url) {
-    throw new Error('Please provide a Redis URL');
+let redis: Redis;
+if (config.upstashRedis) {
+    redis = new Redis({
+        url: config.upstashRedis.restUrl,
+        token: config.upstashRedis.restToken,
+    });
 }
-
-if (!token) {
-    throw new Error('Please provide a Redis Token');
-}
-const redis = new Redis({
-
-    url: url,
-    token: token,
-});
-
 export async function likeRateLimit(request: NextRequest) {
+    // bypass for local development
+    if (!config.upstashRedis) {
+        return null;
+    }
     const ip = request.ip ?? request.headers.get('X-Forwarded-For') ?? 'unknown';
 
     const perMinuteLimit = new Ratelimit({
@@ -69,6 +65,10 @@ export async function testimonialSubmitRateLimit(
     limit: number,
     duration: Duration
 ) {
+    // bypass for local development
+    if (!config.upstashRedis) {
+        return null;
+    }
     const ip = request.ip ?? request.headers.get('X-Forwarded-For') ?? 'unknown';
     const rateLimiter = new Ratelimit({
         redis: redis,
@@ -95,8 +95,11 @@ export async function testimonialSubmitRateLimit(
     return null;
 }
 
-// Rate limiter for iframe fetching
 export async function iframeFetchRateLimit(request: NextRequest) {
+    // bypass for local development
+    if (!config.upstashRedis) {
+        return null;
+    }
     const domain = request.headers.get('Origin') || 'unknown';
 
     const perMinuteLimit = new Ratelimit({
