@@ -35,8 +35,8 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
     };
 
     // recaptcha only in production
-    if (config.recaptcha) {
-        useEffect(() => {
+    useEffect(() => {
+        if (config.recaptcha) {
             const loadReCaptcha = () => {
                 const script = document.createElement('script');
                 script.src = `https://www.google.com/recaptcha/api.js?render=${config.recaptcha.siteKey}`;
@@ -44,9 +44,9 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
                 document.body.appendChild(script);
             };
             loadReCaptcha();
-        }, []);
+        }
+    }, []);
 
-    }
 
     useEffect(() => {
         if (userAvatar) {

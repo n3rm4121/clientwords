@@ -1,12 +1,8 @@
-'use client'
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { MaxWidthWrapper } from './MaxWidthWrapper';
 import Image from 'next/image';
 
 export function Navbar() {
-  const [scrollY, setScrollY] = useState(0);
-  const [showNavbar, setShowNavbar] = useState(true);
 
   const links = [
     {
@@ -27,25 +23,8 @@ export function Navbar() {
     }
   ];
 
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    if (currentScrollY > scrollY) {
-      setShowNavbar(false);
-    } else {
-      setShowNavbar(true);
-    }
-    setScrollY(currentScrollY);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [scrollY, handleScroll]);
-
   return (
-    <div className={`flex z-50 items-center justify-center top-0 md:sticky transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
+    <div className={`flex z-50 items-center justify-center top-0 md:sticky transition-transform duration-300 translate-y-0`}>
       <nav className="mt-4 border rounded-full backdrop-filter backdrop-blur-lg border-yellow-500 px-2.5 sticky top-0 z-50">
         <MaxWidthWrapper>
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
