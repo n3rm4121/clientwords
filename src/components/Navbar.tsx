@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { MaxWidthWrapper } from './MaxWidthWrapper';
 import Image from 'next/image';
+import { MoveUpRight } from 'lucide-react';
 
 export function Navbar() {
 
@@ -45,8 +46,13 @@ export function Navbar() {
                 </div>
               </div>
               <div className='flex items-center gap-2 justify-center'>
-                <Link href="/login" className='bg-primary rounded-md text-black p-2 hover:bg-yellow-500'>
-                  Login
+                <Link
+                  href="https://github.com/n3rm4121/clientwords"
+                  target='_blank'
+                  className="relative  text-white inline-flex items-center justify-center px-4 py-2  bg-white bg-opacity-20 border border-gray-200 rounded-full backdrop-blur-lg shadow-md transition-transform transform hover:scale-105 hover:bg-opacity-30"
+                >
+                  <span className="font-bold">Github</span>
+                  <MoveUpRight className="inline w-5 h-5 ml-2" />
                 </Link>
               </div>
             </div>
