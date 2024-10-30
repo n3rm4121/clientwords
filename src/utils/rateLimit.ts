@@ -104,13 +104,13 @@ export async function iframeFetchRateLimit(request: NextRequest) {
 
     const perMinuteLimit = new Ratelimit({
         redis: redis,
-        limiter: Ratelimit.slidingWindow(30, '1 m'), // Example: 30 requests per minute
+        limiter: Ratelimit.slidingWindow(30, '1 m'),
         prefix: 'iframe_fetch_per_minute',
     });
 
     const perHourLimit = new Ratelimit({
         redis: redis,
-        limiter: Ratelimit.slidingWindow(300, '1 h'), // Example: 300 requests per hour
+        limiter: Ratelimit.slidingWindow(300, '1 h'),
         prefix: 'iframe_fetch_per_hour',
     });
 

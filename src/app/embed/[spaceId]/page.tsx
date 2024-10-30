@@ -1,3 +1,4 @@
+// EmbedPage.tsx
 import React from 'react';
 import { ITestimonial } from '@/lib/interface';
 import TestimonialCard from '@/app/dashboard/spaces/[name]/[id]/components/TestimonialCard';
@@ -6,47 +7,78 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getUserSubscriptionTier } from '@/app/dashboard/action';
 import Space from '@/models/space.model';
+import dbConnect from '@/lib/dbConnect';
+import Testimonial from '@/models/testimonials.model';
+import LoveGallery from '@/models/loveGallery.model';
 import config from '@/config';
+import { Redis } from '@upstash/redis';
 
 interface EmbedPageProps {
   params: {
     spaceId: string;
-  },
+  };
   searchParams?: {
-    [key: string]: string | undefined
-  }
+    [key: string]: string | undefined;
+  };
 }
 
-const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => {
+const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
   const { spaceId } = params;
   const theme = searchParams?.theme || 'light';
   const layout = searchParams?.layout || 'grid';
+  const limit = parseInt(searchParams?.limit || '10', 10);
+
+  await dbConnect();
+
+  // Initialize Redis if configured
+  const redis = config.upstashRedis
+    ? new Redis({
+      url: config.upstashRedis.restUrl,
+      token: config.upstashRedis.restToken,
+    })
+    : null;
+
+  const cacheKey = `testimonials_${spaceId}_${limit}`;
+  let testimonials: ITestimonial[] = [];
 
   try {
-    console.time('fetchSpaceOwner');
-    const spaceOwner = await Space.findById(spaceId).select('owner').exec();
-    console.timeEnd('fetchSpaceOwner');
-
-    const apiURL = `${config.appUrl}/api/embed/testimonials?spaceId=${spaceId}`;
-    const subscriptionTier = await getUserSubscriptionTier(spaceOwner.owner as string);
-
-    console.time('fetchTestimonials');
-    const response = await fetch(apiURL, { cache: 'no-store' });
-    console.timeEnd('fetchTestimonials');
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch testimonials');
+    // Attempt to fetch from Redis cache
+    if (redis) {
+      const cachedTestimonials = await redis.get(cacheKey);
+      if (cachedTestimonials) {
+        testimonials = JSON.parse(cachedTestimonials as string).testimonials;
+      }
     }
 
-    const data = await response.json();
-    const testimonials: ITestimonial[] = data.testimonials;
+    // If no cache, fetch from MongoDB
+    if (testimonials.length === 0) {
+      const spaceOwner = await Space.findById(spaceId).select('owner').exec();
+      if (!spaceOwner) throw new Error('Space not found');
+
+      const loveGallery = await LoveGallery.findOne({ spaceId })
+        .sort({ createdAt: -1 })
+        .limit(limit);
+
+      testimonials = loveGallery
+        ? await Testimonial.find({ _id: { $in: loveGallery.testimonials } })
+          .select('userName userAvatar userIntro message')
+          .exec()
+        : [];
+
+      // Cache the testimonials in Redis for 5 minutes
+      if (redis) {
+        await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
+      }
+    }
+
+    const subscriptionTier = await getUserSubscriptionTier(
+      (await Space.findById(spaceId).select('owner').exec())?.owner as string
+    );
 
     return (
       <div className="w-full min-h-screen bg-white px-8">
         {layout === 'carousel' ? (
-          <div className="w-full">
-            <TestimonialCarousel testimonials={testimonials} theme={theme} />
-          </div>
+          <TestimonialCarousel testimonials={testimonials} theme={theme} />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {testimonials.map((testimonial) => (
@@ -61,8 +93,13 @@ const EmbedPage: React.FC<EmbedPageProps> = async ({ params, searchParams }) => 
         )}
         {subscriptionTier === 'Free' && (
           <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
-            <Link className='bg-stone-400 px-2 rounded-md' href='https://clientwords.com' target='_blank' rel='noopener noreferrer'>
-              <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
+            <Link
+              className="bg-stone-400 px-2 rounded-md"
+              href="https://clientwords.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image src="/newbrand1.png" width={200} height={200} alt="ClientWords" />
             </Link>
           </div>
         )}
