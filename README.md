@@ -39,7 +39,7 @@
 
 ## Contribute or self host
 
-ClientWrods is design to be set up easily locally and easy to set up 💫
+ClientWords is design to be set up easily locally and easy to set up 💫
 
 Please see the [SETUP-GUIDE.md](SETUP-GUIDE.md) for setup instructions.
 
