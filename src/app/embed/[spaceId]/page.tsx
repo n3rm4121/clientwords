@@ -43,12 +43,13 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
 
   try {
     // Attempt to fetch from Redis cache
-    if (redis) {
-      const cachedTestimonials = await redis.get(cacheKey);
-      if (cachedTestimonials) {
-        testimonials = JSON.parse(cachedTestimonials as string).testimonials;
-      }
-    }
+    //TODO: implementing caching
+    // if (redis) {
+    //   const cachedTestimonials = await redis.get(cacheKey);
+    //   if (cachedTestimonials) {
+    //     testimonials = JSON.parse(cachedTestimonials as string)
+    //   }
+    // } 
 
     // If no cache, fetch from MongoDB
     if (testimonials.length === 0) {
@@ -66,9 +67,9 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
         : [];
 
       // Cache the testimonials in Redis for 5 minutes
-      if (redis) {
-        await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
-      }
+      // if (redis) {
+      //   await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
+      // }
     }
 
     const subscriptionTier = await getUserSubscriptionTier(
