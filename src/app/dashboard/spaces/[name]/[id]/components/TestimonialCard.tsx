@@ -44,7 +44,7 @@ export default function TestimonialCard({
   const session = useSession()
   const userId = session.data?.user?.id
 
-  const maxLength = 100
+  const maxLength = 200
 
   const handleCreateLoveGallery = async () => {
     setIsLoading(true)
@@ -138,8 +138,8 @@ export default function TestimonialCard({
                 >
                   <Heart
                     className={`${isLoved
-                        ? "fill-red-500 text-red-500"
-                        : "text-gray-400"
+                      ? "fill-red-500 text-red-500"
+                      : "text-gray-400"
                       } hover:text-red-500`}
                   />
                   <span className="sr-only">
