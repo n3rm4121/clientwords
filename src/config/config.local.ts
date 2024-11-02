@@ -25,6 +25,10 @@ export const config = {
         apiKey: process.env.CLOUDINARY_API_KEY || "testCloudinaryApiKey",
         apiSecret: process.env.CLOUDINARY_API_SECRET || "testCloudinarySecret",
     },
+    upstashRedis: {
+        restUrl: process.env.UPSTASH_REDIS_REST_URL as string,
+        restToken: process.env.UPSTASH_REDIS_REST_TOKEN as string,
+    },
 };
 
 export default config;

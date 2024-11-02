@@ -44,27 +44,29 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
   try {
     // Attempt to fetch from Redis cache
     if (redis) {
-      const cachedTestimonials = await redis.get(cacheKey);
-      if (cachedTestimonials) {
-        testimonials = JSON.parse(cachedTestimonials as string);
-      }
+      const testimonials = await redis.get(cacheKey);
+      console.log('testimonials:', testimonials);
     }
 
     // If no cache, fetch from MongoDB
     if (testimonials.length === 0) {
       const spaceOwner = await Space.findById(spaceId).select('owner').exec();
       if (!spaceOwner) throw new Error('Space not found');
-      loading = false;
+
 
       const loveGallery = await LoveGallery.findOne({ spaceId })
         .sort({ createdAt: -1 })
         .limit(limit);
 
-      testimonials = loveGallery
-        ? await Testimonial.find({ _id: { $in: loveGallery.testimonials } })
-          .select('userName userAvatar userIntro message')
-          .exec()
-        : [];
+      if (!loveGallery) throw new Error('Love Gallery not found');
+      testimonials = await Testimonial.find(
+        { _id: { $in: loveGallery.testimonials } },
+        { _id: 0, message: 1, userName: 1, userAvatar: 1, userIntro: 1 }
+      )
+        .sort({ createdAt: -1 })
+        .lean<ITestimonial[]>()
+        .exec();
+
 
       // Cache the testimonials in Redis for 5 minutes
       if (redis) {
@@ -76,10 +78,11 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
       (await Space.findById(spaceId).select('owner').exec())?.owner as string
     );
 
+    loading = false;
     return (
       <>
         {loading ? (
-          <div className="w-full h-full flex items-center justify-center bg-transparent text-center p-4">
+          <div className="w-full h-full flex items-center justify-center text-center p-4">
             Loading testimonials...
           </div>
         ) : (
@@ -88,9 +91,9 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
               <TestimonialCarousel testimonials={testimonials} theme={theme} />
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {testimonials.map((testimonial) => (
+                {testimonials.map((testimonial, index) => (
                   <TestimonialCard
-                    key={testimonial._id}
+                    key={index}
                     location="embed"
                     testimonial={testimonial}
                     theme={theme}
