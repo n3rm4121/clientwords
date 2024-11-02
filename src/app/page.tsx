@@ -3,7 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { FaBriefcase, FaChartLine, FaClone, FaCode, FaEnvelope, FaGraduationCap, FaHotel, FaLaptopCode, FaRocket, FaStore, FaUserMd } from "react-icons/fa";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
-import { CircleCheckBig, Mail } from "lucide-react";
+import { CircleCheckBig, Mail, MoveUpRight } from "lucide-react";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import PricingSection from "@/components/pricing/PricingSection";
@@ -95,7 +95,6 @@ export default function LandingPage() {
         {/* Hero Section */}
 
         <section className="relative overflow-hidden mt-20 mb-14">
-
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center text-center">
               <h1 className="max-w-4xl text-4xl text-gray-200 font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
@@ -119,7 +118,17 @@ export default function LandingPage() {
                   <span className="text-lg font-medium">Easy Integration</span>
                 </div>
               </div>
-              <CTABtn redirectTo="/login" message="It's free. Sign up now!" />
+              <div className="flex flex-col md:flex-row gap-2 mb-4">
+                <Link
+                  href="https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY"
+                  target='_blank'
+                  className="relative  text-white inline-flex items-center justify-center px-4 py-2  bg-white bg-opacity-20 border border-gray-200 rounded-full backdrop-blur-lg shadow-md transition-transform transform hover:scale-105 hover:bg-opacity-30"
+                >
+                  <span className="font-bold">View Demo</span>
+                  <MoveUpRight className="inline w-5 h-5 ml-2" />
+                </Link>
+                <CTABtn redirectTo="/login" message="It's free. Sign up now!" />
+              </div>
             </div>
           </div>
         </section>

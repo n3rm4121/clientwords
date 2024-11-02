@@ -1,4 +1,3 @@
-// EmbedPage.tsx
 import React from 'react';
 import { ITestimonial } from '@/lib/interface';
 import TestimonialCard from '@/app/dashboard/spaces/[name]/[id]/components/TestimonialCard';
@@ -27,6 +26,7 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
   const theme = searchParams?.theme || 'light';
   const layout = searchParams?.layout || 'grid';
   const limit = parseInt(searchParams?.limit || '10', 10);
+  let loading = true;
 
   await dbConnect();
 
@@ -43,18 +43,18 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
 
   try {
     // Attempt to fetch from Redis cache
-    //TODO: implementing caching
-    // if (redis) {
-    //   const cachedTestimonials = await redis.get(cacheKey);
-    //   if (cachedTestimonials) {
-    //     testimonials = JSON.parse(cachedTestimonials as string)
-    //   }
-    // } 
+    if (redis) {
+      const cachedTestimonials = await redis.get(cacheKey);
+      if (cachedTestimonials) {
+        testimonials = JSON.parse(cachedTestimonials as string);
+      }
+    }
 
     // If no cache, fetch from MongoDB
     if (testimonials.length === 0) {
       const spaceOwner = await Space.findById(spaceId).select('owner').exec();
       if (!spaceOwner) throw new Error('Space not found');
+      loading = false;
 
       const loveGallery = await LoveGallery.findOne({ spaceId })
         .sort({ createdAt: -1 })
@@ -67,9 +67,9 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
         : [];
 
       // Cache the testimonials in Redis for 5 minutes
-      // if (redis) {
-      //   await redis.set(cacheKey, JSON.stringify({ testimonials }), { ex: 300 });
-      // }
+      if (redis) {
+        await redis.set(cacheKey, JSON.stringify(testimonials), { ex: 300 });
+      }
     }
 
     const subscriptionTier = await getUserSubscriptionTier(
@@ -77,34 +77,42 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
     );
 
     return (
-      <div className="w-full min-h-screen bg-white px-8">
-        {layout === 'carousel' ? (
-          <TestimonialCarousel testimonials={testimonials} theme={theme} />
+      <>
+        {loading ? (
+          <div className="w-full h-full flex items-center justify-center bg-transparent text-center p-4">
+            Loading testimonials...
+          </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {testimonials.map((testimonial) => (
-              <TestimonialCard
-                key={testimonial._id}
-                location="embed"
-                testimonial={testimonial}
-                theme={theme}
-              />
-            ))}
+          <div className="w-full min-h-screen bg-white px-8">
+            {layout === 'carousel' ? (
+              <TestimonialCarousel testimonials={testimonials} theme={theme} />
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {testimonials.map((testimonial) => (
+                  <TestimonialCard
+                    key={testimonial._id}
+                    location="embed"
+                    testimonial={testimonial}
+                    theme={theme}
+                  />
+                ))}
+              </div>
+            )}
+            {subscriptionTier === 'Free' && (
+              <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
+                <Link
+                  className="bg-stone-400 px-2 rounded-md"
+                  href="https://clientwords.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image src="/newbrand1.png" width={200} height={200} alt="ClientWords" />
+                </Link>
+              </div>
+            )}
           </div>
         )}
-        {subscriptionTier === 'Free' && (
-          <div className="w-full gap-4 text-black font-bold text-2xl flex justify-center py-4">
-            <Link
-              className="bg-stone-400 px-2 rounded-md"
-              href="https://clientwords.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image src="/newbrand1.png" width={200} height={200} alt="ClientWords" />
-            </Link>
-          </div>
-        )}
-      </div>
+      </>
     );
   } catch (error) {
     console.error('Error fetching testimonials:', error);
