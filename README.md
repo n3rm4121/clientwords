@@ -7,6 +7,7 @@
 ## 🌐 Useful Links
 
 Website => [clientwords.com](https://clientwords.com)
+
 Clientwords in Action => [View Demo](https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY)
 
 ---
@@ -86,5 +87,3 @@ Contributions are very welcome! A contribution can be as small as a ⭐ or even 
 <a href="https://github.com/n3rm4121/clientwords/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=n3rm4121/clientwords" />
 </a>
----
-## Enjoy using ClientWords? Give us a star ⭐ on GitHub to show your support!
