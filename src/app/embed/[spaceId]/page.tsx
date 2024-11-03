@@ -27,6 +27,7 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
   const layout = searchParams?.layout || 'grid';
   const limit = parseInt(searchParams?.limit || '10', 10);
   let loading = true;
+  let subscriptionTier = 'Free';
 
   await dbConnect();
 
@@ -74,7 +75,7 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
       }
     }
 
-    const subscriptionTier = await getUserSubscriptionTier(
+    subscriptionTier = await getUserSubscriptionTier(
       (await Space.findById(spaceId).select('owner').exec())?.owner as string
     );
 
@@ -82,11 +83,11 @@ const EmbedPage = async ({ params, searchParams }: EmbedPageProps) => {
     return (
       <>
         {loading ? (
-          <div className="w-full h-full flex items-center justify-center text-center p-4">
+          <div className="w-full h-full flex items-center justify-center text-center p-4" style={{ backgroundColor: 'transparent' }}>
             Loading testimonials...
           </div>
         ) : (
-          <div className="w-full min-h-screen bg-white px-8">
+          <div className="w-full min-h-screen bg-red-400 px-8" style={{ backgroundColor: 'transparent' }}>
             {layout === 'carousel' ? (
               <TestimonialCarousel testimonials={testimonials} theme={theme} />
             ) : (
