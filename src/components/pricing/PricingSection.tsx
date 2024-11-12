@@ -1,38 +1,40 @@
 'use client'
 
-import { MaxWidthWrapper } from '@/components/MaxWidthWrapper';
-import { Switch } from '@/components/ui/switch';
+import { MaxWidthWrapper } from '@/components/MaxWidthWrapper'
+import { Switch } from '@/components/ui/switch'
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-import { useState } from 'react';
-import { PricingCard } from './PricingCard';
-import { Button } from '../ui/button';
-import { HelpCircle } from 'lucide-react';
+import { useState } from 'react'
+import { PricingCard } from './PricingCard'
+import { Button } from '@/components/ui/button'
+import { HelpCircle } from 'lucide-react'
 
 interface Feature {
-    text: string;
-    included: boolean;
-    tooltip?: string;
-    commingSoon?: boolean;
+    text: string
+    included: boolean
+    tooltip?: string
+    commingSoon?: boolean
 }
 
 export interface PlanProps {
-    title: string;
-    monthlyPrice: number;
-    annualPrice: number;
-    features: Feature[];
-    buttonText: string;
-    isPro?: boolean;
-    monthlyPriceId?: string;
-    annualPriceId?: string;
+    title: string
+    monthlyPrice?: number
+    annualPrice?: number
+    oneTimePrice?: number
+    features: Feature[]
+    buttonText: string
+    isPro?: boolean
+    monthlyPriceId?: string
+    annualPriceId?: string
+    oneTimePriceId?: string
 }
 
 export default function PricingSection() {
-    const [isAnnual, setIsAnnual] = useState(false);
+    const [isAnnual, setIsAnnual] = useState(false)
     const plans: PlanProps[] = [
         {
             title: "Starter",
@@ -49,7 +51,7 @@ export default function PricingSection() {
         {
             title: "Pro",
             monthlyPrice: 8,
-            annualPrice: 80, // 8 * 10 = 80 (2 months free for annual)
+            annualPrice: 80,
             features: [
                 { text: "Collect unlimited testimonials", included: true },
                 { text: "Unlimited Spaces", included: true, tooltip: "A space is a collection of testimonials for a specific product or service" },
@@ -61,7 +63,20 @@ export default function PricingSection() {
             monthlyPriceId: 'pri_01j7qw0djsh1vrvh9c8gb5jn49',
             annualPriceId: 'pri_01jazh6htrrzwww5r5hys0c4c1',
         },
-    ];
+        {
+            title: "Lifetime",
+            oneTimePrice: 199,
+            features: [
+                { text: "All Pro features", included: true },
+                { text: "One-time payment", included: true },
+                { text: "Lifetime access", included: true },
+                { text: "Future updates included", included: true },
+            ],
+            buttonText: 'Get Lifetime Access',
+            isPro: true,
+            oneTimePriceId: 'pri_01jcft025hhnpvetzq0k27wjys',
+        },
+    ]
 
     return (
         <section id="pricing" className="py-10">
@@ -79,7 +94,7 @@ export default function PricingSection() {
                     />
                     <span className={`text-sm ${isAnnual ? 'text-gray-200' : 'text-gray-400'}`}>Annually (2 months free)</span>
                 </div>
-                <div className="mb-8 grid gap-2 items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-2  xl:grid-cols-2">
+                <div className="mb-8 grid gap-6 items-start grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {plans.map((plan, index) => (
                         <PricingCard key={index} {...plan} isAnnual={isAnnual} />
                     ))}
@@ -97,19 +112,25 @@ export default function PricingSection() {
                         <AccordionItem value="item-2">
                             <AccordionTrigger>Is there a long-term contract?</AccordionTrigger>
                             <AccordionContent>
-                                Currently we offer monthly and annual plans. If you need a custom plan, please send an email to <span className='text-blue-500'>support@clientwords.com</span>.
+                                We offer monthly and annual plans, as well as a lifetime access option. If you need a custom plan, please send an email to <span className='text-blue-500'>support@clientwords.com</span>.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-3">
                             <AccordionTrigger>Do you offer a free trial?</AccordionTrigger>
                             <AccordionContent>
-                                We don't offer a free trial, but you can start with our free Starter plan and upgrade to Pro at any time.
+                                We don't offer a free trial, but you can start with our free Starter plan and upgrade to Pro or Lifetime at any time.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-4">
                             <AccordionTrigger>What happens if my subscription expires?</AccordionTrigger>
                             <AccordionContent>
-                                If your subscription expires, you will be downgraded to the free Starter plan. You can upgrade to Pro at any time. You will not be able to add more testimonials or spaces until you upgrade.
+                                If your subscription expires, you will be downgraded to the free Starter plan. You can upgrade to Pro at any time. You will not be able to add more testimonials or spaces until you upgrade. This doesn't apply to the Lifetime plan.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-5">
+                            <AccordionTrigger>What's included in the Lifetime plan?</AccordionTrigger>
+                            <AccordionContent>
+                                The Lifetime plan includes all Pro features with a one-time payment. You'll have access to all current and future features without any recurring fees. It's perfect for those who want long-term access without worrying about monthly or annual payments.
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
@@ -126,5 +147,5 @@ export default function PricingSection() {
                 </div>
             </MaxWidthWrapper>
         </section>
-    );
+    )
 }

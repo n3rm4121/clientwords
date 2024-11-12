@@ -2,13 +2,13 @@
 
 import { FaBuilding } from 'react-icons/fa';
 import React, { useEffect, useState } from 'react'
-import { Button } from '../../../../components/ui/button';
+import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
-import { MultipleSkeletonSpaceCard } from '../../../../components/ui/skeletons';
+import { MultipleSkeletonSpaceCard } from '@/components/ui/skeletons';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
 import { Loader2, Trash } from 'lucide-react';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../../components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { deleteSpace } from '@/app/dashboard/action';
 import { toast } from 'react-toastify';
 import { AddSpace } from './AddSpace';

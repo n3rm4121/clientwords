@@ -1,77 +1,113 @@
-'use client'
+import { Check, Gem } from 'lucide-react'
+import { Button, buttonVariants } from '@/components/ui/button'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { PlanProps } from './PricingSection'
+import Link from 'next/link'
 
-import React from 'react';
-import Link from 'next/link';
-import { Check, X, HelpCircle, Gem } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { PlanProps } from './PricingSection';
 
 
 
-export const PricingCard = ({ title, monthlyPrice, annualPrice, monthlyPriceId, annualPriceId, features, buttonText, isPro = false, isAnnual }: PlanProps & { isAnnual: boolean }) => {
+interface PricingCardProps extends PlanProps {
+    isAnnual: boolean
+}
+
+export function PricingCard({
+    title,
+    monthlyPrice,
+    annualPrice,
+    oneTimePrice,
+    features,
+    buttonText,
+    isPro,
+    isAnnual,
+    monthlyPriceId,
+    annualPriceId,
+    oneTimePriceId
+}: PricingCardProps) {
+
+    const getCheckoutLink = () => {
+        if (buttonText === 'Get Started') {
+            return '/login'
+        }
+
+        if (oneTimePrice !== undefined) {
+            return `/checkout?priceId=${oneTimePriceId}`
+        }
+
+        return `/checkout?priceId=${isAnnual ? annualPriceId : monthlyPriceId}`
+    }
+
+
+    const price = oneTimePrice !== undefined
+        ? oneTimePrice
+        : isAnnual
+            ? annualPrice
+            : monthlyPrice
+
+    const priceId = oneTimePrice !== undefined
+        ? oneTimePriceId
+        : isAnnual
+            ? annualPriceId
+            : monthlyPriceId
+
     return (
-        <Card className={`relative max-w-md overflow-hidden transition-all duration-300 ${isPro ? 'border-primary shadow-lg' : 'hover:border-primary hover:shadow-md'}`}>
+        <Card className={`w-full ${isPro ? 'border-indigo-500' : ''}`}>
             <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-200">{title}</CardTitle>
+                <CardTitle>{title}</CardTitle>
+                <CardDescription>
+                    {oneTimePrice !== undefined ? (
+                        <span className="text-3xl font-bold">${oneTimePrice}</span>
+                    ) : (
+                        <>
+                            <span className="text-3xl font-bold">${price}</span>
+                            <span className="text-gray-500">/{isAnnual ? 'year' : 'month'}</span>
+                        </>
+                    )}
+                </CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="text-4xl text-gray-200 font-bold mb-2">
-                    ${isAnnual ? annualPrice : monthlyPrice}
-                    <span className="text-lg font-normal text-gray-400">/{isAnnual ? 'year' : 'month'}</span>
-                </p>
-                <ul className="space-y-4 mb-8 flex justify-center items-start flex-col">
+                <ul className="space-y-2">
                     {features.map((feature, index) => (
-                        <TooltipProvider key={index}>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <li className="flex">
-                                        {feature.included ? (
-                                            <Check className="text-green-500 mr-2 flex-shrink-0" />
-                                        ) : (
-                                            <X className="text-red-500 mr-3 flex-shrink-0" />
-                                        )}
-                                        <span className={feature.included ? '' : 'text-gray-400'}>
-                                            <div className='relative text-gray-300'>
-                                                {feature.text}
-                                                {feature.commingSoon && (
-                                                    <Badge className="ml-2 inline" variant="secondary">
-                                                        Coming Soon
-                                                    </Badge>
-                                                )}
-                                            </div>
-                                        </span>
-                                        {feature.tooltip && (
-                                            <HelpCircle className="ml-2 h-4 w-4 text-muted-foreground" />
-                                        )}
-                                    </li>
-                                </TooltipTrigger>
-                                {feature.tooltip && (
-                                    <TooltipContent>
-                                        <p>{feature.tooltip}</p>
-                                    </TooltipContent>
-                                )}
-                            </Tooltip>
-                        </TooltipProvider>
+                        <li key={index} className="flex items-center">
+                            <Check className="h-5 w-5 text-green-500 mr-2" />
+                            {feature.tooltip ? (
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <span className="text-sm text-gray-300">{feature.text}</span>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>{feature.tooltip}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            ) : (
+                                <span className="text-sm text-gray-300">{feature.text}</span>
+                            )}
+                        </li>
                     ))}
                 </ul>
             </CardContent>
             <CardFooter>
                 <Link
-                    href={buttonText === 'Get Started' ? '/login' : `/checkout?priceId=${isAnnual ? annualPriceId : monthlyPriceId}`}
+                    href={getCheckoutLink()}
                     className={buttonVariants({
-                        variant: 'default',
+                        variant: isPro ? 'default' : 'outline',
                         size: 'lg',
                         className: 'w-full'
                     })}
                 >
-                    {buttonText}{isPro && <Gem className='w-4 h-4 ml-2' />}
+                    {buttonText}
                 </Link>
             </CardFooter>
         </Card>
-    );
-};
-
-
+    )
+}
