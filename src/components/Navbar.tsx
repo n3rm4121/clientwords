@@ -1,64 +1,102 @@
-import Link from 'next/link';
-import { MaxWidthWrapper } from './MaxWidthWrapper';
-import Image from 'next/image';
-import { MoveUpRight } from 'lucide-react';
+'use client'
 
-export function Navbar() {
+import { useState } from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
+import { Separator } from './ui/separator'
 
-  const links = [
-    {
-      name: 'Features',
-      href: '#features'
-    },
-    {
-      name: 'How it works',
-      href: '#how-it-works'
-    },
-    {
-      name: 'Use Cases',
-      href: '#use-cases'
-    },
-    {
-      name: 'Pricing',
-      href: '#pricing'
-    }
-  ];
+const navItems = [
+  { name: 'Features', href: '#features' },
+  { name: 'How It Works', href: '#how-it-works' },
+  { name: 'Testimonials', href: '#testimonials' },
+  { name: 'Pricing', href: '#pricing' },
+]
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className={`flex z-50 items-center justify-center top-0 md:sticky transition-transform duration-300 translate-y-0`}>
-      <nav className="mt-4 border rounded-full backdrop-filter backdrop-blur-lg border-yellow-500 px-2.5 sticky top-0 z-50">
-        <MaxWidthWrapper>
-          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div className="flex justify-center gap-4 items-center h-16">
-              <div className="relative inline-flex items-center">
-                <Link href="/" className="flex-shrink-0">
-                  <Image
-                    src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
-                </Link>
-              </div>
-              <div>
-                <div className="lg:ml-6 lg:flex  hidden mr-6">
-                  {links.map((link, index) => (
-                    <Link key={index} href={link.href} className="hover:text-muted-foreground  px-3 py-2 rounded-md text-sm font-medium">
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className='flex items-center gap-2 justify-center'>
+    <nav className="fixed w-full z-50 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="text-2xl font-bold gradient-text">
+
+              <Image
+                src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
+            </Link>
+
+          </div>
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
+              {navItems.map((item) => (
                 <Link
-                  href="https://github.com/n3rm4121/clientwords"
-                  target='_blank'
-                  className="relative  text-white inline-flex items-center justify-center px-4 py-2  bg-white bg-opacity-20 border border-gray-200 rounded-full backdrop-blur-lg shadow-md transition-transform transform hover:scale-105 hover:bg-opacity-30"
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  <span className="font-bold">Github</span>
-                  <MoveUpRight className="inline w-5 h-5 ml-2" />
+                  {item.name}
                 </Link>
-              </div>
+              ))}
             </div>
           </div>
-        </MaxWidthWrapper>
-      </nav>
-    </div>
-  );
+          <div className="hidden md:block">
+            <Link
+              href="/login"
+              className="bg-primary text-gray-900 px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+            >
+              Get Started
+            </Link>
+          </div>
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-white-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isOpen ? (
+                <X className="block h-6 w-6" aria-hidden="true" />
+              ) : (
+                <Menu className="block h-6 w-6" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="md:hidden"
+        >
+          <Separator />
+          <div className="px-2 pt-2 pb-3 bg-gray-900 space-y-1 sm:px-3">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            ))}
+            <Link
+              href="/login"
+              className="bg-primary text-gray-900 w-fit block px-3 py-2 rounded-md font-medium hover:bg-primary/90 transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              Get Started
+            </Link>
+          </div>
+          <Separator />
+        </motion.div>
+      )}
+    </nav>
+  )
 }
+

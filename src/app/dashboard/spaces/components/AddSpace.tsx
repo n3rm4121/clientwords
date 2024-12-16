@@ -41,7 +41,7 @@ const createSpaceSchema = z.object({
 
 const reservedKeywords = [
     'admin', 'clientwords', 'clienword', 'dashboard', 'profile', 'settings', 'login', 'signup', 'api', 'space', 'spaces', 'user', 'users',
-    'system', 'help', 'support', 'about', 'terms', 'privacy', 'home', 'localhost', 'test'
+    'system', 'help', 'support', 'about', 'terms', 'privacy', 'home', 'localhost', 'test', 'signin'
 ];
 
 

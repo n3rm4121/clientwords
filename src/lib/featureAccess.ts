@@ -3,16 +3,19 @@ import { SubscriptionTier } from "@/models/user.model";
 interface FeatureLimits {
   [SubscriptionTier.FREE]: number;
   [SubscriptionTier.PRO]: number;
+  [SubscriptionTier.LifeTime]: number;
 }
 
 const testimonialLimits: FeatureLimits = {
   [SubscriptionTier.FREE]: 10,
   [SubscriptionTier.PRO]: Infinity,
+  [SubscriptionTier.LifeTime]: Infinity,
 };
 
 const spaceLimits: FeatureLimits = {
   [SubscriptionTier.FREE]: 1,
   [SubscriptionTier.PRO]: Infinity,
+  [SubscriptionTier.LifeTime]: Infinity,
 };
 
 export function canCollectTestimonial(tier: SubscriptionTier, currentCount: number): boolean {

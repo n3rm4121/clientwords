@@ -14,9 +14,8 @@ export default async function LoginPage() {
     redirect('/dashboard');
   }
   return (
-
-    <div className='bg-[#212121]'>
-      <div className="w-full min-h-screen bg-[#212121] flex flex-col justify-center items-center p-8">
+    <div className='bg-gray-900'>
+      <div className="w-full min-h-screen bg-gray-900 flex flex-col justify-center items-center p-8">
         <Link href="/" className="absolute top-5 left-5 flex-shrink-0">
           <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
         </Link>
@@ -32,11 +31,11 @@ export default async function LoginPage() {
           <LoginButton />
           <div className="mt-8 text-center md:text-left text-sm text-gray-500">
             By continuing, you agree to ClientWords&apos;s{' '}
-            <Link href="/terms" className="text-yellow-400 hover:underline">
+            <Link href="/terms" className="text-primary hover:underline">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="/privacy" className="text-yellow-400 hover:underline">
+            <Link href="/privacy" className="text-primary hover:underline">
               Privacy Policy
             </Link>
           </div>
@@ -44,4 +43,5 @@ export default async function LoginPage() {
       </div>
     </div>
   )
+
 }
