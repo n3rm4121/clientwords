@@ -21,6 +21,7 @@ import { canCollectTestimonial } from '@/lib/featureAccess'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Terminal } from 'lucide-react'
 import TestimonialCard from './TestimonialCard'
+import { Button } from '@/components/ui/button'
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -109,7 +110,8 @@ export default function Testimonials({
           </div>
         </Alert>
       )}
-      <button onClick={handleRefresh} className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-md"><RotateCw className='inline w-5 h-5' /> Refresh</button>
+      <Button onClick={handleRefresh} className="mb-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md active:translate-y-1"><RotateCw className='inline w-5 h-5 mr-2' /> Refresh</Button>
+
       {data?.testimonials?.length === 0 && <EmptyState uniqueLink={uniqueLink} />}
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 mx-auto max-w-7xl">
         {data?.testimonials?.map((testimonial) => (

@@ -1,17 +1,15 @@
 'use client'
 
-import { FaBuilding } from 'react-icons/fa';
 import React, { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
-import { MultipleSkeletonSpaceCard } from '@/components/ui/skeletons';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
-import { Loader2, Trash } from 'lucide-react';
+import { ChevronRight, Folder, Loader2, Trash } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { deleteSpace } from '@/app/dashboard/action';
 import { toast } from 'react-toastify';
 import { AddSpace } from './AddSpace';
+import Link from 'next/link';
 
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
@@ -53,11 +51,14 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
 
   return (
     <div>
-      {/* Dialog for adding a new space */}
-      {spaces.length != 0 && <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />}
-
       {isLoading ? (
-        <MultipleSkeletonSpaceCard />
+        // display loading circle
+        <div className='flex items-center justify-center h-96'>
+          <div className=" mr-4 animate-spin flex size-8 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+          </div>
+          <span className=""> Loading spaces</span>
+        </div>
+
       ) : (
         <>
           {spaces.length === 0 ? (
@@ -72,16 +73,12 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
 
             </div>
           ) : (
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
-              {spaces.map((space) => (
-                <div
-                  key={space._id}
-                  className="bg-blue-400 backdrop-blur-sm bg-opacity-10 border border-blue-500 rounded-lg shadow-lg hover:shadow-xl"
-                >
-                  <div className="px-2 py-4 max-w-sm">
-
-
+            <div className="max-w-4xl mx-auto p-4">
+              <h2 className="text-3xl font-bold mb-6 text-center">Your Spaces</h2>
+              {spaces.length != 0 && <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />}
+              <div className="grid mt-10 grid-cols-1 md:grid-cols-2 gap-4">
+                {spaces.map((space) => (
+                  <div key={space.id} className="relative rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <div className='absolute top-2 right-2'>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
@@ -106,32 +103,26 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
 
 
                     </div>
-                    {/* Icon for space representation */}
-                    <div className="flex justify-center mb-4">
-                      <FaBuilding className="text-3xl" />
+                    <div className="p-5">
+                      <div className="flex items-center mb-2">
+                        <Folder className="w-6 h-6 text-blue-500 mr-2" />
+                        <h3 className="text-xl font-semibold">{space.name}</h3>
+                      </div>
+                      <p className="text-gray-600">{space.testimonialsCount} testimonials</p>
                     </div>
-
-                    <h2 className="text-xl font-bold overflow-hidden text-center mb-2">
-                      {space.name}
-                    </h2>
-
-                    <p className="text-center">
-                      Total Testimonials Received: <span className="font-semibold">{space.testimonialsCount | 0}</span>
-                    </p>
-
-                    <div className="mt-4 flex justify-center">
-                      <Button onClick={() => router.push(`/dashboard/spaces/${space.name}/${space._id}`)} variant='outline'>
-                        View Details
-                      </Button>
-                    </div>
+                    <Link href={`/dashboard/spaces/${space.name}/${space._id}`} className="px-5 py-3 cursor-pointer flex justify-between items-center hover:bg-gray-100 transition-all duration-300">
+                      <span className="text-sm text-gray-500">View details</span>
+                      <ChevronRight className="w-5 h-5 text-gray-400" />
+                    </Link>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
 

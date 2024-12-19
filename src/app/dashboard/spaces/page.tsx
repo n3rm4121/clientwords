@@ -2,7 +2,6 @@ import { auth } from '@/auth';
 import { ShowSpaces } from './components/ShowSpaces';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/user.model';
-import { Welcome } from '@/components/Welcome';
 import { canCreateSpace } from '@/lib/featureAccess';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from 'lucide-react';
@@ -15,10 +14,6 @@ export default async function Spaces() {
   await dbConnect();
 
   const userData = await User.findById(userId).select('isNewUser subscriptionTier subscriptionEndDate spaces').exec();
-
-  if (userData.isNewUser) {
-    return <Welcome />;
-  }
 
   const canCreate = canCreateSpace(userData.subscriptionTier, userData.spaces.length);
 

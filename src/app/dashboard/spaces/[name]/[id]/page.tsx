@@ -6,6 +6,9 @@ import { Suspense } from 'react';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import TestimonialCardForm from './components/TestimonialCardForm';
+import { MoveLeft } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 // Dynamically import the client components
 const Card = dynamic(() => import('@/components/ui/card').then(mod => mod.Card), { ssr: false });
 const CardContent = dynamic(() => import('@/components/ui/card').then(mod => mod.CardContent), { ssr: false });
@@ -33,54 +36,61 @@ async function Page({ params }: { params: { id: string } }) {
   const uniqueLink = space.uniqueLink;
   // Render content based on whether it's a new space or not
   const content =
-    <Tabs defaultValue="Testimonials" className="">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
-        <TabsTrigger value="Card">Testimonial Form</TabsTrigger>
-        <TabsTrigger value="loveGallery">Love Gallery</TabsTrigger>
-      </TabsList>
+    <div>
+      <Button variant='link' className='text-blue-500'>
+        <Link href="/dashboard">
+          <MoveLeft className="h-6 w-6 inline" /> Dashboard
+        </Link>
+      </Button>
 
-      <TabsContent value="Testimonials">
-        <Card>
-          <CardHeader>
-            <CardTitle>Testimonials Received</CardTitle>
-            <CardDescription>
-              These are the testimonials received for this space.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <Suspense fallback={<div>Loading testimonials...</div>}>
-              <DisplayTestimonials uniqueLink={uniqueLink} params={params} />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </TabsContent>
+      <Tabs defaultValue="Testimonials" className="">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
+          <TabsTrigger value="Card">Testimonial Form</TabsTrigger>
+          <TabsTrigger value="loveGallery">Love Gallery</TabsTrigger>
+        </TabsList>
 
-      <TabsContent value="Card">
-        <Card>
-          <CardHeader>
-            <CardTitle>Testimonial Form</CardTitle>
-            <CardDescription>
-              This is your testimonial form Card for this space. Update the form as needed.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <TestimonialCardForm isUpdate={true} spaceId={id} uniqueLink={uniqueLink} />
-          </CardContent>
-        </Card>
-      </TabsContent>
+        <TabsContent value="Testimonials">
+          <Card>
+            <CardHeader>
+              <CardTitle>Testimonials Received</CardTitle>
+              <CardDescription>
+                These are the testimonials received for this space.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <Suspense fallback={<div>Loading testimonials...</div>}>
+                <DisplayTestimonials uniqueLink={uniqueLink} params={params} />
+              </Suspense>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-      <TabsContent value="loveGallery">
-        <Card>
-          <CardContent>
-            <Suspense fallback={<div>Loading love gallery...</div>}>
-              <LoveGallery />
-            </Suspense>
-          </CardContent>
-        </Card>
-      </TabsContent>
-    </Tabs>
+        <TabsContent value="Card">
+          <Card>
+            <CardHeader>
+              <CardTitle>Testimonial Form</CardTitle>
+              <CardDescription>
+                This is your testimonial form Card for this space. Update the form as needed.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <TestimonialCardForm isUpdate={true} spaceId={id} uniqueLink={uniqueLink} />
+            </CardContent>
+          </Card>
+        </TabsContent>
 
+        <TabsContent value="loveGallery">
+          <Card>
+            <CardContent>
+              <Suspense fallback={<div>Loading love gallery...</div>}>
+                <LoveGallery />
+              </Suspense>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
   // Wrap the content in a dynamic client-side component
   return <DynamicSpaceWrapper spaceId={id} initialIsNewSpace={isInitiallyNewSpace}>{content}</DynamicSpaceWrapper>;
 }

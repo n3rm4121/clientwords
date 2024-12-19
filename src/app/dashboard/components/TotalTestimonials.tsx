@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import dbConnect from "@/lib/dbConnect"
 import Testimonial from "@/models/testimonials.model"
 import { auth } from "@/auth"
