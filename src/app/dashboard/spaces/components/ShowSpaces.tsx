@@ -54,11 +54,10 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
   return (
     <div>
       {isLoading ? (
-        // display loading circle
         <div className='flex items-center justify-center h-96'>
           <div className=" mr-4 animate-spin flex size-8 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
           </div>
-          <span className=""> Loading spaces</span>
+          <span> Loading spaces</span>
         </div>
 
       ) : (
@@ -83,7 +82,7 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
               {spaces.length != 0 && <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />}
               <div className="grid mt-10 grid-cols-1 md:grid-cols-2 gap-4">
                 {spaces.map((space) => (
-                  <Card className="relative">
+                  <Card key={space._id} className="relative">
                     <CardHeader className="pb-2">
                       <div className="absolute right-4 top-4">
                         <AlertDialog>
