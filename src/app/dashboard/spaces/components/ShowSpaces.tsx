@@ -10,6 +10,8 @@ import { deleteSpace } from '@/app/dashboard/action';
 import { toast } from 'react-toastify';
 import { AddSpace } from './AddSpace';
 import Link from 'next/link';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
@@ -74,51 +76,73 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
             </div>
           ) : (
             <div className="max-w-4xl mx-auto p-4">
-              <h2 className="text-3xl font-bold mb-6 text-center">Your Spaces</h2>
+              <h2 className="text-3xl font-bold text-center">Your Spaces</h2>
+              <p className="text-muted-foreground text-center mb-8">
+                Create multiple spaces to collect testimonials for different use cases.
+              </p>
               {spaces.length != 0 && <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />}
               <div className="grid mt-10 grid-cols-1 md:grid-cols-2 gap-4">
                 {spaces.map((space) => (
-                  <div key={space.id} className="relative rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                    <div className='absolute top-2 right-2'>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-
-                          <Trash className='text-red-500 hover:fill-red-500 transform hover:scale-105 transition-all duration-300 cursor-pointer' />
-
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This action cannot be undone. This will permanently delete your
-                              space and remove all data related to this space.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction disabled={loading} onClick={() => handleSpaceDelete(space._id)} className='bg-red-500 hover:bg-red-600'>{loading && <Loader2 className='animate-spin w-4 h-4 mr-2' />} Continue</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-
-
-                    </div>
-                    <div className="p-5">
-                      <div className="flex items-center mb-2">
-                        <Folder className="w-6 h-6 text-blue-500 mr-2" />
+                  <Card className="relative">
+                    <CardHeader className="pb-2">
+                      <div className="absolute right-4 top-4">
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                            >
+                              <Trash className="h-5 w-5" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete your
+                                space and remove all data related to this space.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                disabled={loading}
+                                onClick={() => handleSpaceDelete(space._id)}
+                                className="bg-destructive text-white hover:bg-destructive/90"
+                              >
+                                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Continue
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex items-center gap-2">
+                        <Folder className="h-6 w-6 text-primary" />
                         <h3 className="text-xl font-semibold">{space.name}</h3>
                       </div>
-                      <p className="text-gray-600">{space.testimonialsCount} testimonials</p>
-                    </div>
-                    <Link href={`/dashboard/spaces/${space.name}/${space._id}`} className="px-5 py-3 cursor-pointer flex justify-between items-center hover:bg-gray-100 transition-all duration-300">
-                      <span className="text-sm text-gray-500">View details</span>
-                      <ChevronRight className="w-5 h-5 text-gray-400" />
-                    </Link>
-                  </div>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {space.testimonialsCount} testimonials
+                      </p>
+                    </CardContent>
+                    <CardFooter className="p-0">
+                      <Link
+                        href={`/dashboard/spaces/${space.name}/${space._id}`}
+                        className="flex w-full items-center justify-between px-6 py-3 text-sm text-muted-foreground transition-colors hover:bg-muted rounded-md"
+                      >
+                        View details
+                        <ChevronRight className="h-4 w-4" />
+                      </Link>
+                    </CardFooter>
+                  </Card>
                 ))}
               </div>
             </div>
-          )}
+          )
+          }
         </>
       )
       }
