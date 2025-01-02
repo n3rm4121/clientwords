@@ -12,6 +12,7 @@ import {
 import { PricingCard } from './PricingCard'
 import { Button } from '@/components/ui/button'
 import { HelpCircle } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 interface Feature {
     text: string
@@ -81,10 +82,24 @@ export default function PricingSection() {
     return (
         <section id="pricing" className="py-20 hero-background">
             <MaxWidthWrapper>
-                <h2 className="text-4xl text-center font-bold text-gray-200 tracking-tighter sm:text-5xl mb-4">
-                    Simple, Transparent Pricing
-                </h2>
-                <p className="text-xl tracking-tighter text-center text-gray-400 mb-8">Choose the plan that's right for you.</p>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="text-center mb-16"
+                >
+                    <div className="lg:text-center">
+                        <h2 className="text-base text-primary font-semibold tracking-wide uppercase">Pricing</h2>
+
+                        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+                            Simple, Transparent Pricing
+                        </p>
+                        <p className="mt-6 text-xl text-gray-400 max-w-2xl mx-auto">
+                            Choose the plan that's right for you.
+                        </p>
+                    </div>
+                </motion.div>
+
 
                 <div className="flex justify-center items-center space-x-4 mb-12">
                     <span className={`text-sm ${!isAnnual ? 'text-gray-200' : 'text-gray-400'}`}>Monthly</span>
