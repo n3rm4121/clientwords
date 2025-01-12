@@ -57,7 +57,7 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
         <div className='flex items-center justify-center h-96'>
           <div className=" mr-4 animate-spin flex size-8 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
           </div>
-          <span> Loading spaces</span>
+          <span className='text-gray-500'> Loading spaces</span>
         </div>
 
       ) : (
