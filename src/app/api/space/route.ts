@@ -7,7 +7,7 @@ import { Types } from "mongoose";
 import User from "@/models/user.model";
 import { canCreateSpace } from "@/lib/featureAccess";
 
-export const GET = auth(async function GET(req,) {
+export const GET = auth(async function GET(req) {
   if (!req.auth) {
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   }
@@ -16,37 +16,50 @@ export const GET = auth(async function GET(req,) {
 
   await dbConnect();
 
-
   if (!user) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
 
+  const url = new URL(req.url);
+  const spaceId = url.searchParams.get("id"); // check if `id` is passed as a query parameter.
+
   try {
-
     const userId = new Types.ObjectId(user?.id);
-    const spaces = await Space.aggregate([
-      {
-        $match: {
-          owner: userId
-        }
-      },
-      {
-        $addFields: {
-          testimonialsCount: {
-            $size: {
-              $ifNull: ["$testimonials", []]  // Ensure testimonials is an array, or default to an empty array
-            }
-          }
-        }
+
+    if (spaceId) {
+      // Fetch a specific space by ID
+      const space = await Space.findOne({ _id: spaceId, owner: userId }).exec();
+
+      if (!space) {
+        return NextResponse.json({ message: "Space not found" }, { status: 404 });
       }
-    ]);
 
-    if (spaces.length === 0) {
-      return NextResponse.json({ message: "No spaces found" }, { status: 200 });
+      return NextResponse.json({ message: "Successfully fetched space", space });
+    } else {
+      // Fetch all spaces for the user
+      const spaces = await Space.aggregate([
+        {
+          $match: {
+            owner: userId,
+          },
+        },
+        {
+          $addFields: {
+            testimonialsCount: {
+              $size: {
+                $ifNull: ["$testimonials", []]
+              },
+            },
+          },
+        },
+      ]);
+
+      if (spaces.length === 0) {
+        return NextResponse.json({ message: "No spaces found" }, { status: 200 });
+      }
+
+      return NextResponse.json({ message: "Successfully fetched spaces", spaces });
     }
-
-    return NextResponse.json({ message: 'Successfully fetched spaces', spaces });
-
   } catch (error) {
     return NextResponse.json(
       { message: "Error getting spaces", error },
