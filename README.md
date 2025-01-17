@@ -1,14 +1,12 @@
-![opengraph-image png](https://github.com/user-attachments/assets/3877e161-8464-4989-8f30-039213bcf688)
-
-# ClientWords
+![banner](https://github.com/user-attachments/assets/4ba41930-3a43-4803-8b16-92613c5dee2e)
 
 **ClientWords** is a platform that enables you to effortlessly collect, manage, and display testimonials on your websites. This tool turns positive customer experiences into social proof, helping you build trust and boost conversions.
 
 ## 🌐 Useful Links
 
-Website => [clientwords.com](https://clientwords.com)
+[clientwords.com](https://clientwords.com)
 
-Clientwords in Action => [View Demo](https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY)
+[Demo](https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY)
 
 ---
 
