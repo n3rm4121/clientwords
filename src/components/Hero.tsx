@@ -1,11 +1,12 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Hero() {
     return (
-        <section className="relative overflow-hidden pt-32 pb-16 sm:pb-24 hero-background">
+        <section className="relative overflow-hidden pt-52 pb-16 sm:pb-24 hero-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -32,10 +33,13 @@ export default function Hero() {
                         </div>
                         <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
                             <Link
-                                href="#features"
+                                href="https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY"
                                 className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
+                                target="_blank"
                             >
-                                Learn more
+
+                                View Demo
+                                <ExternalLink className="w-5 h-5 ml-2" />
                             </Link>
                         </div>
                     </div>
