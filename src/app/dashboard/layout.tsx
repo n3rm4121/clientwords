@@ -4,11 +4,11 @@ import Navbar from '@/app/dashboard/components/Navbar';
 import { useSession } from 'next-auth/react';
 import ToastProvider from '@/components/ToastProvider';
 import { getUserSubscriptionTier } from './action';
+import Unauthorized from '@/components/Unauthorized';
 
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const session = useSession();
-
     const [isAccountFree, setIsAccountFree] = useState(false);
 
     useEffect(() => {
@@ -17,7 +17,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             setIsAccountFree(subscriptionTier === 'Free');
         };
         fetchSubscriptionTier();
-    })
+    }, [session.data?.user?.id]);
+
+    if (session.status === 'loading') {
+        return <div>Loading...</div>
+    }
+    if (!session.data) {
+        return <div>
+            <Unauthorized />
+        </div>
+    }
+
+
+
     return (
         <div className="flex min-h-screen">
             <ToastProvider />

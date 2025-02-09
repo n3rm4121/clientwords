@@ -9,10 +9,11 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Unauthorized from '@/components/Unauthorized';
 
 function Page({ params }: { params: { id: string } }) {
   const { id } = params;
-
+  const [unauthorized, setunauthorized] = useState(false);
   const [isNewSpace, setIsNewSpace] = useState(false); // Track if the space is new
   const [uniqueLink, setUniqueLink] = useState('');
 
@@ -28,6 +29,7 @@ function Page({ params }: { params: { id: string } }) {
           setIsNewSpace(data.space?.isNewSpace || false);
           setUniqueLink(data.space?.uniqueLink || '');
         } else {
+          setunauthorized(true);
           console.error(data.message);
         }
       } catch (error) {
@@ -37,6 +39,10 @@ function Page({ params }: { params: { id: string } }) {
 
     fetchSpaceData();
   }, [id]);
+
+  if (unauthorized) {
+    return <Unauthorized />;
+  }
 
   if (isNewSpace) {
     return (
