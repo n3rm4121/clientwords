@@ -47,7 +47,7 @@ export default function CTA() {
                                     href="/login"
                                     className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-gray-900 bg-primary hover:bg-primary/90 transition-all duration-200"
                                 >
-                                    Start Free Trial
+                                    Start Free
                                     <ArrowRight className="ml-2 h-5 w-5" />
                                 </Link>
                                 <Link
