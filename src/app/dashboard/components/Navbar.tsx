@@ -15,11 +15,17 @@ import Image from "next/image";
 import { Button } from "../../../components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { Gem } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
 export default function Navbar({ isAccountFree }: { isAccountFree?: boolean }) {
   const session = useSession();
   const user = session.data?.user;
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' });
+  }
 
   return (
     <MaxWidthWrapper>
@@ -70,7 +76,7 @@ export default function Navbar({ isAccountFree }: { isAccountFree?: boolean }) {
                   <Link href="/dashboard/settings">Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut()}>Sign Out</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleSignOut()}>Sign Out</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 {isAccountFree && (
                   <Link href="/#pricing" target="_blank" className="inline-block md:hidden">

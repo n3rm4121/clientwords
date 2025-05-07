@@ -6,6 +6,8 @@ import { motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import { Separator } from './ui/separator'
+import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const navItems = [
   { name: 'Features', href: '#features' },
@@ -15,6 +17,13 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
+  const { data: session } = useSession()
+
+  const handleSignOut = async () => {
+    await signOut({ redirect: false })
+    router.push('/')
+  }
 
   return (
     <nav className="fixed w-full z-50 backdrop-blur-sm">
@@ -22,11 +31,9 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold gradient-text">
-
               <Image
                 src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
             </Link>
-
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
@@ -42,12 +49,29 @@ export default function Navbar() {
             </div>
           </div>
           <div className="hidden md:block">
-            <Link
-              href="/login"
-              className="bg-primary text-gray-900 px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
-            >
-              Get Started
-            </Link>
+            {session ? (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/dashboard"
+                  className="bg-primary text-gray-900 px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleSignOut}
+                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-primary text-gray-900 px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors"
+              >
+                Get Started
+              </Link>
+            )}
           </div>
           <div className="md:hidden">
             <button
@@ -84,13 +108,34 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
-            <Link
-              href="/login"
-              className="bg-primary text-gray-900 w-fit block px-3 py-2 rounded-md font-medium hover:bg-primary/90 transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Get Started
-            </Link>
+            {session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="bg-primary text-gray-900 w-fit block px-3 py-2 rounded-md font-medium hover:bg-primary/90 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    handleSignOut()
+                    setIsOpen(false)
+                  }}
+                  className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-primary text-gray-900 w-fit block px-3 py-2 rounded-md font-medium hover:bg-primary/90 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Get Started
+              </Link>
+            )}
           </div>
           <Separator />
         </motion.div>

@@ -12,6 +12,7 @@ import Hero from "@/components/Hero";
 import Process from "@/components/Process";
 import CTA from "@/components/CTA";
 import UseCasesSection from "@/components/UseCases";
+import DemoTestimonials from "@/components/DemoTestimonials";
 
 const perks = [
   {
@@ -96,6 +97,7 @@ export default function LandingPage() {
       <Hero />
       <Features />
       <Process />
+      <DemoTestimonials />
       <UseCasesSection />
       <PricingSection />
       <CTA />

@@ -153,9 +153,9 @@ export default function PricingSection() {
 
                 <div className="text-center mt-12">
                     <p className="text-gray-200 mb-4">Still have questions?</p>
-                    <Button variant="outline">
-                        <HelpCircle className="mr-2 inline h-4 w-4" />
-                        <a href="mailto:support@clientwords.com" className="text-primary hover:underline">
+                    <Button className='text-black' variant="outline">
+                        <HelpCircle className="mr-2  inline h-4 w-4" />
+                        <a href="mailto:support@clientwords.com" className=" hover:underline">
                             Email Support
                         </a>
                     </Button>

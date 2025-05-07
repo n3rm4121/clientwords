@@ -24,7 +24,7 @@ export default function LoginButton() {
     <div className="mt-8 space-y-4">
       <Button
         variant="outline"
-        className="w-full py-6 text-lg font-semibold bg-gray-800 hover:bg-gray-700 text-white border-gray-700 transition-colors"
+        className="w-full py-6 text-lg font-semibold bg-gray-800 hover:bg-gray-300 text-white border-gray-700 transition-colors"
         onClick={() => handleProviderSignIn('google')}
         disabled={isLoading}
       >
@@ -33,7 +33,7 @@ export default function LoginButton() {
       </Button>
       <Button
         variant="outline"
-        className="w-full py-6 text-lg font-semibold bg-gray-800 hover:bg-gray-700 text-white border-gray-700 transition-colors"
+        className="w-full py-6 text-lg font-semibold bg-gray-800 hover:bg-gray-300 text-white border-gray-700 transition-colors"
         onClick={() => handleProviderSignIn('github')}
         disabled={isLoading}
       >
