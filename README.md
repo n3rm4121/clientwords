@@ -2,12 +2,6 @@
 
 **ClientWords** is a platform that enables you to effortlessly collect, manage, and display testimonials on your websites. This tool turns positive customer experiences into social proof, helping you build trust and boost conversions.
 
-## 🌐 Useful Links
-
-[clientwords.com](https://clientwords.com)
-
-[Demo](https://codepen.io/Nirmal-the-flexboxer/pen/yLmpZaY)
-
 ---
 
 ## ✨Features
