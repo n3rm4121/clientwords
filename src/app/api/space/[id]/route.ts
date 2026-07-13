@@ -3,9 +3,9 @@ import { auth } from '@/auth';
 import Space from '@/models/space.model';
 import dbConnect from '@/lib/dbConnect';
 
-export const GET = auth(async function GET(req, {params}){
+export const GET = auth(async function GET(req, { params }) {
 
-  const { id } = params as { id: string };
+  const { id } = await params as { id: string };
 
   if (!req.auth) {
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
@@ -14,7 +14,7 @@ export const GET = auth(async function GET(req, {params}){
   const user = req.auth.user;
 
   dbConnect();
-  
+
   if (!user) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
