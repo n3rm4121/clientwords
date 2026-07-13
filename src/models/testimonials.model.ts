@@ -8,6 +8,7 @@ interface Testimonial extends Document {
     spaceId: Schema.Types.ObjectId;
     createdAt: Date;
     owner: Schema.Types.ObjectId;
+    workerId?: Schema.Types.ObjectId;
     spaceName: string;
 }
 
@@ -44,6 +45,10 @@ const testimonialSchema = new Schema<Testimonial>({
         ref: 'Space',
         required: true,
         index: true,
+    },
+    workerId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Worker',
     },
     createdAt: {
         type: Date,

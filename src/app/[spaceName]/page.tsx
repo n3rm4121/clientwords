@@ -5,6 +5,7 @@ import { canCollectTestimonial } from "@/lib/featureAccess";
 import Space from "@/models/space.model";
 import TestimonialCard from "@/models/testimonial-card.model";
 import User from "@/models/user.model";
+import WorkerModel from "@/models/worker.model";
 import { Metadata } from "next";
 import { TestimonialSubmitForm } from "./components/TestimonailSubmitForm";
 
@@ -56,7 +57,15 @@ const SubmissionPage = async ({ params }: SubmissionPageProps) => {
     testimonialCardDataObj._id = testimonialCardDataObj._id.toString();
     testimonialCardDataObj.spaceId = testimonialCardDataObj.spaceId.toString();
 
-    return <TestimonialSubmitForm testimonialCardData={testimonialCardDataObj} />;
+    // Fetch workers for this space
+    const workersData = await WorkerModel.find({ spaceId: space._id }).select('_id name role').exec();
+    const workers = workersData.map(w => ({
+      _id: w._id.toString(),
+      name: w.name,
+      role: w.role
+    }));
+
+    return <TestimonialSubmitForm testimonialCardData={testimonialCardDataObj} spaceWorkers={workers} />;
   } catch (error) {
     console.error("Error fetching testimonial card data:", error);
     return <NotFound />;

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import DisplayTestimonials from './components/DisplayTestimonial';
 import LoveGallery from './components/LoveGallery';
 import TestimonialCardForm from './components/TestimonialCardForm';
+import Workers from './components/Workers';
 import { MoveLeft } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -63,10 +64,11 @@ function Page({ params }: { params: { id: string } }) {
       </Button>
 
       <Tabs defaultValue="Testimonials" className="">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
           <TabsTrigger value="Card">Testimonial Form</TabsTrigger>
           <TabsTrigger value="loveGallery">Love Gallery</TabsTrigger>
+          <TabsTrigger value="workers">Workers</TabsTrigger>
         </TabsList>
 
         <TabsContent value="Testimonials">
@@ -101,6 +103,20 @@ function Page({ params }: { params: { id: string } }) {
           <Card>
             <CardContent>
               <LoveGallery />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="workers">
+          <Card>
+            <CardHeader>
+              <CardTitle>Team Workers</CardTitle>
+              <CardDescription>
+                Manage your team workers and get their unique collection links.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Workers spaceId={id} uniqueLink={uniqueLink} />
             </CardContent>
           </Card>
         </TabsContent>

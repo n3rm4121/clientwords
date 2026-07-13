@@ -23,6 +23,7 @@ export const testimonailSchema = z.object({
   spaceId: z.string(),
   owner: z.string().optional(),
   spaceName: z.string().optional(),
+  workerId: z.string().optional(),
 });
 
 

@@ -16,13 +16,14 @@ import Image from "next/image";
 import ToastProvider from "@/components/ToastProvider";
 import config from "@/config";
 
-export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCardData: any }) => {
+export const TestimonialSubmitForm = ({ testimonialCardData, workerId, workerName, spaceWorkers }: { testimonialCardData: any, workerId?: string, workerName?: string, spaceWorkers?: any[] }) => {
     const [userName, setUsername] = useState<string>('');
     const [userIntro, setUserIntro] = useState<string>('');
     const [message, setMessage] = useState<string>('');
     const [userAvatar, setUserAvatar] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [userAvatarPreview, setUserAvatarPreview] = useState<string>('');
+    const [selectedWorkerId, setSelectedWorkerId] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [showThankyou, setShowThankyou] = useState(false);
     const [thankyouName, setThankyouName] = useState<string>('');
@@ -107,6 +108,11 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
             if (token) {
                 newForm.append('recaptchaToken', token);
             }
+            if (workerId) {
+                newForm.append('workerId', workerId);
+            } else if (selectedWorkerId) {
+                newForm.append('workerId', selectedWorkerId);
+            }
             const res = await axios.post('/api/testimonial', newForm, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -174,7 +180,7 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
                             onClick={() => testimonialCardData.companyURL && window.open(testimonialCardData.companyURL, '_blank')}
                             className="text-xl font-bold text-blue-600 cursor-pointer hover:underline"
                         >
-                            {testimonialCardData.companyName}
+                            {workerName ? `${testimonialCardData.companyName} - ${workerName}` : testimonialCardData.companyName}
                         </h2>
                     </div>
 
@@ -211,7 +217,24 @@ export const TestimonialSubmitForm = ({ testimonialCardData }: { testimonialCard
                             </div>
                         </div>
 
-                        <p className="text-gray-700 font-semibold my-4 text-center">{testimonialCardData.promptText}</p>
+                        {spaceWorkers && spaceWorkers.length > 0 && !workerId && (
+                            <div className="w-full mt-4">
+                                <select 
+                                    className="w-full p-2 border border-blue-400 rounded-md bg-transparent text-gray-700 outline-none"
+                                    value={selectedWorkerId}
+                                    onChange={(e) => setSelectedWorkerId(e.target.value)}
+                                >
+                                    <option value="">Select someone you worked with (optional)</option>
+                                    {spaceWorkers.map((w) => (
+                                        <option key={w._id} value={w._id}>{w.name} - {w.role}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+
+                        <p className="text-gray-700 font-semibold my-4 text-center">
+                            {workerName ? `Write a testimonial for ${workerName} at ${testimonialCardData.companyName}` : testimonialCardData.promptText}
+                        </p>
 
                         <Textarea
                             placeholder={testimonialCardData.placeholder}

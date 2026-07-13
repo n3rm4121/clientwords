@@ -9,6 +9,7 @@ import Space from "@/models/space.model";
 import User from "@/models/user.model";
 import { canCollectTestimonial } from "@/lib/featureAccess";
 import LoveGallery from "@/models/loveGallery.model";
+import WorkerModel from "@/models/worker.model";
 import config from "@/config";
 
 
@@ -91,6 +92,7 @@ export async function POST(request: NextRequest) {
             userIntro: formData.get('userIntro') as string,
             message: formData.get('message') as string,
             spaceId: formData.get('spaceId') as string,
+            workerId: formData.get('workerId') as string || undefined,
         };
 
         const space = await Space.findById(data.spaceId);
@@ -113,6 +115,12 @@ export async function POST(request: NextRequest) {
         space.testimonials.push(newTestimonial._id);
         await space.save();
 
+        if (parsedData.workerId) {
+            await WorkerModel.findByIdAndUpdate(parsedData.workerId, {
+                $push: { testimonials: newTestimonial._id }
+            });
+        }
+
         if (!newTestimonial) {
             return NextResponse.json({ error: 'Invalid data' }, { status: 400 });
         }
@@ -132,19 +140,24 @@ export const GET = auth(async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
         const spaceId = searchParams.get('spaceId');
+        const workerId = searchParams.get('workerId');
         const query = searchParams.get('query') || '';
         const page = parseInt(searchParams.get('page') || '1', 10);
         const limit = parseInt(searchParams.get('limit') || '9', 10);
 
         const skip = (page - 1) * limit;
 
-        const searchQuery = {
+        const searchQuery: any = {
             spaceId,
             $or: [
                 { userName: { $regex: query, $options: 'i' } },
                 { message: { $regex: query, $options: 'i' } }
             ]
         };
+
+        if (workerId) {
+            searchQuery.workerId = workerId;
+        }
 
         const [testimonials, total] = await Promise.all([
             Testimonial.find(searchQuery)

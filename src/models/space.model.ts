@@ -4,6 +4,7 @@ interface Space extends Document {
   name: string; // unique
   owner: Schema.Types.ObjectId;
   testimonials: Schema.Types.ObjectId[];
+  workers: Schema.Types.ObjectId[];
   isNewSpace: boolean;
   uniqueLink: string;
   createdAt: Date;
@@ -34,6 +35,12 @@ const spaceSchema = new Schema<Space>({
     {
       type: Schema.Types.ObjectId,
       ref: "Testimonial",
+    },
+  ],
+  workers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Worker",
     },
   ],
   uniqueLink: {
