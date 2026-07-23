@@ -41,7 +41,7 @@ export default function Testimonials({
   const userId = session?.user?.id
 
   const { data, error, isLoading, mutate } = useSWR<{ testimonials: ITestimonial[], total: number, page: number, limit: number }>(
-    `/api/testimonial?spaceId=${spaceId}&query=${query}&page=${page}&limit=${limit}`,
+    `/api/testimonial?spaceId=${spaceId}&query=${query}&page=${page}&limit=${limit}&excludeWorker=true`,
     fetcher,
     {
       revalidateOnFocus: false,

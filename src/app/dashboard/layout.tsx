@@ -6,7 +6,6 @@ import ToastProvider from '@/components/ToastProvider';
 import { getUserSubscriptionTier } from './action';
 import Unauthorized from '@/components/Unauthorized';
 
-
 export default function Layout({ children }: { children: React.ReactNode }) {
     const session = useSession();
     const [isAccountFree, setIsAccountFree] = useState(false);
@@ -20,27 +19,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }, [session.data?.user?.id]);
 
     if (session.status === 'loading') {
-        return <div>Loading...</div>
+        return (
+            <div className="flex min-h-screen items-center justify-center">
+                <div className="animate-spin h-8 w-8 rounded-full border-[3px] border-current border-t-transparent text-primary" />
+            </div>
+        );
     }
+
     if (!session.data) {
-        return <div>
-            <Unauthorized />
-        </div>
+        return <Unauthorized />;
     }
-
-
 
     return (
-        <div className="flex min-h-screen">
+        <div className="min-h-screen bg-muted/30">
             <ToastProvider />
-            <div className={`flex-1 transition-all duration-300`}>
-                <Navbar isAccountFree={isAccountFree} />
-                <main className={`pt-16`}>
-                    <div className={`p-4`}>
-                        {children}
-                    </div>
-                </main>
-            </div>
+            <Navbar isAccountFree={isAccountFree} />
+            <main className="pt-16">
+                <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
+                    {children}
+                </div>
+            </main>
         </div>
     );
 }

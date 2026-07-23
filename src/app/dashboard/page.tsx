@@ -10,7 +10,7 @@ import dbConnect from '@/lib/dbConnect';
 import { redirect } from 'next/navigation';
 import AccountType from './components/AccountType';
 import { ShowSpaces } from './spaces/components/ShowSpaces';
-
+import { Separator } from '@/components/ui/separator';
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -21,44 +21,58 @@ export default async function DashboardPage() {
   const userId = session?.user?.id;
   await dbConnect();
   const userData = await User.findById(userId);
-
   const accountType = userData.subscriptionTier;
+  const firstName = session.user?.name?.split(' ')[0] || 'there';
+
   return (
-    <div className='flex flex-col space-y-8'>
-      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <Suspense fallback={<CardSkeleton />}>
+    <div className="space-y-8">
+      {/* Page header */}
+      <div>
+        <p className="text-sm text-muted-foreground mb-1">Welcome back, {firstName}</p>
+        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+      </div>
+
+      {/* Stats row */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <Suspense fallback={<StatSkeleton />}>
           <TotalTestimonials />
         </Suspense>
-
-        <Suspense fallback={<CardSkeleton />}>
+        <Suspense fallback={<StatSkeleton />}>
           <AdditionalMetrics />
         </Suspense>
-
-        <Suspense fallback={<CardSkeleton />}>
+        <Suspense fallback={<StatSkeleton />}>
           <ActiveLoveGallery />
         </Suspense>
-
-        <Suspense fallback={<CardSkeleton />}>
+        <Suspense fallback={<StatSkeleton />}>
           <AccountType accountType={accountType} />
         </Suspense>
       </div>
-      <div className='flex-1'>
+
+      <Separator />
+
+      {/* Spaces */}
+      <div>
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold">Your Spaces</h2>
+          <p className="text-sm text-muted-foreground">
+            Each space has its own collection link, form, and gallery.
+          </p>
+        </div>
         <ShowSpaces subscriptionTier={accountType} />
       </div>
     </div>
-
-
   )
 }
 
-function CardSkeleton() {
+function StatSkeleton() {
   return (
     <Card>
       <CardHeader>
-        <Skeleton className="h-8 w-[250px]" />
+        <Skeleton className="h-4 w-32" />
       </CardHeader>
-      <CardContent>
-        <Skeleton className="h-18 w-full" />
+      <CardContent className="space-y-2">
+        <Skeleton className="h-8 w-16" />
+        <Skeleton className="h-3 w-24" />
       </CardContent>
     </Card>
   )

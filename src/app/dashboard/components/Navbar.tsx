@@ -2,7 +2,6 @@
 import React from "react";
 import Link from "next/link";
 import ModeToggle from "../../../components/toggleThemeBtn";
-import { MaxWidthWrapper } from "../../../components/MaxWidthWrapper";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,7 +16,6 @@ import { signOut, useSession } from "next-auth/react";
 import { Gem } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-
 export default function Navbar({ isAccountFree }: { isAccountFree?: boolean }) {
   const session = useSession();
   const user = session.data?.user;
@@ -28,72 +26,70 @@ export default function Navbar({ isAccountFree }: { isAccountFree?: boolean }) {
   }
 
   return (
-    <MaxWidthWrapper>
-      <nav className="fixed border-b border-gray-200 bg-gray-900 backdrop-filter backdrop-blur-lg inset-x-0 top-0 z-50 w-full h-16  flex items-center justify-between px-4">
-        <div className="flex  justify-center text-center gap-3">
-          <div className="flex justify-center gap-4 items-center h-16">
-            <div className="relative inline-flex items-center">
-              <Link href="/" className="flex-shrink-0">
-                <Image src='/newbrand1.png' width={200} height={200} alt='ClientWords' />
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div className="flex gap-4">
-            {isAccountFree && (
-              <Link href="/#pricing" target="_blank" className="hidden md:flex">
-                <Button>
-                  Upgrade to Pro
-                  <Gem className="ml-2" size={18} />
-                </Button>
-              </Link>
-            )}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="overflow-hidden rounded-full"
-                >
-                  <Image
-                    src={user?.image ?? "/user.png"}
-                    width={36}
-                    height={36}
-                    alt="Avatar"
-                    className="overflow-hidden rounded-full"
-                  />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard">Dashboard</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/settings">Settings</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => handleSignOut()}>Sign Out</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                {isAccountFree && (
-                  <Link href="/#pricing" target="_blank" className="inline-block md:hidden">
-                    <Button>
+    <nav className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border/60 bg-gray-900 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-4 md:px-8">
+        {/* Logo */}
+        <Link href="/" className="flex-shrink-0">
+          <Image src='/newbrand1.png' width={160} height={40} alt='ClientWords' />
+        </Link>
+
+        {/* Right actions */}
+        <div className="flex items-center gap-3">
+          {isAccountFree && (
+            <Link href="/#pricing" target="_blank" className="hidden md:block">
+              <Button size="sm" className="gap-1.5">
+                Upgrade to Pro
+                <Gem size={14} />
+              </Button>
+            </Link>
+          )}
+
+          <ModeToggle />
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="rounded-full h-8 w-8 overflow-hidden ring-2 ring-border hover:ring-primary transition-all">
+                <Image
+                  src={user?.image ?? "/user.png"}
+                  width={32}
+                  height={32}
+                  alt="Avatar"
+                  className="rounded-full object-cover"
+                />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuLabel className="font-normal">
+                <div className="flex flex-col gap-0.5">
+                  <span className="font-medium text-sm">{user?.name}</span>
+                  <span className="text-xs text-muted-foreground truncate">{user?.email}</span>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings">Settings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
+                Sign Out
+              </DropdownMenuItem>
+              {isAccountFree && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild className="md:hidden">
+                    <Link href="/#pricing" target="_blank">
                       Upgrade to Pro
-                      <Gem className="ml-2" size={18} />
-                    </Button>
-                  </Link>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <ModeToggle />
-          </div>
+                    </Link>
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
-      </nav>
-    </MaxWidthWrapper>
-
+      </div>
+    </nav>
   );
 }

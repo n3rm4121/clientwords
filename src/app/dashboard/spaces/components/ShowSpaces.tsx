@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import { PlusCircledIcon } from '@radix-ui/react-icons';
-import { ChevronRight, Folder, Loader2, Trash } from 'lucide-react';
+import { ChevronRight, Folder, Loader2, MessageSquare, Trash } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { deleteSpace } from '@/app/dashboard/action';
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ import { AddSpace } from './AddSpace';
 import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const fetcher = (url: string | URL | Request) => fetch(url).then(r => r.json())
 
@@ -31,125 +32,125 @@ export const ShowSpaces = ({ subscriptionTier }: { subscriptionTier: any }) => {
     }
   }, [data]);
 
-  if (error) return <div>Error loading spaces{error}</div>;
+  if (error) return <div className="text-destructive text-sm">Error loading spaces.</div>;
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {[...Array(3)].map((_, i) => (
+          <Card key={i} className="animate-pulse">
+            <CardHeader className="pb-2">
+              <div className="h-5 bg-muted rounded w-1/2" />
+            </CardHeader>
+            <CardContent>
+              <div className="h-4 bg-muted rounded w-1/4 mt-1" />
+            </CardContent>
+            <CardFooter>
+              <div className="h-4 bg-muted rounded w-1/3" />
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (spaces.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center text-center py-20 border rounded-xl bg-muted/30">
+        <PlusCircledIcon className="w-16 h-16 text-muted-foreground/40 mb-4" />
+        <h2 className="text-xl font-semibold mb-1">No spaces yet</h2>
+        <p className="text-muted-foreground text-sm mb-6 max-w-sm">
+          Create your first space to start collecting and showcasing testimonials.
+        </p>
+        <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />
+      </div>
+    );
+  }
 
   function handleSpaceDelete(spaceId: string) {
-
     try {
       setLoading(true);
       deleteSpace(spaceId);
-
       setSpaces(spaces.filter(space => space._id !== spaceId));
-      toast.success('Space deleted successfully');
-
-      setLoading(false);
-    } catch (error) {
+      toast.success('Space deleted');
+    } catch {
       toast.error('Error deleting space');
+    } finally {
       setLoading(false);
-      console.error('Error deleting space:', error);
-
     }
   }
 
   return (
     <div>
-      {isLoading ? (
-        <div className='flex items-center justify-center h-96'>
-          <div className=" mr-4 animate-spin flex size-8 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
-          </div>
-          <span className='text-gray-500'> Loading spaces</span>
-        </div>
+      <div className="flex items-center justify-between mb-4">
+        <p className="text-sm text-muted-foreground">{spaces.length} space{spaces.length !== 1 ? 's' : ''}</p>
+        <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />
+      </div>
 
-      ) : (
-        <>
-          {spaces.length === 0 ? (
-            <div className="flex flex-col items-center justify-center text-center mt-16">
-              <PlusCircledIcon className="w-24 h-24 text-muted-foreground mb-4" />
-              <h2 className="text-2xl font-bold mb-2">No spaces yet</h2>
-              <p className="text-muted-foreground mb-8 max-w-md">
-                Create your first space to start collecting testimonials.
-              </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {spaces.map((space) => (
+          <Card key={space._id} className="group relative flex flex-col hover:shadow-md transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="p-1.5 rounded-md bg-primary/10 shrink-0">
+                    <Folder className="h-4 w-4 text-primary" />
+                  </div>
+                  <h3 className="font-semibold truncate">{space.name}</h3>
+                </div>
 
-              <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />
-
-            </div>
-          ) : (
-            <div className="max-w-4xl mx-auto p-4">
-              <h2 className="text-3xl font-bold text-center">Your Spaces</h2>
-              <p className="text-muted-foreground text-center mb-8">
-                Create multiple spaces to collect testimonials for different use cases.
-              </p>
-              {spaces.length != 0 && <AddSpace addSpace={addSpace} subscriptionTier={subscriptionTier} />}
-              <div className="grid mt-10 grid-cols-1 md:grid-cols-2 gap-4">
-                {spaces.map((space) => (
-                  <Card key={space._id} className="relative">
-                    <CardHeader className="pb-2">
-                      <div className="absolute right-4 top-4">
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
-                            >
-                              <Trash className="h-5 w-5" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete your
-                                space and remove all data related to this space.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                disabled={loading}
-                                onClick={() => handleSpaceDelete(space._id)}
-                                className="bg-destructive text-white hover:bg-destructive/90"
-                              >
-                                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                Continue
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center gap-2">
-                        <Folder className="h-6 w-6 text-primary" />
-                        <h3 className="text-xl font-semibold">{space.name}</h3>
-                      </div>
-                      <p className="mt-2 text-sm text-muted-foreground">
-                        {space.testimonialsCount} testimonials
-                      </p>
-                    </CardContent>
-                    <CardFooter className="p-0">
-                      <Link
-                        href={`/dashboard/spaces/${space.name}/${space._id}`}
-                        className="flex w-full items-center justify-between px-6 py-3 text-sm text-muted-foreground transition-colors hover:bg-muted rounded-md"
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 shrink-0 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-destructive hover:bg-destructive/10 transition-all"
+                    >
+                      <Trash className="h-3.5 w-3.5" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete &quot;{space.name}&quot;?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This will permanently delete the space and all its testimonials. This cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        disabled={loading}
+                        onClick={() => handleSpaceDelete(space._id)}
+                        className="bg-destructive text-white hover:bg-destructive/90"
                       >
-                        View details
-                        <ChevronRight className="h-4 w-4" />
-                      </Link>
-                    </CardFooter>
-                  </Card>
-                ))}
+                        {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
-            </div>
-          )
-          }
-        </>
-      )
-      }
-    </div >
+            </CardHeader>
+
+            <CardContent className="pb-3 flex-1">
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <MessageSquare className="h-3.5 w-3.5" />
+                <span>{space.testimonialsCount ?? 0} testimonial{(space.testimonialsCount ?? 0) !== 1 ? 's' : ''}</span>
+              </div>
+            </CardContent>
+
+            <CardFooter className="p-0 border-t">
+              <Link
+                href={`/dashboard/spaces/${space.name}/${space._id}`}
+                className="flex w-full items-center justify-between px-5 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors rounded-b-lg"
+              >
+                Open space
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 }
-
-
-
-
-

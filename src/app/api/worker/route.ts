@@ -50,8 +50,9 @@ export const POST = auth(async function POST(req) {
        return NextResponse.json({ message: "Unauthorized to add workers to this space" }, { status: 403 });
     }
 
-    // Generate unique link base on space link and worker name
-    const uniqueLink = `${space.uniqueLink}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+    // Generate unique link based on space slug and worker name
+    const spaceSlug = space.uniqueLink.split('/').pop() || space.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const uniqueLink = `${spaceSlug}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
     const newWorker = new WorkerModel({
       name,

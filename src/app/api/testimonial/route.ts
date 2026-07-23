@@ -147,6 +147,8 @@ export const GET = auth(async function GET(request) {
 
         const skip = (page - 1) * limit;
 
+        const excludeWorker = searchParams.get('excludeWorker') === 'true';
+
         const searchQuery: any = {
             spaceId,
             $or: [
@@ -157,6 +159,8 @@ export const GET = auth(async function GET(request) {
 
         if (workerId) {
             searchQuery.workerId = workerId;
+        } else if (excludeWorker) {
+            searchQuery.workerId = { $exists: false };
         }
 
         const [testimonials, total] = await Promise.all([

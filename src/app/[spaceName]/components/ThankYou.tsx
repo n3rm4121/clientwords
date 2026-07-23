@@ -18,7 +18,7 @@ export function Thankyou({ userName, companyName, companyURL }: { userName: stri
 
   return (
 
-    <MaxWidthWrapper className='bg-gradient-to-r from-blue-500 to-purple-500'>
+    <MaxWidthWrapper className=''>
 
       {/* Header */}
       <div className="fixed p-6 top-0 left-0 w-full z-10 ">

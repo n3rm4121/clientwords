@@ -5,47 +5,45 @@ import DisplayTestimonials from './components/DisplayTestimonial';
 import LoveGallery from './components/LoveGallery';
 import TestimonialCardForm from './components/TestimonialCardForm';
 import Workers from './components/Workers';
-import { MoveLeft } from 'lucide-react';
+import { MoveLeft, MessageSquare, Layout, Heart, Users, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Unauthorized from '@/components/Unauthorized';
+import { Skeleton } from '@/components/ui/skeleton';
 
-function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const [unauthorized, setunauthorized] = useState(false);
-  const [isNewSpace, setIsNewSpace] = useState(false); // Track if the space is new
+function Page({ params }: { params: { id: string; name: string } }) {
+  const { id, name: spaceName } = params;
+  const [unauthorized, setUnauthorized] = useState(false);
+  const [isNewSpace, setIsNewSpace] = useState(false);
   const [uniqueLink, setUniqueLink] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // fetching space data and checking if it's new
-    // if its new we will show the TestimonialCardForm first.
     async function fetchSpaceData() {
       try {
         const response = await fetch(`/api/space?id=${id}`);
         const data = await response.json();
-
         if (response.ok) {
           setIsNewSpace(data.space?.isNewSpace || false);
           setUniqueLink(data.space?.uniqueLink || '');
+          setDisplayName(data.space?.name || decodeURIComponent(spaceName));
         } else {
-          setunauthorized(true);
-          console.error(data.message);
+          setUnauthorized(true);
         }
-      } catch (error) {
-        console.error("Error fetching space data:", error);
+      } catch {
+        setUnauthorized(true);
+      } finally {
+        setLoading(false);
       }
     }
-
     fetchSpaceData();
-  }, [id]);
+  }, [id, spaceName]);
 
-  if (unauthorized) {
-    return <Unauthorized />;
-  }
+  if (unauthorized) return <Unauthorized />;
 
-  if (isNewSpace) {
+  if (!loading && isNewSpace) {
     return (
       <TestimonialCardForm
         isUpdate={false}
@@ -56,70 +54,132 @@ function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div>
-      <Button variant="link" className="text-blue-500">
-        <Link href="/dashboard">
-          <MoveLeft className="h-6 w-6 inline" /> Dashboard
-        </Link>
-      </Button>
+    <div className="space-y-6">
+      {/* Breadcrumb + header */}
+      <div>
+        <nav className="flex items-center gap-1.5 text-sm text-muted-foreground mb-3">
+          <Link href="/dashboard" className="hover:text-foreground transition-colors">
+            Dashboard
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <Link href="/dashboard/spaces" className="hover:text-foreground transition-colors">
+            Spaces
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          {loading ? (
+            <Skeleton className="h-4 w-24 inline-block" />
+          ) : (
+            <span className="text-foreground font-medium truncate max-w-[200px]">{displayName}</span>
+          )}
+        </nav>
 
-      <Tabs defaultValue="Testimonials" className="">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="Testimonials">Testimonials</TabsTrigger>
-          <TabsTrigger value="Card">Testimonial Form</TabsTrigger>
-          <TabsTrigger value="loveGallery">Love Gallery</TabsTrigger>
-          <TabsTrigger value="workers">Workers</TabsTrigger>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <MoveLeft className="w-4 h-4" />
+            Back
+          </Link>
+          <div className="h-4 w-px bg-border" />
+          {loading ? (
+            <Skeleton className="h-7 w-40" />
+          ) : (
+            <h1 className="text-xl font-semibold capitalize">{displayName}</h1>
+          )}
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <Tabs defaultValue="testimonials">
+        <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent gap-1">
+          <TabsTrigger
+            value="testimonials"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:text-foreground transition-colors"
+          >
+            <MessageSquare className="w-4 h-4 mr-2" />
+            Testimonials
+          </TabsTrigger>
+          <TabsTrigger
+            value="card"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:text-foreground transition-colors"
+          >
+            <Layout className="w-4 h-4 mr-2" />
+            Form Setup
+          </TabsTrigger>
+          <TabsTrigger
+            value="loveGallery"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:text-foreground transition-colors"
+          >
+            <Heart className="w-4 h-4 mr-2" />
+            Love Gallery
+          </TabsTrigger>
+          <TabsTrigger
+            value="workers"
+            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-2.5 text-sm font-medium text-muted-foreground data-[state=active]:text-foreground transition-colors"
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Workers
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="Testimonials">
-          <Card>
-            <CardHeader>
-              <CardTitle>Testimonials Received</CardTitle>
-              <CardDescription>
-                These are the testimonials received for this space.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <DisplayTestimonials uniqueLink={uniqueLink} params={params} />
-            </CardContent>
-          </Card>
-        </TabsContent>
+        <div className="mt-4">
+          <TabsContent value="testimonials" className="m-0">
+            <Card className="border-0 shadow-none">
+              <CardHeader className="px-0 pt-0 pb-4">
+                <CardTitle className="text-base">Testimonials</CardTitle>
+                <CardDescription>
+                  Direct testimonials submitted for this space.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="px-0">
+                <DisplayTestimonials uniqueLink={uniqueLink} params={params} />
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="Card">
-          <Card>
-            <CardHeader>
-              <CardTitle>Testimonial Form</CardTitle>
-              <CardDescription>
-                This is your testimonial form Card for this space. Update the form as needed.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <TestimonialCardForm isUpdate={true} spaceId={id} uniqueLink={uniqueLink} />
-            </CardContent>
-          </Card>
-        </TabsContent>
+          <TabsContent value="card" className="m-0">
+            <Card className="border-0 shadow-none">
+              <CardHeader className="px-0 pt-0 pb-4">
+                <CardTitle className="text-base">Form Setup</CardTitle>
+                <CardDescription>
+                  Customize your public testimonial collection form.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="px-0">
+                <TestimonialCardForm isUpdate={true} spaceId={id} uniqueLink={uniqueLink} />
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="loveGallery">
-          <Card>
-            <CardContent>
-              <LoveGallery />
-            </CardContent>
-          </Card>
-        </TabsContent>
+          <TabsContent value="loveGallery" className="m-0">
+            <Card className="border-0 shadow-none">
+              <CardHeader className="px-0 pt-0 pb-4">
+                <CardTitle className="text-base">Love Gallery</CardTitle>
+                <CardDescription>
+                  Embed your favorite testimonials anywhere on your site.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="px-0">
+                <LoveGallery />
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="workers">
-          <Card>
-            <CardHeader>
-              <CardTitle>Team Workers</CardTitle>
-              <CardDescription>
-                Manage your team workers and get their unique collection links.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Workers spaceId={id} uniqueLink={uniqueLink} />
-            </CardContent>
-          </Card>
-        </TabsContent>
+          <TabsContent value="workers" className="m-0">
+            <Card className="border-0 shadow-none">
+              <CardHeader className="px-0 pt-0 pb-4">
+                <CardTitle className="text-base">Workers</CardTitle>
+                <CardDescription>
+                  Give each team member their own testimonial collection link.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="px-0">
+                <Workers spaceId={id} uniqueLink={uniqueLink} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
